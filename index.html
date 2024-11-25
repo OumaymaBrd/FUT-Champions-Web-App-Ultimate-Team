@@ -1,86 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Strikers 👑⚡</title>
-    <link rel="icon" type="image/webp" alt="Royal Strikers " href="assets/images/logo.webp">
+    <title>PESMASTER Formation Builder</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Saira+Semi+Condensed:300,400,700">
-
 </head>
 <body>
-
-<div class="wrapper">
-    <!-- fut-player-card -->
-    <div class="fut-player-card">
-      <!-- Player Card Top -->
-      <div class="player-card-top">
-        <div class="player-master-info">
-          <div class="player-rating">
-            <span>97</span>
-          </div>
-          <div class="player-position">
-            <span>RW</span>
-          </div>
-          <div class="player-nation">
-  <img src="https://selimdoyranli.com/cdn/fut-player-card/img/argentina.svg" alt="Argentina" draggable="false">
-          </div>
-          <div class="player-club">
-            <img src="https://selimdoyranli.com/cdn/fut-player-card/img/barcelona.svg" alt="Barcelona" draggable="false">
-          </div>
+    <div class="sidebar">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter formation name">
         </div>
-        <div class="player-picture">
-          <img src="https://selimdoyranli.com/cdn/fut-player-card/img/messi.png" alt="Messi" draggable="false">
-          <div class="player-extra">
-            <span>4SM</span>
-            <span>4WF</span>
-          </div>
+        <div>
+            <label for="lineup">Lineup:</label>
+            <select id="lineup">
+                <option value="4-4-2">4-4-2</option>
+                <option value="4-3-3">4-3-3</option>
+                <option value="3-5-2">3-5-2</option>
+            </select>
         </div>
-      </div>
-      <!-- Player Card Bottom -->
-      <div class="player-card-bottom">
-        <div class="player-info">
-          <!-- Player Name -->
-          <div class="player-name">
-            <span>MESSI</span>
-          </div>
-          <!-- Player Features -->
-          <div class="player-features">
-            <div class="player-features-col">
-              <span>
-                <div class="player-feature-value">97</div>
-                <div class="player-feature-title">PAC</div>
-              </span>
-              <span>
-                <div class="player-feature-value">95</div>
-                <div class="player-feature-title">SHO</div>
-              </span>
-              <span>
-                <div class="player-feature-value">94</div>
-                <div class="player-feature-title">PAS</div>
-              </span>
-            </div>
-            <div class="player-features-col">
-              <span>
-                <div class="player-feature-value">99</div>
-                <div class="player-feature-title">DRI</div>
-              </span>
-              <span>
-                <div class="player-feature-value">35</div>
-                <div class="player-feature-title">DEF</div>
-              </span>
-              <span>
-                <div class="player-feature-value">68</div>
-                <div class="player-feature-title">PHY</div>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+        <button class="btn-primary">Log in to save</button>
+        <button class="btn-secondary">Download image</button>
+        <button class="btn-secondary">Create new</button>
     </div>
-  </div>
-    
-    
+
+    <div class="main-content">
+        <div class="header">
+            <div class="logo">PESMASTER</div>
+        </div>
+        <div class="formation" id="formation"></div>
+    </div>
+
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Select Player</h2>
+            <div class="modal-filters">
+                <input type="text" id="nameFilter" placeholder="Name">
+                <select id="positionFilter">
+                    <option value="">Position</option>
+                    <option value="CF">Centre Forward</option>
+                    <option value="LWF">Left Wing Forward</option>
+                    <option value="RWF">Right Wing Forward</option>
+                </select>
+                <select id="nationalityFilter">
+                    <option value="">Nationality</option>
+                </select>
+                <input type="range" id="ratingFilter" min="40" max="99" value="70">
+                <span id="ratingValue">70</span>
+            </div>
+            <div class="players-grid" id="playersGrid"></div>
+        </div>
+    </div>
+
 </body>
 </html>

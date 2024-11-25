@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des Requêtes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-3xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-xl font-bold mb-4">Formulaire Dynamique</h1>
+
+    <!-- Première Liste Déroulante -->
+    <label for="mainSelect" class="block text-sm font-medium text-gray-700">Type de Requête :</label>
+    <select id="mainSelect" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+      <option value="">-- Choisissez --</option>
+      <option value="n2">Requête N2 Annonce</option>
+      <option value="dysfunction">Requête dysfonctionnement</option>
+    </select>
+
+    <!-- Contenu Dynamique -->
+    <div id="dynamicContent" class="mt-4 hidden">
+      <label for="subSelect" class="block text-sm font-medium text-gray-700">Options :</label>
+      <select id="subSelect" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        <option value="">-- Choisissez --</option>
+      </select>
+
+      <!-- Champs Dynamique -->
+      <div id="dynamicFields" class="mt-4"></div>
+    </div>
+  </div>
+
+  <script>
+    const mainSelect = document.getElementById('mainSelect');
+    const dynamicContent = document.getElementById('dynamicContent');
+    const subSelect = document.getElementById('subSelect');
+    const dynamicFields = document.getElementById('dynamicFields');
+
+    // Options et champs pour chaque type de requête
+    const data = {
+      n2: [
+        { label: "Contrat en veille ou pas", type: "select", options: ["Oui", "Non"] },
+        { label: "Possibilité de faire la modification directement", type: "select", options: ["Oui", "Non"] },
+        { label: "Le nom du contact", type: "text" },
+        { label: "Référence Annonce", type: "text" },
+        { label: "Commentaire et explications", type: "text" },
+        { label: "Typologie du dysfonctionnement", type: "text" },
+        { label: "Nom et prénom contact", type: "text" },
+        { label: "Numéro de tel contact", type: "text" },
+        { label: "Mail contact", type: "email" },
+        { label: "RC contact", type: "text" },
+        { label: "Date dysfonctionnement", type: "date" },
+        { label: "Message d'erreur/réf annonce", type: "text" }
+      ],
+      dysfunction: [
+        { label: "Essayer sur Google Chrome", type: "select", options: ["Oui", "Non"] },
+        { label: "Vider le cache", type: "select", options: ["Oui", "Non"] },
+        { label: "Indiquer les manipulations sur la requête", type: "select", options: ["Oui", "Non"] },
+        { label: "Indiquer le mail au client au besoin", type: "email" },
+        { label: "Envoyer un mail test", type: "select", options: ["Oui", "Non"] },
+        { label: "Mail reçu", type: "select", options: ["Oui", "Non"] },
+        { label: "Demande capture écran", type: "select", options: ["Oui", "Non"] },
+        { label: "Lister les manipulations faites par le client", type: "text" },
+        { label: "Le nom du contact", type: "text" },
+        { label: "Référence Annonce", type: "text" },
+        { label: "Commentaire et explications", type: "text" },
+        { label: "Typologie du dysfonctionnement", type: "text" },
+        { label: "Nom et prénom contact", type: "text" },
+        { label: "Numéro de tel contact", type: "text" },
+        { label: "Mail contact", type: "email" },
+        { label: "RC contact", type: "text" },
+        { label: "Date dysfonctionnement", type: "date" },
+        { label: "Message d'erreur/réf annonce", type: "text" }
+      ]
+    };
+
+    // Afficher les options de la liste déroulante secondaire
+    mainSelect.addEventListener('change', () => {
+      const selectedValue = mainSelect.value;
+      resetSubSelect();
+      resetFields();
+
+      if (data[selectedValue]) {
+        dynamicContent.classList.remove('hidden');
+        data[selectedValue].forEach((option, index) => {
+          const opt = document.createElement('option');
+          opt.value = index;
+          opt.textContent = option.label;
+          subSelect.appendChild(opt);
+        });
+      } else {
+        dynamicContent.classList.add('hidden');
+      }
+    });
+
+    // Afficher les champs dynamiques selon la sélection
+    subSelect.addEventListener('change', () => {
+      const selectedValue = subSelect.value;
+      const selectedRequest = data[mainSelect.value];
+      const selectedOption = selectedRequest[selectedValue];
+
+      resetFields();
+
+      if (selectedOption) {
+        const fieldContainer = document.createElement('div');
+        fieldContainer.className = 'mt-4';
+
+        const label = document.createElement('label');
+        label.className = 'block text-sm font-medium text-gray-700';
+        label.textContent = selectedOption.label;
+
+        if (selectedOption.type === 'select') {
+          const select = document.createElement('select');
+          select.className = 'mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500';
+          selectedOption.options.forEach(choice => {
+            const opt = document.createElement('option');
+            opt.value = choice.toLowerCase();
+            opt.textContent = choice;
+            select.appendChild(opt);
+          });
+          fieldContainer.appendChild(label);
+          fieldContainer.appendChild(select);
+        } else {
+          const input = document.createElement('input');
+          input.type = selectedOption.type;
+          input.className = 'mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500';
+          fieldContainer.appendChild(label);
+          fieldContainer.appendChild(input);
+        }
+
+        dynamicFields.appendChild(fieldContainer);
+      }
+    });
+
+    // Réinitialiser la liste déroulante secondaire
+    function resetSubSelect() {
+      subSelect.innerHTML = '<option value="">-- Choisissez --</option>';
+    }
+
+    // Réinitialiser les champs dynamiques
+    function resetFields() {
+      dynamicFields.innerHTML = '';
+    }
+  </script>
+</body>
+</html>
