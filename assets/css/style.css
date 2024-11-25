@@ -1,0 +1,194 @@
+      /* RÃ©initialisation des marges et paddings */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    /* Style du corps de la page */
+    body {
+        font-family: 'Saira Semi Condensed', sans-serif;
+        font-weight: 400;
+        background: url("https://user-images.githubusercontent.com/22690563/67150939-14a0b180-f2c7-11e9-8016-a993a397e1c5.jpg") no-repeat center center / cover;
+    }
+    
+    body:after {
+        content: '@selimdoyranli';
+        font-size: 1rem;
+        color: #aaa;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 2;
+    }
+    
+    /* Wrapper pour centrer le contenu */
+    .wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100vh;
+        min-height: 500px;
+    }
+    
+    /* Styles de la carte du joueur */
+    .fut-player-card {
+        position: relative;
+        width: 300px;
+        height: 485px;
+        background-image: url(https://selimdoyranli.com/cdn/fut-player-card/img/card_bg.png);
+        background-position: center center;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        padding: 3.8rem 0;
+        z-index: 2;
+        transition: 200ms ease-in;
+    }
+    
+    .fut-player-card .player-card-top {
+        position: relative;
+        display: flex;
+        color: #e9cc74;
+        padding: 0 1.5rem;
+    }
+    
+    .fut-player-card .player-card-top .player-master-info {
+        position: absolute;
+        line-height: 2.2rem;
+        font-weight: 300;
+        padding: 1.5rem 0;
+        text-transform: uppercase;
+    }
+    
+    .fut-player-card .player-card-top .player-master-info .player-rating {
+        font-size: 2rem;
+    }
+    
+    .fut-player-card .player-card-top .player-master-info .player-position {
+        font-size: 1.4rem;
+    }
+    
+    .fut-player-card .player-card-top .player-master-info .player-nation {
+        display: block;
+        width: 2rem;
+        height: 25px;
+        margin: 0.3rem 0;
+    }
+    
+    .fut-player-card .player-card-top .player-master-info .player-nation img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    
+    .fut-player-card .player-card-top .player-master-info .player-club {
+        display: block;
+        width: 2.1rem;
+        height: 40px;
+    }
+    
+    .fut-player-card .player-card-top .player-master-info .player-club img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    
+    .fut-player-card .player-card-top .player-picture {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    
+    .fut-player-card .player-card-top .player-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        position: relative;
+        right: -1.5rem;
+        bottom: 0;
+    }
+    
+    .fut-player-card .player-card-top .player-picture .player-extra {
+        position: absolute;
+        right: 0;
+        bottom: -0.5rem;
+        overflow: hidden;
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        width: 100%;
+        height: 2rem;
+        padding: 0 1.5rem;
+        text-align: right;
+        background: none;
+    }
+    
+    .fut-player-card .player-card-top .player-picture .player-extra span {
+        margin-left: 0.6rem;
+        text-shadow: 2px 2px #333;
+    }
+    
+    .fut-player-card .player-card-bottom {
+        position: relative;
+    }
+    
+    .fut-player-card .player-card-bottom .player-info {
+        display: block;
+        padding: 0.3rem 0;
+        color: #e9cc74;
+        width: 90%;
+        margin: 0 auto;
+        height: auto;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .fut-player-card .player-card-bottom .player-info .player-name {
+        width: 100%;
+        display: block;
+        text-align: center;
+        font-size: 1.6rem;
+        text-transform: uppercase;
+        border-bottom: 2px solid rgba(233, 204, 116, 0.1);
+        padding-bottom: 0.3rem;
+        overflow: hidden;
+    }
+    
+    .fut-player-card .player-card-bottom .player-info .player-name span {
+        display: block;
+        text-shadow: 2px 2px #111;
+    }
+    
+    .fut-player-card .player-card-bottom .player-info .player-features {
+        margin: 0.5rem auto;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .fut-player-card .player-card-bottom .player-info .player-features .player-features-col {
+        border-right: 2px solid rgba(233, 204, 116, 0.1);
+        padding: 0 2.3rem;
+    }
+    
+    .fut-player-card .player-card-bottom .player-info .player-features .player-features-col:last-child {
+        border: 0;
+    }
+    
+    .fut-player-card .player-card-bottom .player-info .player-features .player-features-col span {
+        display: flex;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+    }
+    
+    .fut-player-card .player-card-bottom .player-info .player-features .player-features-col span .player-feature-value {
+        margin-right: 0.3rem;
+        font-weight: 700;
+    }
+    
+    .fut-player-card .player-card-bottom .player-info .player-features .player-features-col span .player-feature-title {
+        font-weight: 300;
+    }
+    
