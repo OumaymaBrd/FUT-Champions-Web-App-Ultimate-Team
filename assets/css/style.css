@@ -92,7 +92,7 @@ body {
 }
 
 .player-card {
-    width: 80px;
+    width: 100px;
     height: 80px;
     background: var(--card-bg);
     border-radius: 12px;
