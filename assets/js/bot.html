@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Player Card</title>
+    <style>
+     .card {
+    position: relative;
+    width: 180px;
+    aspect-ratio: 3/4;
+    background: linear-gradient(145deg, #d4af37, #ffd700, #b8860b);
+    border-radius: 15px;
+    padding: 3px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(130deg, rgba(255,255,255,0.3), transparent 50%, rgba(0,0,0,0.2));
+    border-radius: 15px;
+    z-index: 1;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card-inner {
+    position: relative;
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+    height: 80%;
+    width:180px;
+    border-radius: 13px;
+    padding: 15px;
+    display: flex; 
+    flex-direction: column;
+    overflow: hidden;
+    gap: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 10px;
+    z-index: 2;
+}
+
+.rating {
+    
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: rgb(228, 215, 28);
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.position {
+    color: #d4af37;
+    font-weight: bold;
+   
+}
+
+.player-image {
+    position: relative;
+    width: 30%;
+    margin: 0 auto;
+    aspect-ratio: 1;
+    z-index: 2;
+    border-radius: 100px;
+}
+
+.player-image img {
+    width: 90%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.player-name {
+    text-align: center;
+    color: #d4af37;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 18px 0;
+    z-index: 2;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    position: relative;
+    bottom:15px;
+    /* margin-top: 12px; */
+    /* z-index: 2; */
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    color: #d4af37;
+    font-size: 0.9em;
+}
+
+.flags {
+    position: absolute;
+    bottom: 208px;
+    
+    display: flex;
+    gap: 5px;
+    z-index: 2;
+}
+
+.flag {
+    width: 35px;
+    height: 18px;
+   
+}
+
+.shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(255,255,255,0.1) 45%,
+        rgba(255,255,255,0.2) 50%,
+        rgba(255,255,255,0.1) 55%,
+        transparent 100%
+    );
+    z-index: 1;
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%) translateY(-100%);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%);
+    }
+}
+
+@media (max-width: 350px) {
+    .card {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .player-name {
+        font-size: 1.2em;
+    }
+
+    .stats {
+        font-size: 0.8em;
+    }
+}
+
+      
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-inner">
+            <div class="header" style="position: relative; top:-11px;">
+                <div class="rating">122</div>
+                <div class="position">56</div>
+            </div>
+            <div class="player-image" style="position: relative; bottom:-18px;">
+                <img src="${player.photo}" alt="Mbappé" >
+            </div>
+            <div class="player-name" >23</div>
+          
+           
+            <div class="stats">
+                <div class="stat">
+                    <span>PAC</span>
+                    <span>90</span>
+                </div>
+                <div class="stat">
+                    <span>SHO</span>
+                    <span>123</span>
+                </div>
+                <div class="stat">
+                    <span>PAS</span>
+                    <span>12</span>
+                </div>
+                <div class="stat">
+                    <span>DRI</span>
+                    <span>uii</span>
+                </div>
+                <div class="stat">
+                    <span>DEF</span>
+                    <span>uii</span>
+                </div>
+                <div class="stat">
+                    <span>hgv</span>
+                    <span>hh</span>
+                </div>
+            </div>
+            
+          
+            <div class="shine"></div>
+            <div class="flags" >
+                <img src="${player.flag}" class="flag" id="flag">
+                <img src="${player.logo}" alt="Logo player du foot " id="logo"class="flag">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

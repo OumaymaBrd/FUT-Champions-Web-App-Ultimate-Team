@@ -491,14 +491,104 @@ function renderFormation() {
             if (selectedPlayers[position.index]) {
                 const player = selectedPlayers[position.index];
                 card.innerHTML = `
-                    <div class="rating">${player.rating}</div>
-                    <div class="position">${position.name}</div>
-                    <div class="player-name">${player.name}</div>
-                    <img src="${player.photo}" style="width:80px;"></img>
+                    <div class="card-inner">
+            <div class="header" style="position: relative; top:-11px;">
+                <div class="rating">${player.rating}</div>
+                <div class="position">${player.position}</div>
+            </div>
+            <div class="player-image" style="position: relative; bottom:-18px;">
+                <img src="${player.photo}" alt="Mbappé" >
+            </div>
+            <div class="player-name" >${player.name}</div>
+          
+           
+            <div class="stats">
+                <div class="stat">
+                    <span>PAC</span>
+                    <span>${player.pace}</span>
+                </div>
+                <div class="stat">
+                    <span>SHO</span>
+                    <span>${player.shooting}</span>
+                </div>
+                <div class="stat">
+                    <span>PAS</span>
+                    <span>${player.passing}</span>
+                </div>
+                <div class="stat">
+                    <span>DRI</span>
+                    <span>${player.dribbling}</span>
+                </div>
+                <div class="stat">
+                    <span>DEF</span>
+                    <span>${player.defending}</span>
+                </div>
+                <div class="stat">
+                    <span>PHY</span>
+                    <span>${player.physical}</span>
+                </div>
+            </div>
+            
+          
+            <div class="shine"></div>
+            <div class="flags" >
+                <img src="${player.flag}" class="flag" id="flag">
+                <img src="${player.logo}" alt="Logo player du foot " id="logo"class="flag">
+            </div>
+        </div>
+        
                 `;
             } else {
                 card.innerHTML = `
-                    <div class="position">${position.name}</div>
+
+                
+                    <div class="card-inner">
+            <div class="header" style="position: relative; top:-11px;">
+                <div class="rating">${player.rating}</div>
+                <div class="position">${player.position}</div>
+            </div>
+            <div class="player-image" style="position: relative; bottom:-18px;">
+                <img src="${player.photo}" alt="Mbappé" >
+            </div>
+            <div class="player-name" >${player.name}</div>
+          
+           
+            <div class="stats">
+                <div class="stat">
+                    <span>PAC</span>
+                    <span>${player.pace}</span>
+                </div>
+                <div class="stat">
+                    <span>SHO</span>
+                    <span>${player.shooting}</span>
+                </div>
+                <div class="stat">
+                    <span>PAS</span>
+                    <span>${player.passing}</span>
+                </div>
+                <div class="stat">
+                    <span>DRI</span>
+                    <span>${player.dribbling}</span>
+                </div>
+                <div class="stat">
+                    <span>DEF</span>
+                    <span>${player.defending}</span>
+                </div>
+                <div class="stat">
+                    <span>PHY</span>
+                    <span>${player.physical}</span>
+                </div>
+            </div>
+            
+          
+            <div class="shine"></div>
+            <div class="flags" >
+                <img src="${player.flag}" class="flag" id="flag">
+                <img src="${player.logo}" alt="Logo player du foot " id="logo"class="flag">
+            </div>
+        </div>
+        
+                
                     <div class="add-icon">+</div>
                 `;
             }
@@ -525,13 +615,57 @@ function renderPlayers() {
     playersGrid.innerHTML = '';
     filteredPlayers.forEach(player => {
         const playerCard = document.createElement('div');
-        playerCard.className = 'player-card';
+        playerCard.className = 'card-inner';
         // condition 
         playerCard.innerHTML = `
-        <img src="${player.photo}" style="width:80px;"></img>
-        <div class="rating">${player.rating}</div>
-        <div class="position">${player.position}</div>
-        <div class="player-name">${player.name}</div>
+        <div class="card-inner">
+            <div class="header" style="position: relative; top:-11px;">
+                <div class="rating">${player.rating}</div>
+                <div class="position">${player.position}</div>
+            </div>
+            <div class="player-image" style="position: relative; bottom:-18px;">
+                <img src="${player.photo}" alt="Mbappé" >
+            </div>
+            <div class="player-name" >${player.name}</div>
+          
+           
+            <div class="stats">
+                <div class="stat">
+                    <span>PAC</span>
+                    <span>${player.pace}</span>
+                </div>
+                <div class="stat">
+                    <span>SHO</span>
+                    <span>${player.shooting}</span>
+                </div>
+                <div class="stat">
+                    <span>PAS</span>
+                    <span>${player.passing}</span>
+                </div>
+                <div class="stat">
+                    <span>DRI</span>
+                    <span>${player.dribbling}</span>
+                </div>
+                <div class="stat">
+                    <span>DEF</span>
+                    <span>${player.defending}</span>
+                </div>
+                <div class="stat">
+                    <span>PHY</span>
+                    <span>${player.physical}</span>
+                </div>
+            </div>
+            
+          
+            <div class="shine"></div>
+            <div class="flags" >
+                <img src="${player.flag}" class="flag" id="flag">
+                <img src="${player.logo}" alt="Logo player du foot " id="logo"class="flag">
+            </div>
+        </div>
+        
+      
+       
     `;
     
     
