@@ -494,8 +494,7 @@ function renderFormation() {
                     <div class="rating">${player.rating}</div>
                     <div class="position">${position.name}</div>
                     <div class="player-name">${player.name}</div>
-                     <div class="player-name">${player.name}</div>
-                     <img src="${player.src}"></img>
+                    <img src="${player.photo}" style="width:80px;"></img>
                 `;
             } else {
                 card.innerHTML = `
@@ -529,11 +528,13 @@ function renderPlayers() {
         playerCard.className = 'player-card';
         // condition 
         playerCard.innerHTML = `
-         <img src="${player.src}" style="width:80px;"></img>
-            <div class="rating">${player.rating}</div>
-            <div class="position">${player.position}</div>
-            <div class="player-name">${player.name}</div>
-        `;
+        <img src="${player.photo}" style="width:80px;"></img>
+        <div class="rating">${player.rating}</div>
+        <div class="position">${player.position}</div>
+        <div class="player-name">${player.name}</div>
+    `;
+    
+    
         playerCard.onclick = () => selectPlayer(player);
         playersGrid.appendChild(playerCard);
     });

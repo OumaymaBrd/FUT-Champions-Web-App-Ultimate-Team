@@ -92,8 +92,8 @@ body {
 }
 
 .player-card {
-    width: 100px;
-    height: 80px;
+    width: 130px;
+    height: 190px;
     background: var(--card-bg);
     border-radius: 12px;
     display: flex;
@@ -185,8 +185,14 @@ body {
 
 .players-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));card.innerHTML = `
+    <div class="rating">${player.rating}</div>
+    <div class="position">${position.name}</div>
+    <div class="player-name">${player.name}</div>
+    <img src="${player.photo}" style="width:80px;"></img>
+`;
+    gap: 12px ;
+    /* column-gap: 20px; */
 }
 
 @media (max-width: 768px) {
