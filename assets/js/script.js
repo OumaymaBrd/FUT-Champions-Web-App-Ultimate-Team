@@ -35,7 +35,7 @@ const nationalityFilter = document.getElementById('nationalityFilter');
 const ratingFilter = document.getElementById('ratingFilter');
 const ratingValue = document.getElementById('ratingValue');
 
-
+// verfier le
 fetch('../data/data.json')
   .then(response => {
     if (!response.ok) {
@@ -130,6 +130,7 @@ fetch('../data/data.json')
                           <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
                           <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
                         </div>
+                        
                       </div>
                     `;
                   }
@@ -137,15 +138,15 @@ fetch('../data/data.json')
                 } else {
                 card.innerHTML = `
                 <div>${position.name}</div>
+                <div>${position.index}</div>
+ 
                   <div class="card-inner" style="width:120px; height:120px;">
                     <div class="header" style="position: relative; top:-11px;">
                     
                       <div><img id="add-icon" src="https://cdn-icons-png.flaticon.com/512/166/166344.png" alt="Add Icon" />
-                     
                        <div class="add-icon-container">
         <span class="add-icon">+</span>
       </div>
-      
                       </div>
 
                       
@@ -178,7 +179,6 @@ function renderPlayers() {
         const playerCard = document.createElement('div');
         playerCard.className = 'card-inner';
         // condition 
-
         if (player.position === 'GK') {
             // Appliquer le code spécifique pour les gardiens
             playerCard.innerHTML = `
@@ -252,41 +252,23 @@ function renderPlayers() {
               </div>
             `;
           }
-        
-//         playerCard.innerHTML = `
-//     <div class="card-inner">
-//         <div class="header" style="position: relative; top:-11px;">
-//             <div class="rating">${player.rating}</div>
-//             <div class="position">${player.position}</div>
-//         </div>
-//         <div class="player-image"  style="position: relative; bottom:-18px;">
-//             <img src="${player.photo}" alt="${player.name}">
-//         </div>
-//         <div class="player-name">${player.name}</div>
-//         <div class="stats">
-//             <div class="stat"><span>PAC</span><span>${player.pace}</span></div>
-//             <div class="stat"><span>SHO</span><span>${player.shooting}</span></div>
-//             <div class="stat"><span>PAS</span><span>${player.passing}</span></div>
-//             <div class="stat"><span>DRI</span><span>${player.dribbling}</span></div>
-//             <div class="stat"><span>DEF</span><span>${player.defending}</span></div>
-//             <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
-//         </div>
-//         <div class="flags">
-//             <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;"/>
-//             <img src="${player.logo}" class="logo" style="position:relative; width:40px;" />
-//         </div>
-//     </div>
-// `;
 
         playerCard.onclick = () => selectPlayer(player);
        
         playersGrid.appendChild(playerCard);
+        
+       
     });
 }
 
+
 function selectPlayer(player) {
+
+  
     selectedPlayers[currentPosition] = player;
-    alert(currentPosition)
+    alert(currentPosition);
+    alert(lineupSelect);
+    //  
     modal.style.display = 'none';
     
     renderFormation();
@@ -294,6 +276,7 @@ function selectPlayer(player) {
 
 lineupSelect.onchange = (e) => {
     selectedFormation = e.target.value;
+    alert(e.target.value)
     selectedPlayers = Array(11).fill(null);
     renderFormation();
 };
