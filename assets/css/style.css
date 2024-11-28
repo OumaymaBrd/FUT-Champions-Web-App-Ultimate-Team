@@ -60,10 +60,7 @@ body {
     color: white;
 }
 
-.btn-secondary {
-    background: #e9ecef;
-    color: #2b2d42;
-}
+
 
 .main-content {
     flex: 1;
@@ -245,6 +242,14 @@ body {
     .stats {
         font-size: 0.8rem;
     }
+}
+
+/*  */
+#add-icon{
+    width:170px; 
+    position:relative;
+     right:20px;
+      top:-12px;
 }
 
 
