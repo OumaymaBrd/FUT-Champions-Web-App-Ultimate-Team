@@ -58,6 +58,7 @@ fetch('../data/data.json')
             card.onclick = () => openModal(position.index);
             if (selectedPlayers[position.index]) {
                 const player = selectedPlayers[position.index];
+
                
             if (player.position === 'GK') {
                 // Appliquer le code spécifique pour les gardiens
@@ -132,11 +133,22 @@ fetch('../data/data.json')
                       </div>
                     `;
                   }
+                  // <span id="add_rt">+</span>
                 } else {
                 card.innerHTML = `
+                <div>${position.name}</div>
                   <div class="card-inner" style="width:120px; height:120px;">
                     <div class="header" style="position: relative; top:-11px;">
-                      <div><img id="add-icon" src="../assets/images/icon_add.gif" alt="Add Icon" /></div>
+                    
+                      <div><img id="add-icon" src="https://cdn-icons-png.flaticon.com/512/166/166344.png" alt="Add Icon" />
+                     
+                       <div class="add-icon-container">
+        <span class="add-icon">+</span>
+      </div>
+      
+                      </div>
+
+                      
                     </div>
                   </div>
                 `;
@@ -207,8 +219,8 @@ function renderPlayers() {
                 </div>
                 <div class="shine"></div>
                 <div class="flags">
-                  <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
-                  <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
+                  <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;  " />
+                  <img src="${player.logo}" alt="Logo player"  style="position:relative; left:200px; width:40px;"  />
                 </div>
               </div>
             `;
@@ -267,13 +279,16 @@ function renderPlayers() {
 // `;
 
         playerCard.onclick = () => selectPlayer(player);
+       
         playersGrid.appendChild(playerCard);
     });
 }
 
 function selectPlayer(player) {
     selectedPlayers[currentPosition] = player;
+    alert(currentPosition)
     modal.style.display = 'none';
+    
     renderFormation();
 }
 
