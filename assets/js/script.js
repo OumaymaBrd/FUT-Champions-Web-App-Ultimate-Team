@@ -96,8 +96,8 @@ fetch('../data/data.json')
             </div>
             <div class="shine"></div>
             <div class="flags" >
-                <img src="${player.flag}" class="flag" id="flag" style="position:relative; bottom:-15px;">
-                <img src="${player.logo}" alt="Logo player du foot " id="logo"class="flag">
+                <img src="${player.flag}" class="flag" id="flag" style="position:relative; bottom:-15px; width:40px;">
+                <img src="${player.logo}" alt="Logo player du foot " id="logo" class="flag" style="position:relative; width:40px;">
             </div>
         </div>
                 `;
@@ -139,11 +139,11 @@ function renderPlayers() {
         // condition 
         playerCard.innerHTML = `
     <div class="card-inner">
-        <div class="header">
+        <div class="header" style="position: relative; top:-11px;">
             <div class="rating">${player.rating}</div>
             <div class="position">${player.position}</div>
         </div>
-        <div class="player-image">
+        <div class="player-image"  style="position: relative; bottom:-18px;">
             <img src="${player.photo}" alt="${player.name}">
         </div>
         <div class="player-name">${player.name}</div>
@@ -156,8 +156,8 @@ function renderPlayers() {
             <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
         </div>
         <div class="flags">
-            <img src="${player.flag}" class="flag" />
-            <img src="${player.logo}" class="logo" />
+            <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;"/>
+            <img src="${player.logo}" class="logo" style="position:relative; width:40px;" />
         </div>
     </div>
 `;

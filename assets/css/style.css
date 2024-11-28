@@ -105,8 +105,13 @@ body {
     padding: 20px;
     border-radius: 8px;
     width: 80%;
-    max-width: 800px;
+    position: relative;
+    top:-70px;
+    
+    max-width: 70%;
     color: white;
+    max-height: 80vh; 
+    overflow-y: auto; 
 }
 
 .close {
@@ -187,7 +192,7 @@ body {
 
 .flags {
     position: absolute;
-    bottom: 190px;
+    width: 180px;
     right:30px;
     display: flex;
     gap: 5px;
@@ -196,10 +201,16 @@ body {
 }
 
 .flag, .logo {
-    width: 30px;
-    height: 20px;
-    object-fit: contain;
+    width: 180px;
+    height: 30px;  
+    top:20px; 
 }
+.flag{
+    position: relative;
+    right:22px;
+}
+
+
 
 /* Style d'animation du shine */
 .shine {
