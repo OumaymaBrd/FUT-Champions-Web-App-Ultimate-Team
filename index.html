@@ -21,13 +21,17 @@
                 <option value="3-5-2">3-5-2</option>
             </select>
         </div>
-        <button class="btn-primary">Create new</button>
+        <button class="btn-primary" id="btn-primary">Create new</button>
     </div>
 
     <div class="main-content">
-        <div class="header">
-            <div class="logo">PESMASTER</div>
+        <div class="header hidden fixed bottom-0 left-0 w-full px-4 py-2 bg-black text-white">
+            <div class="logo flex items-center justify-between">
+                ROYAL STRIKERS
+                <img src="assets/images/logo.webp" alt="ROYAL STRIKERS" width="100px">
+            </div>
         </div>
+        
         <div class="formation" id="formation"></div>
     </div>
     
@@ -52,6 +56,8 @@
             <div class="players-grid" id="playersGrid"></div>
         </div>
     </div>
+ 
+    <div class="modal-content" id="Formulaire_remplir" ></div>
 
     <script src="assets/js/script.js"></script>
   

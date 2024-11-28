@@ -58,60 +58,89 @@ fetch('../data/data.json')
             card.onclick = () => openModal(position.index);
             if (selectedPlayers[position.index]) {
                 const player = selectedPlayers[position.index];
+               
+            if (player.position === 'GK') {
+                // Appliquer le code spécifique pour les gardiens
                 card.innerHTML = `
+                  <div class="card-inner">
+                    <div class="header" style="position: relative; top:-11px;">
+                      <div class="rating">${player.rating}</div>
+                      <div class="position">${player.position}</div>
+                    </div>
+                    <div class="player-image" style="position: relative; bottom:-18px;">
+                      <img src="${player.photo}" alt="Mbappé" />
+                    </div>
+                    <div class="player-name">${player.name}</div>
+                    <div class="stats">
+                      <div class="stat">
+                        <span>DIV</span>
+                        <span>${player.diving}</span>
+                      </div>
+                      <div class="stat">
+                        <span>HANd</span>
+                        <span>${player.handling}</span>
+                      </div>
+                      <div class="stat">
+                        <span>HIC</span>
+                        <span>${player.kicking}</span>
+                      </div>
+                      <div class="stat">
+                        <span>DRI</span>
+                        <span>${player.reflexes}</span>
+                      </div>
+                      <div class="stat">
+                        <span>SPE</span>
+                        <span>${player.speed}</span>
+                      </div>
+                      <div class="stat">
+                        <span>POS</span>
+                        <span>${player.positioning}</span>
+                      </div>
+                    </div>
+                    <div class="shine"></div>
+                    <div class="flags">
+                      <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
+                      <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
+                    </div>
+                  </div>
+                `;
+              }  else {
+                    // Appliquer le code pour les autres joueurs (non-GK)
+                    card.innerHTML = `
                       <div class="card-inner">
-            <div class="header" style="position: relative; top:-11px;">
-                <div class="rating">${player.rating}</div>
-                <div class="position">${player.position}</div>
-            </div>
-            <div class="player-image" style="position: relative; bottom:-18px;">
-                <img src="${player.photo}" alt="Mbappé" >
-            </div>
-            <div class="player-name" >${player.name}</div>
-            <div class="stats">
-                <div class="stat">
-                    <span>PAC</span>
-                    <span>${player.pace}</span>
-                </div>
-                <div class="stat">
-                    <span>SHO</span>
-                    <span>${player.shooting}</span>
-                </div>
-                <div class="stat">
-                    <span>PAS</span>
-                    <span>${player.passing}</span>
-                </div>
-                <div class="stat">
-                    <span>DRI</span>
-                    <span>${player.dribbling}</span>
-                </div>
-                <div class="stat">
-                    <span>DEF</span>
-                    <span>${player.defending}</span>
-                </div>
-                <div class="stat">
-                    <span>PHY</span>
-                    <span>${player.physical}</span>
-                </div>
-            </div>
-            <div class="shine"></div>
-            <div class="flags" >
-                <img src="${player.flag}" class="flag" id="flag" style="position:relative; bottom:-15px; width:40px;">
-                <img src="${player.logo}" alt="Logo player du foot " id="logo" class="flag" style="position:relative; width:40px;">
-            </div>
-        </div>
-                `;
-            } else {
+                        <div class="header" style="position: relative; top:-11px;">
+                          <div class="rating">${player.rating}</div>
+                          <div class="position">${player.position}</div>
+                        </div>
+                        <div class="player-image" style="position: relative; bottom:-18px;">
+                          <img src="${player.photo}" alt="${player.name}" />
+                        </div>
+                        <div class="player-name">${player.name}</div>
+                        <div class="stats">
+                          <div class="stat"><span>PAC</span><span>${player.pace}</span></div>
+                          <div class="stat"><span>SHO</span><span>${player.shooting}</span></div>
+                          <div class="stat"><span>PAS</span><span>${player.passing}</span></div>
+                          <div class="stat"><span>DRI</span><span>${player.dribbling}</span></div>
+                          <div class="stat"><span>DEF</span><span>${player.defending}</span></div>
+                          <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
+                        </div>
+                        <div class="shine"></div>
+                        <div class="flags">
+                          <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
+                          <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
+                        </div>
+                      </div>
+                    `;
+                  }
+                } else {
                 card.innerHTML = `
-
-                <div class="card-inner" style="width:120px; height:120px;">
-    <div class="header" style="position: relative; top:-11px;">
-       <div ><img id="add-icon"src="../assets/images/icon_add.gif"></img></div>
-    </div>
-    </div>
-</div>      
+                  <div class="card-inner" style="width:120px; height:120px;">
+                    <div class="header" style="position: relative; top:-11px;">
+                      <div><img id="add-icon" src="../assets/images/icon_add.gif" alt="Add Icon" /></div>
+                    </div>
+                  </div>
                 `;
-            }
+              }
             rowElement.appendChild(card);
         });
         formationElement.appendChild(rowElement);
@@ -137,30 +166,105 @@ function renderPlayers() {
         const playerCard = document.createElement('div');
         playerCard.className = 'card-inner';
         // condition 
-        playerCard.innerHTML = `
-    <div class="card-inner">
-        <div class="header" style="position: relative; top:-11px;">
-            <div class="rating">${player.rating}</div>
-            <div class="position">${player.position}</div>
-        </div>
-        <div class="player-image"  style="position: relative; bottom:-18px;">
-            <img src="${player.photo}" alt="${player.name}">
-        </div>
-        <div class="player-name">${player.name}</div>
-        <div class="stats">
-            <div class="stat"><span>PAC</span><span>${player.pace}</span></div>
-            <div class="stat"><span>SHO</span><span>${player.shooting}</span></div>
-            <div class="stat"><span>PAS</span><span>${player.passing}</span></div>
-            <div class="stat"><span>DRI</span><span>${player.dribbling}</span></div>
-            <div class="stat"><span>DEF</span><span>${player.defending}</span></div>
-            <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
-        </div>
-        <div class="flags">
-            <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;"/>
-            <img src="${player.logo}" class="logo" style="position:relative; width:40px;" />
-        </div>
-    </div>
-`;
+
+        if (player.position === 'GK') {
+            // Appliquer le code spécifique pour les gardiens
+            playerCard.innerHTML = `
+              <div class="card-inner">
+                <div class="header" style="position: relative; top:-11px;">
+                  <div class="rating">${player.rating}</div>
+                  <div class="position">${player.position}</div>
+                </div>
+                <div class="player-image" style="position: relative; bottom:-18px;">
+                  <img src="${player.photo}" alt="Mbappé" />
+                </div>
+                <div class="player-name">${player.name}</div>
+                <div class="stats">
+                  <div class="stat">
+                    <span>DIV</span>
+                    <span>${player.diving}</span>
+                  </div>
+                  <div class="stat">
+                    <span>HAN</span>
+                    <span>${player.handling}</span>
+                  </div>
+                  <div class="stat">
+                    <span>HIC</span>
+                    <span>${player.kicking}</span>
+                  </div>
+                  <div class="stat">
+                    <span>DRI</span>
+                    <span>${player.reflexes}</span>
+                  </div>
+                  <div class="stat">
+                    <span>SPE</span>
+                    <span>${player.speed}</span>
+                  </div>
+                  <div class="stat">
+                    <span>POS</span>
+                    <span>${player.positioning}</span>
+                  </div>
+                </div>
+                <div class="shine"></div>
+                <div class="flags">
+                  <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
+                  <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
+                </div>
+              </div>
+            `;
+          }else {
+            // Appliquer le code pour les autres joueurs (non-GK)
+            playerCard.innerHTML = `
+              <div class="card-inner">
+                <div class="header" style="position: relative; top:-11px;">
+                  <div class="rating">${player.rating}</div>
+                  <div class="position">${player.position}</div>
+                </div>
+                <div class="player-image" style="position: relative; bottom:-18px;">
+                  <img src="${player.photo}" alt="${player.name}" />
+                </div>
+                <div class="player-name">${player.name}</div>
+                <div class="stats">
+                  <div class="stat"><span>PAC</span><span>${player.pace}</span></div>
+                  <div class="stat"><span>SHO</span><span>${player.shooting}</span></div>
+                  <div class="stat"><span>PAS</span><span>${player.passing}</span></div>
+                  <div class="stat"><span>DRI</span><span>${player.dribbling}</span></div>
+                  <div class="stat"><span>DEF</span><span>${player.defending}</span></div>
+                  <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
+                </div>
+                <div class="shine"></div>
+                <div class="flags">
+                  <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
+                  <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
+                </div>
+              </div>
+            `;
+          }
+        
+//         playerCard.innerHTML = `
+//     <div class="card-inner">
+//         <div class="header" style="position: relative; top:-11px;">
+//             <div class="rating">${player.rating}</div>
+//             <div class="position">${player.position}</div>
+//         </div>
+//         <div class="player-image"  style="position: relative; bottom:-18px;">
+//             <img src="${player.photo}" alt="${player.name}">
+//         </div>
+//         <div class="player-name">${player.name}</div>
+//         <div class="stats">
+//             <div class="stat"><span>PAC</span><span>${player.pace}</span></div>
+//             <div class="stat"><span>SHO</span><span>${player.shooting}</span></div>
+//             <div class="stat"><span>PAS</span><span>${player.passing}</span></div>
+//             <div class="stat"><span>DRI</span><span>${player.dribbling}</span></div>
+//             <div class="stat"><span>DEF</span><span>${player.defending}</span></div>
+//             <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
+//         </div>
+//         <div class="flags">
+//             <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;"/>
+//             <img src="${player.logo}" class="logo" style="position:relative; width:40px;" />
+//         </div>
+//     </div>
+// `;
 
         playerCard.onclick = () => selectPlayer(player);
         playersGrid.appendChild(playerCard);
@@ -212,3 +316,13 @@ nationalities.forEach(nationality => {
 .catch(error => {
   console.error('There was a problem with the fetch operation:', error);
 });
+
+// creation Formuleaire a remplir pour : Ajouter un joueur 
+
+const create_new=document.getElementById('btn-primary');
+const Afficher_formulaire_remplir=document.getElementById('Formulaire_remplir');
+create_new.addEventListener('click', function() {
+    Afficher_formulaire_remplir.style.display = 'block';
+});
+
+// 

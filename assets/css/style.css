@@ -148,6 +148,9 @@ body {
     font-weight: bold;
 }
 
+#Formulaire_remplir{
+    display: none;
+}
 .position {
     color: #fff;
     font-size: 0.9rem;
@@ -262,7 +265,51 @@ body {
      right:20px;
       top:-12px;
 }
-
+/*  */
+/* card.innerHTML = `
+<div class="card-inner">
+<div class="header" style="position: relative; top:-11px;">
+<div class="rating">${player.rating}</div>
+<div class="position">${player.position}</div>
+</div>
+<div class="player-image" style="position: relative; bottom:-18px;">
+<img src="${player.photo}" alt="Mbappé" >
+</div>
+<div class="player-name" >${player.name}</div>
+<div class="stats">
+<div class="stat">
+<span>DIV</span>
+<span>${player.diving}</span>
+</div>
+<div class="stat">
+<span>HANd</span>
+<span>${player.handling}</span>
+</div>
+<div class="stat">
+<span>HIC</span>
+<span>${player.kicking}</span>
+</div>
+<div class="stat">
+<span>DRI</span>
+<span>${player.reflexes}</span>
+</div>
+<div class="stat">
+<span>SPE</span>
+<span>${player.speed}</span>
+</div>
+<div class="stat">
+<span>SPEE</span>
+<span>${player.speed}</span>
+</div>
+</div>
+<div class="shine"></div>
+<div class="flags" >
+<img src="${player.flag}" class="flag" id="flag" style="position:relative; bottom:-15px; width:40px;">
+<img src="${player.logo}" alt="Logo player du foot " id="logo" class="flag" style="position:relative; width:40px;">
+</div>
+</div>
+`;
+ */
 
 
 
