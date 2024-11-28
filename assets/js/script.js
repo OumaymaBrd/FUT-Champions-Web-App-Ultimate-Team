@@ -106,7 +106,7 @@ fetch('../data/data.json')
 
                 <div class="card-inner" style="width:120px; height:120px;">
     <div class="header" style="position: relative; top:-11px;">
-       <div ><img id="add-icon"src="../11255931.gif"></img></div>
+       <div ><img id="add-icon"src="../assets/images/icon_add.gif"></img></div>
     </div>
     </div>
 </div>      
