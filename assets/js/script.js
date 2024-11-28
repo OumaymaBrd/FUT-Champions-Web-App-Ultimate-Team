@@ -77,7 +77,7 @@ fetch('../data/data.json')
                         <span>${player.diving}</span>
                       </div>
                       <div class="stat">
-                        <span>HANd</span>
+                        <span>HAN</span>
                         <span>${player.handling}</span>
                       </div>
                       <div class="stat">
