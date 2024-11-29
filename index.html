@@ -66,303 +66,367 @@
  
     <div class="modal-content" id="Formulaire_remplir">
         <h2>Create New Player</h2>
-        <form id="newPlayerForm">
+        <form id="newPlayerForm" enctype="multipart/form-data">
+            <label for="newPlayerName">Nom Player: </label>
             <input type="text" id="newPlayerName" placeholder="Name" required>
+    
+            <label for="newPlayerPosition">Position: </label>
             <select id="newPlayerPosition" required>
-                <option value="">Position</option>
+                <option value="" hidden>Position</option>
                 <option value="CF">CF</option>
                 <option value="LWF">LWF</option>
                 <option value="RWF">RWF</option>
-                <option value="GK">GK</option> 
+                <option value="GK">GK</option>
                 <option value="CB">CB</option>
-                <option value="LB">LB</option> 
-                <option value="CM">CM</option> 
-                <option value="RB">RB</option> 
+                <option value="LB">LB</option>
+                <option value="CM">CM</option>
+                <option value="RB">RB</option>
                 <option value="LW">LW</option>
                 <option value="RW">RW</option>
                 <option value="ST">ST</option>
             </select>
+    
+            <label for="newPlayerNationality">Nationalite: </label>
             <input type="text" id="newPlayerNationality" placeholder="Nationality" required>
+    
+            <label for="newPlayerRating">Rating: </label>
             <input type="number" id="newPlayerRating" placeholder="Rating" min="40" max="99" required>
-            <input type="text" id="newPlayerPhoto" placeholder="Photo URL" required>
-            <input type="text" id="newPlayerFlag" placeholder="Flag URL" required>
-            <input type="text" id="newPlayerLogo" placeholder="Logo URL" required>
+    
+            <label for="newPlayerPhoto">Photo: </label>
+            <input type="file" id="newPlayerPhoto" accept="image/*" required>
+    
+            <label for="newPlayerFlag">Flag: </label>
+            <input type="file" id="newPlayerFlag" accept="image/*" required>
+    
+            <label for="newPlayerLogo">Logo: </label>
+            <input type="file" id="newPlayerLogo" accept="image/*" required>
+    
+            <div id="GKFields" class="position-specific">
+                <label for="newPlayerDiving">Diving: </label>
+                <input type="number" id="newPlayerDiving" min="1" max="99">
+                <label for="newPlayerHandling">Handling: </label>
+                <input type="number" id="newPlayerHandling" min="1" max="99">
+                <label for="newPlayerKicking">Kicking: </label>
+                <input type="number" id="newPlayerKicking" min="1" max="99">
+                <label for="newPlayerReflexes">Reflexes: </label>
+                <input type="number" id="newPlayerReflexes" min="1" max="99">
+                <label for="newPlayerSpeed">Speed: </label>
+                <input type="number" id="newPlayerSpeed" min="1" max="99">
+                <label for="newPlayerPositioning">Positioning: </label>
+                <input type="number" id="newPlayerPositioning" min="1" max="99">
+            </div>
+    
+            <div id="OtherFields" class="position-specific">
+                <label for="newPlayerPace">Pace: </label>
+                <input type="number" id="newPlayerPace" min="1" max="99">
+                <label for="newPlayerShooting">Shooting: </label>
+                <input type="number" id="newPlayerShooting" min="1" max="99">
+                <label for="newPlayerPassing">Passing: </label>
+                <input type="number" id="newPlayerPassing" min="1" max="99">
+                <label for="newPlayerDribbling">Dribbling: </label>
+                <input type="number" id="newPlayerDribbling" min="1" max="99">
+                <label for="newPlayerDefending">Defending: </label>
+                <input type="number" id="newPlayerDefending" min="1" max="99">
+                <label for="newPlayerPhysical">Physical: </label>
+                <input type="number" id="newPlayerPhysical" min="1" max="99">
+            </div>
+    
             <button type="submit">Create Player</button>
         </form>
     </div>
-
+    
+    
+    
     <script>
         const formations = {
-            '4-4-2': [
-                [{name: 'CF', index: 0}, {name: 'CF', index: 1}],
-                [{name: 'LMF', index: 2}, {name: 'CMF', index: 3}, {name: 'CMF', index: 4}, {name: 'RMF', index: 5}],
-                [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
-                [{name: 'GK', index: 10}]
-            ],
-            '4-3-3': [
-                [{name: 'LWF', index: 0}, {name: 'CF', index: 1}, {name: 'RWF', index: 2}],
-                [{name: 'CMF', index: 3}, {name: 'DMF', index: 4}, {name: 'CMF', index: 5}],
-                [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
-                [{name: 'GK', index: 10}]
-            ],
-            '3-5-2': [
-                [{name: 'CF', index: 0}, {name: 'CF', index: 1}],
-                [{name: 'LMF', index: 2}, {name: 'CMF', index: 3}, {name: 'DMF', index: 4}, {name: 'CMF', index: 5}, {name: 'RMF', index: 6}],
-                [{name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'CB', index: 9}],
-                [{name: 'GK', index: 10}]
-            ]
-        };
+  '4-4-2': [
+      [{name: 'ST', index: 0}, {name: 'ST', index: 1}],
+      [{name: 'LM', index: 2}, {name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'RM', index: 5}],
+      [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
+      [{name: 'GK', index: 10}]
+  ],
+  '4-3-3': [
+      [{name: 'LW', index: 0}, {name: 'ST', index: 1}, {name: 'RW', index: 2}],
+      [{name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'CM', index: 5}],
+      [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
+      [{name: 'GK', index: 10}]
+  ],
+  '3-5-2': [
+      [{name: 'CF', index: 0}, {name: 'CF', index: 1}],
+      [{name: 'LMF', index: 2}, {name: 'CMF', index: 3}, {name: 'DMF', index: 4}, {name: 'CMF', index: 5}, {name: 'RMF', index: 6}],
+      [{name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'CB', index: 9}],
+      [{name: 'GK', index: 10}]
+  ]
+};
 
-        let selectedFormation = '4-4-2';
-        let selectedPlayers = Array(11).fill(null);
-        let currentPosition = null;
-        let players = [];
+let selectedFormation = '4-4-2';
+let selectedPlayers = Array(11).fill(null);
+let currentPosition = null;
+let players = [];
 
-        const formationElement = document.getElementById('formation');
-        const lineupSelect = document.getElementById('lineup');
-        const modal = document.getElementById('playerModal');
-        const closeBtn = document.getElementsByClassName('close')[0];
-        const playersGrid = document.getElementById('playersGrid');
-        const nameFilter = document.getElementById('nameFilter');
-        const positionFilter = document.getElementById('positionFilter');
-        const nationalityFilter = document.getElementById('nationalityFilter');
-        const ratingFilter = document.getElementById('ratingFilter');
-        const ratingValue = document.getElementById('ratingValue');
+const formationElement = document.getElementById('formation');
+const lineupSelect = document.getElementById('lineup');
+const modal = document.getElementById('playerModal');
+const closeBtn = document.getElementsByClassName('close')[0];
+const playersGrid = document.getElementById('playersGrid');
+const nameFilter = document.getElementById('nameFilter');
+const positionFilter = document.getElementById('positionFilter');
+const nationalityFilter = document.getElementById('nationalityFilter');
+const ratingFilter = document.getElementById('ratingFilter');
+const ratingValue = document.getElementById('ratingValue');
 
-        fetch('../data/data.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();  
-            })
-            .then(data => {
-                players = data.players;
-                initializeApp();
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
+fetch('../data/data.json')
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return response.json();  
+  })
+  .then(data => {
+      players = data.players;
+      initializeApp();
+  })
+  .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+  });
 
-        function initializeApp() {
-            renderFormation();
-            setupEventListeners();
-            populateNationalityFilter();
-        }
+function initializeApp() {
+  renderFormation();
+  setupEventListeners();
+  populateNationalityFilter();
+}
 
-        function renderFormation() {
-            formationElement.innerHTML = '';
-            formations[selectedFormation].forEach(row => {
-                const rowElement = document.createElement('div');
-                rowElement.className = 'row';
-                row.forEach(position => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.onclick = () => openModal(position.index, position.name);
-                    if (selectedPlayers[position.index]) {
-                        const player = selectedPlayers[position.index];
-                        card.innerHTML = createPlayerCardHTML(player);
-                    } else {
-                        card.innerHTML = createEmptyCardHTML(position);
-                    }
-                    rowElement.appendChild(card);
-                });
-                formationElement.appendChild(rowElement);
-            });
-        }
+function renderFormation() {
+  formationElement.innerHTML = '';
+  formations[selectedFormation].forEach(row => {
+      const rowElement = document.createElement('div');
+      rowElement.className = 'row';
+      row.forEach(position => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.onclick = () => openModal(position.index, position.name);
+          if (selectedPlayers[position.index]) {
+              const player = selectedPlayers[position.index];
+              card.innerHTML = createPlayerCardHTML(player);
+          } else {
+              card.innerHTML = createEmptyCardHTML(position);
+          }
+          rowElement.appendChild(card);
+      });
+      formationElement.appendChild(rowElement);
+  });
+}
 
-        function createPlayerCardHTML(player) {
-            if (player.position === 'GK') {
-                return `
-                    <div class="card-inner">
-                        <div class="header" style="position: relative; top:-11px;">
-                            <div class="rating">${player.rating}</div>
-                            <div class="position">${player.position}</div>
-                        </div>
-                        <div class="player-image" style="position: relative; bottom:-18px;">
-                            <img src="${player.photo}" alt="${player.name}" />
-                        </div>
-                        <div class="player-name">${player.name}</div>
-                        <div class="stats">
-                            <div class="stat"><span>DIV</span><span>${player.diving}</span></div>
-                            <div class="stat"><span>HAN</span><span>${player.handling}</span></div>
-                            <div class="stat"><span>KIC</span><span>${player.kicking}</span></div>
-                            <div class="stat"><span>REF</span><span>${player.reflexes}</span></div>
-                            <div class="stat"><span>SPE</span><span>${player.speed}</span></div>
-                            <div class="stat"><span>POS</span><span>${player.positioning}</span></div>
-                        </div>
-                        <div class="shine"></div>
-                        <div class="flags">
-                            <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
-                            <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
-                        </div>
-                    </div>
-                `;
-            } else {
-                return `
-                    <div class="card-inner">
-                        <div class="header" style="position: relative; top:-11px;">
-                            <div class="rating">${player.rating}</div>
-                            <div class="position">${player.position}</div>
-                        </div>
-                        <div class="player-image" style="position: relative; bottom:-18px;">
-                            <img src="${player.photo}" alt="${player.name}" />
-                        </div>
-                        <div class="player-name">${player.name}</div>
-                        <div class="stats">
-                            <div class="stat"><span>PAC</span><span>${player.pace}</span></div>
-                            <div class="stat"><span>SHO</span><span>${player.shooting}</span></div>
-                            <div class="stat"><span>PAS</span><span>${player.passing}</span></div>
-                            <div class="stat"><span>DRI</span><span>${player.dribbling}</span></div>
-                            <div class="stat"><span>DEF</span><span>${player.defending}</span></div>
-                            <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
-                        </div>
-                        <div class="shine"></div>
-                        <div class="flags">
-                            <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
-                            <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
-                        </div>
-                    </div>
-                `;
-            }
-        }
+function createPlayerCardHTML(player) {
+  if (player.position === 'GK') {
+      return `
+          <div class="card-inner">
+              <div class="header" style="position: relative; top:-11px;">
+                  <div class="rating">${player.rating}</div>
+                  <div class="position">${player.position}</div>
+              </div>
+              <div class="player-image" style="position: relative; bottom:-18px;">
+                  <img src="${player.photo}" alt="${player.name}" />
+              </div>
+              <div class="player-name">${player.name}</div>
+              <div class="stats">
+                  <div class="stat"><span>DIV</span><span>${player.diving}</span></div>
+                  <div class="stat"><span>HAN</span><span>${player.handling}</span></div>
+                  <div class="stat"><span>KIC</span><span>${player.kicking}</span></div>
+                  <div class="stat"><span>REF</span><span>${player.reflexes}</span></div>
+                  <div class="stat"><span>SPE</span><span>${player.speed}</span></div>
+                  <div class="stat"><span>POS</span><span>${player.positioning}</span></div>
+              </div>
+              <div class="shine"></div>
+              <div class="flags">
+                  <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
+                  <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
+              </div>
+          </div>
+      `;
+  } else {
+      return `
+          <div class="card-inner">
+              <div class="header" style="position: relative; top:-11px;">
+                  <div class="rating">${player.rating}</div>
+                  <div class="position">${player.position}</div>
+              </div>
+              <div class="player-image" style="position: relative; bottom:-18px;">
+                  <img src="${player.photo}" alt="${player.name}" />
+              </div>
+              <div class="player-name">${player.name}</div>
+              <div class="stats">
+                  <div class="stat"><span>PAC</span><span>${player.pace}</span></div>
+                  <div class="stat"><span>SHO</span><span>${player.shooting}</span></div>
+                  <div class="stat"><span>PAS</span><span>${player.passing}</span></div>
+                  <div class="stat"><span>DRI</span><span>${player.dribbling}</span></div>
+                  <div class="stat"><span>DEF</span><span>${player.defending}</span></div>
+                  <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
+              </div>
+              <div class="shine"></div>
+              <div class="flags">
+                  <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
+                  <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
+              </div>
+          </div>
+      `;
+  }
+}
 
-        function createEmptyCardHTML(position) {
-            return `
-                <div>${position.name}</div>
-                <div>${position.index}</div>
-                <div class="card-inner" style="width:120px; height:120px;">
-                    <div class="header" style="position: relative; top:-11px;">
-                        <div><img id="add-icon" src="https://cdn-icons-png.flaticon.com/512/166/166344.png" alt="Add Icon" />
-                            <div class="add-icon-container">
-                                <span class="add-icon">+</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+function createEmptyCardHTML(position) {
+  return `
+      <div>${position.name}</div>
+      
+      <div class="card-inner" style="width:120px; height:120px;">
+          <div class="header" style="position: relative; top:-11px;">
+              <div><img id="add-icon" src="https://cdn-icons-png.flaticon.com/512/166/166344.png" alt="Add Icon" />
+                  <div class="add-icon-container">
+                      <span class="add-icon">+</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+  `;
+}
 
-        function openModal(position, positionName) {
-            currentPosition = position;
-            modal.style.display = 'block';
-            positionFilter.value = positionName;
-            renderPlayers();
-        }
+function openModal(position, positionName) {
+  currentPosition = position;
+  modal.style.display = 'block';
+  positionFilter.value = positionName;
+  renderPlayers();
+}
 
-        function renderPlayers() {
-            const filteredPlayers = players.filter(player => 
-                player.name.toLowerCase().includes(nameFilter.value.toLowerCase()) &&
-                (positionFilter.value === '' || player.position === positionFilter.value) &&
-                (nationalityFilter.value === '' || player.nationality === nationalityFilter.value) &&
-                player.rating >= parseInt(ratingFilter.value)
-            );
+function renderPlayers() {
+  const filteredPlayers = players.filter(player => 
+      player.name.toLowerCase().includes(nameFilter.value.toLowerCase()) &&
+      (positionFilter.value === '' || player.position === positionFilter.value) &&
+      (nationalityFilter.value === '' || player.nationality === nationalityFilter.value) &&
+      player.rating >= parseInt(ratingFilter.value)
+  );
 
-            playersGrid.innerHTML = '';
-            filteredPlayers.forEach(player => {
-                const playerCard = document.createElement('div');
-                playerCard.className = 'card-inner';
-                playerCard.innerHTML = createPlayerCardHTML(player);
-                playerCard.onclick = () => selectPlayer(player);
-                playersGrid.appendChild(playerCard);
-            });
-        }
+  playersGrid.innerHTML = '';
+  filteredPlayers.forEach(player => {
+      const playerCard = document.createElement('div');
+      playerCard.className = 'card-inner';
+      playerCard.innerHTML = createPlayerCardHTML(player);
+      playerCard.onclick = () => selectPlayer(player);
+      playersGrid.appendChild(playerCard);
+  });
+}
 
-        function selectPlayer(player) {
-            selectedPlayers[currentPosition] = player;
-            modal.style.display = 'none';
-            renderFormation();
-        }
+function selectPlayer(player) {
+  selectedPlayers[currentPosition] = player;
+  modal.style.display = 'none';
+  renderFormation();
+}
 
-        function setupEventListeners() {
-            lineupSelect.onchange = (e) => {
-                selectedFormation = e.target.value;
-                selectedPlayers = Array(11).fill(null);
-                renderFormation();
-            };
+function setupEventListeners() {
+  lineupSelect.onchange = (e) => {
+      selectedFormation = e.target.value;
+      selectedPlayers = Array(11).fill(null);
+      renderFormation();
+  };
 
-            closeBtn.onclick = () => {
-                modal.style.display = 'none';
-            };
+  closeBtn.onclick = () => {
+      modal.style.display = 'none';
+  };
 
-            window.onclick = (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            };
+  window.onclick = (e) => {
+      if (e.target === modal) {
+          modal.style.display = 'none';
+      }
+  };
 
-            nameFilter.oninput = renderPlayers;
-            positionFilter.onchange = renderPlayers;
-            nationalityFilter.onchange = renderPlayers;
-            ratingFilter.oninput = () => {
-                ratingValue.textContent = ratingFilter.value;
-                renderPlayers();
-            };
+  nameFilter.oninput = renderPlayers;
+  positionFilter.onchange = renderPlayers;
+  nationalityFilter.onchange = renderPlayers;
+  ratingFilter.oninput = () => {
+      ratingValue.textContent = ratingFilter.value;
+      renderPlayers();
+  };
 
-            document.getElementById('btn-primary').addEventListener('click', function() {
-                document.getElementById('Formulaire_remplir').style.display = 'block';
-            });
+  document.getElementById('btn-primary').addEventListener('click', function() {
+      document.getElementById('Formulaire_remplir').style.display = 'block';
+  });
 
-            document.getElementById('newPlayerForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const newPlayer = {
-                    id: players.length + 1,
-                    name: document.getElementById('newPlayerName').value,
-                    position: document.getElementById('newPlayerPosition').value,
-                    nationality: document.getElementById('newPlayerNationality').value,
-                    rating: parseInt(document.getElementById('newPlayerRating').value),
-                    photo: document.getElementById('newPlayerPhoto').value,
-                    flag: document.getElementById('newPlayerFlag').value,
-                    logo: document.getElementById('newPlayerLogo').value,
-                    pace: 70,
-                    shooting: 70,
-                    passing: 70,
-                    dribbling: 70,
-                    defending: 70,
-                    physical: 70,
-                    diving: 70,
-                    handling: 70,
-                    kicking: 70,
-                    reflexes: 70,
-                    speed: 70,
-                    positioning: 70
-                };
-                players.push(newPlayer);
-                document.getElementById('Formulaire_remplir').style.display = 'none';
-                document.getElementById('newPlayerForm').reset();
-                populateNationalityFilter();
-                renderPlayers();
-            });
-        }
+  document.getElementById('newPlayerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const newPlayer = {
+          id: players.length + 1,
+          name: document.getElementById('newPlayerName').value,
+          position: document.getElementById('newPlayerPosition').value,
+          nationality: document.getElementById('newPlayerNationality').value,
+          rating: parseInt(document.getElementById('newPlayerRating').value),
+          photo: document.getElementById('newPlayerPhoto').value,
+          flag: document.getElementById('newPlayerFlag').value,
+          logo: document.getElementById('newPlayerLogo').value,
+          pace: 70,
+          shooting: 70,
+          passing: 70,
+          dribbling: 70,
+          defending: 70,
+          physical: 70,
+          diving: 70,
+          handling: 70,
+          kicking: 70,
+          reflexes: 70,
+          speed: 70,
+          positioning: 70
+      };
+      players.push(newPlayer);
+      document.getElementById('Formulaire_remplir').style.display = 'none';
+      document.getElementById('newPlayerForm').reset();
+      populateNationalityFilter();
+      renderPlayers();
+  });
+}
 
-        function populateNationalityFilter() {
-            const nationalities = [...new Set(players.map(p => p.nationality))];
-            nationalityFilter.innerHTML = '<option value="">Nationality</option>';
-            nationalities.forEach(nationality => {
-                const option = document.createElement('option');
-                option.value = nationality;
-                option.textContent = nationality;
-                nationalityFilter.appendChild(option);
-            });
-        }
+function populateNationalityFilter() {
+  const nationalities = [...new Set(players.map(p => p.nationality))];
+  nationalityFilter.innerHTML = '<option value="">Nationality</option>';
+  nationalities.forEach(nationality => {
+      const option = document.createElement('option');
+      option.value = nationality;
+      option.textContent = nationality;
+      nationalityFilter.appendChild(option);
+  });
+}
 
-        function isPositionCompatible(playerPosition, formationPosition) {
-            const compatibilityMap = {
-                'CF': ['CF', 'ST'],
-                'LWF': ['LWF', 'LW', 'LM'],
-                'RWF': ['RWF', 'RW', 'RM'],
-                'LMF': ['LMF', 'LM', 'LW'],
-                'RMF': ['RMF', 'RM', 'RW'],
-                'CMF': ['CMF', 'CM'],
-                'DMF': ['DMF', 'CDM'],
-                'LB': ['LB', 'LWB'],
-                'RB': ['RB', 'RWB'],
-                'CB': ['CB'],
-                'GK': ['GK']
-            };
+function isPositionCompatible(playerPosition, formationPosition) {
+  const compatibilityMap = {
+      'CF': ['CF', 'ST'],
+      'LWF': ['LWF', 'LW', 'LM'],
+      'RWF': ['RWF', 'RW', 'RM'],
+      'LMF': ['LMF', 'LM', 'LW'],
+      'RMF': ['RMF', 'RM', 'RW'],
+      'CMF': ['CMF', 'CM'],
+      'DMF': ['DMF', 'CDM'],
+      'LB': ['LB', 'LWB'],
+      'RB': ['RB', 'RWB'],
+      'CB': ['CB'],
+      'GK': ['GK']
+  };
 
-            return compatibilityMap[formationPosition].includes(playerPosition);
-        }
+  return compatibilityMap[formationPosition].includes(playerPosition);
+}
+// Formulaire ca depend le seletion GK || ou pas 
+document.getElementById('newPlayerPosition').addEventListener('change', function() {
+  var selectedPosition = this.value;
+  
+  // Hide all position-specific fields
+  var positionFields = document.querySelectorAll('.position-specific');
+  positionFields.forEach(function(field) {
+      field.style.display = 'none';
+  });
+
+  // Show the corresponding position-specific fields
+  if (selectedPosition) {
+      var fieldsToShow = document.getElementById(selectedPosition + 'Fields');
+      if (fieldsToShow) {
+          fieldsToShow.style.display = 'block';
+      }
+  }
+});
     </script>
 </body>
 </html>

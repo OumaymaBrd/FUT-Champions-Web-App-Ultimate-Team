@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PESMASTER Formation Builder</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            float: left;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .formation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .card {
+            width: 120px;
+            height: 180px;
+            margin: 0 10px;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            background-color: #f9f9f9;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        #Formulaire_remplir {
+            display: none;
+        }
+        .position-specific {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter formation name">
+        </div>
+        <div>
+            <label for="lineup">Lineup:</label>
+            <select id="lineup">
+                <option value="4-4-2">4-4-2</option>
+                <option value="4-3-3">4-3-3</option>
+                <option value="3-5-2">3-5-2</option>
+            </select>
+        </div>
+        <button class="btn-primary" id="btn-primary">Create new</button>
+    </div>
+
+    <div class="main-content">
+        <div class="header hidden fixed bottom-0 left-0 w-full px-4 py-2 bg-black text-white">
+            <div class="logo flex items-center justify-between">
+                ROYAL STRIKERS
+                <img src="assets/images/logo.webp" alt="ROYAL STRIKERS" width="100px">
+            </div>
+        </div>
+        
+        <div class="formation" id="formation"></div>
+    </div>
+    
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Select Player</h2>
+            <div class="modal-filters">
+                <input type="text" id="nameFilter" placeholder="Name">
+                <select id="positionFilter">
+                    <option value="">Position</option>
+                    <option value="CF">CF</option>
+                    <option value="LWF">LWF</option>
+                    <option value="RWF">RWF</option>
+                    <option value="GK">GK</option> 
+                    <option value="CB">CB</option>
+                    <option value="LB">LB</option> 
+                    <option value="CM">CM</option> 
+                    <option value="RB">RB</option> 
+                    <option value="LW">LW</option>
+                    <option value="RW">RW</option>
+                    <option value="ST">ST</option>
+                </select>
+                <select id="nationalityFilter">
+                    <option value="">Nationality</option>
+                </select>
+                <input type="range" id="ratingFilter" min="40" max="99" value="70">
+                <span id="ratingValue">70</span>
+            </div>
+            <div class="players-grid" id="playersGrid"></div>
+        </div>
+    </div>
+ 
+    <div class="modal-content" id="Formulaire_remplir">
+        <h2>Create New Player</h2>
+        <form id="newPlayerForm" enctype="multipart/form-data">
+            <label for="newPlayerName">Nom Player: </label>
+            <input type="text" id="newPlayerName" placeholder="Name" required>
+    
+            <label for="newPlayerPosition">Position: </label>
+            <select id="newPlayerPosition" required>
+                <option value="" hidden>Position</option>
+                <option value="CF">CF</option>
+                <option value="LWF">LWF</option>
+                <option value="RWF">RWF</option>
+                <option value="GK">GK</option>
+                <option value="CB">CB</option>
+                <option value="LB">LB</option>
+                <option value="CM">CM</option>
+                <option value="RB">RB</option>
+                <option value="LW">LW</option>
+                <option value="RW">RW</option>
+                <option value="ST">ST</option>
+            </select>
+    
+            <label for="newPlayerNationality">Nationalite: </label>
+            <input type="text" id="newPlayerNationality" placeholder="Nationality" required>
+    
+            <label for="newPlayerRating">Rating: </label>
+            <input type="number" id="newPlayerRating" placeholder="Rating" min="40" max="99" required>
+    
+            <label for="newPlayerPhoto">Photo: </label>
+            <input type="file" id="newPlayerPhoto" accept="image/*" required>
+    
+            <label for="newPlayerFlag">Flag: </label>
+            <input type="file" id="newPlayerFlag" accept="image/*" required>
+    
+            <label for="newPlayerLogo">Logo: </label>
+            <input type="file" id="newPlayerLogo" accept="image/*" required>
+    
+            <div id="GKFields" class="position-specific">
+                <label for="newPlayerDiving">Diving: </label>
+                <input type="number" id="newPlayerDiving" min="1" max="99">
+                <label for="newPlayerHandling">Handling: </label>
+                <input type="number" id="newPlayerHandling" min="1" max="99">
+                <label for="newPlayerKicking">Kicking: </label>
+                <input type="number" id="newPlayerKicking" min="1" max="99">
+                <label for="newPlayerReflexes">Reflexes: </label>
+                <input type="number" id="newPlayerReflexes" min="1" max="99">
+                <label for="newPlayerSpeed">Speed: </label>
+                <input type="number" id="newPlayerSpeed" min="1" max="99">
+                <label for="newPlayerPositioning">Positioning: </label>
+                <input type="number" id="newPlayerPositioning" min="1" max="99">
+            </div>
+    
+            <div id="OtherFields" class="position-specific">
+                <label for="newPlayerPace">Pace: </label>
+                <input type="number" id="newPlayerPace" min="1" max="99">
+                <label for="newPlayerShooting">Shooting: </label>
+                <input type="number" id="newPlayerShooting" min="1" max="99">
+                <label for="newPlayerPassing">Passing: </label>
+                <input type="number" id="newPlayerPassing" min="1" max="99">
+                <label for="newPlayerDribbling">Dribbling: </label>
+                <input type="number" id="newPlayerDribbling" min="1" max="99">
+                <label for="newPlayerDefending">Defending: </label>
+                <input type="number" id="newPlayerDefending" min="1" max="99">
+                <label for="newPlayerPhysical">Physical: </label>
+                <input type="number" id="newPlayerPhysical" min="1" max="99">
+            </div>
+    
+            <button type="submit">Create Player</button>
+        </form>
+    </div>
+    
+    <script>
+    const formations = {
+        '4-4-2': [
+            [{name: 'ST', index: 0}, {name: 'ST', index: 1}],
+            [{name: 'LM', index: 2}, {name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'RM', index: 5}],
+            [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
+            [{name: 'GK', index: 10}]
+        ],
+        '4-3-3': [
+            [{name: 'LW', index: 0}, {name: 'ST', index: 1}, {name: 'RW', index: 2}],
+            [{name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'CM', index: 5}],
+            [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
+            [{name: 'GK', index: 10}]
+        ],
+        '3-5-2': [
+            [{name: 'CF', index: 0}, {name: 'CF', index: 1}],
+            [{name: 'LMF', index: 2}, {name: 'CMF', index: 3}, {name: 'DMF', index: 4}, {name: 'CMF', index: 5}, {name: 'RMF', index: 6}],
+            [{name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'CB', index: 9}],
+            [{name: 'GK', index: 10}]
+        ]
+    };
+
+    let selectedFormation = '4-4-2';
+    let selectedPlayers = Array(11).fill(null);
+    let currentPosition = null;
+    let players = [];
+
+    const formationElement = document.getElementById('formation');
+    const lineupSelect = document.getElementById('lineup');
+    const modal = document.getElementById('playerModal');
+    const closeBtn = document.getElementsByClassName('close')[0];
+    const playersGrid = document.getElementById('playersGrid');
+    const nameFilter = document.getElementById('nameFilter');
+    const positionFilter = document.getElementById('positionFilter');
+    const nationalityFilter = document.getElementById('nationalityFilter');
+    const ratingFilter = document.getElementById('ratingFilter');
+    const ratingValue = document.getElementById('ratingValue');
+    const newPlayerForm = document.getElementById('newPlayerForm');
+    const newPlayerPosition = document.getElementById('newPlayerPosition');
+
+    function initializeApp() {
+        loadPlayersFromLocalStorage();
+        renderFormation();
+        setupEventListeners();
+        populateNationalityFilter();
+        renderPlayers();
+        console.log('App initialized with', players.length, 'players');
+    }
+
+    function renderFormation() {
+        formationElement.innerHTML = '';
+        formations[selectedFormation].forEach(row => {
+            const rowElement = document.createElement('div');
+            rowElement.className = 'row';
+            row.forEach(position => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openModal(position.index, position.name);
+                if (selectedPlayers[position.index]) {
+                    const player = selectedPlayers[position.index];
+                    card.innerHTML = createPlayerCardHTML(player);
+                } else {
+                    card.innerHTML = createEmptyCardHTML(position);
+                }
+                rowElement.appendChild(card);
+            });
+            formationElement.appendChild(rowElement);
+        });
+    }
+
+    function createPlayerCardHTML(player) {
+        const commonHTML = `
+            <div class="card-inner">
+                <div class="header" style="position: relative; top:-11px;">
+                    <div class="rating">${player.rating}</div>
+                    <div class="position">${player.position}</div>
+                </div>
+                <div class="player-image" style="position: relative; bottom:-18px;">
+                    <img src="${player.photo}" alt="${player.name}" style="width:100px; height:100px;" />
+                </div>
+                <div class="player-name">${player.name}</div>
+        `;
+
+        let statsHTML = '';
+        if (player.position === 'GK') {
+            statsHTML = `
+                <div class="stats">
+                    <div class="stat"><span>DIV</span><span>${player.diving}</span></div>
+                    <div class="stat"><span>HAN</span><span>${player.handling}</span></div>
+                    <div class="stat"><span>KIC</span><span>${player.kicking}</span></div>
+                    <div class="stat"><span>SPE</span><span>${player.speed}</<span>POS</span><span>${player.positioning}</span></div>
+                </div>
+            `;
+        } else {
+            statsHTML = `
+                <div class="stats">
+                    <div class="stat"><span>PAC</span><span>${player.pace}</<span>SHO</span><span>${player.shooting}</<span>PAS</span><span>${player.passing}</<span>DRI</span><span>${player.dribbling}</<span>DEF</span><span>${player.defending}</<span>PHY</span><span>${player.physical}</span></div>
+                </div>
+            `;
+        }
+
+        const flagsHTML = `
+            <div class="shine"></div>
+            <div class="flags">
+                <img src="${player.flag}" class="flag" style="position:relative; bottom:-15px; width:40px;" />
+                <img src="${player.logo}" alt="Logo player" class="flag" style="position:relative; width:40px;" />
+            </div>
+        </div>
+        `;
+
+        return commonHTML + statsHTML + flagsHTML;
+    }
+
+    function createEmptyCardHTML(position) {
+        return `
+            <div>${position.name}</div>
+            <div class="card-inner" style="width:120px; height:120px;">
+                <div class="header" style="position: relative; top:-11px;">
+                    <div><img id="add-icon" src="https://cdn-icons-png.flaticon.com/512/166/166344.png" alt="Add Icon" />
+                        <div class="add-icon-container">
+                            <span class="add-icon">+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function openModal(position, positionName) {
+        currentPosition = position;
+        modal.style.display = 'block';
+        positionFilter.value = positionName;
+        renderPlayers();
+    }
+
+    function renderPlayers() {
+        console.log('Rendering players. Total players:', players.length);
+        const filteredPlayers = players.filter(player => 
+            player.name.toLowerCase().includes(nameFilter.value.toLowerCase()) &&
+            (positionFilter.value === '' || isPositionCompatible(player.position, positionFilter.value)) &&
+            (nationalityFilter.value === '' || player.nationality === nationalityFilter.value) &&
+            player.rating >= parseInt(ratingFilter.value)
+        );
+
+        playersGrid.innerHTML = '';
+        filteredPlayers.forEach(player => {
+            const playerCard = document.createElement('div');
+            playerCard.className = 'card';
+            playerCard.innerHTML = createPlayerCardHTML(player);
+            playerCard.onclick = () => selectPlayer(player);
+            playersGrid.appendChild(playerCard);
+        });
+        console.log('Filtered players:', filteredPlayers.length);
+    }
+
+    function selectPlayer(player) {
+        selectedPlayers[currentPosition] = player;
+        modal.style.display = 'none';
+        renderFormation();
+    }
+
+    function setupEventListeners() {
+        lineupSelect.onchange = (e) => {
+            selectedFormation = e.target.value;
+            selectedPlayers = Array(11).fill(null);
+            renderFormation();
+        };
+
+        closeBtn.onclick = () => {
+            modal.style.display = 'none';
+        };
+
+        window.onclick = (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        nameFilter.oninput = renderPlayers;
+        positionFilter.onchange = renderPlayers;
+        nationalityFilter.onchange = renderPlayers;
+        ratingFilter.oninput = () => {
+            ratingValue.textContent = ratingFilter.value;
+            renderPlayers();
+        };
+
+        document.getElementById('btn-primary').addEventListener('click', function() {
+            document.getElementById('Formulaire_remplir').style.display = 'block';
+        });
+
+        newPlayerForm.addEventListener('submit', handleNewPlayerSubmit);
+        newPlayerPosition.addEventListener('change', handlePositionChange);
+    }
+
+    async function handleNewPlayerSubmit(e) {
+        e.preventDefault();
+        const position = newPlayerPosition.value;
+        const newPlayer = {
+            id: Date.now(),
+            name: document.getElementById('newPlayerName').value,
+            position: position,
+            nationality: document.getElementById('newPlayerNationality').value,
+            rating: parseInt(document.getElementById('newPlayerRating').value),
+            photo: await uploadFile(document.getElementById('newPlayerPhoto').files[0], 'photo'),
+            flag: await uploadFile(document.getElementById('newPlayerFlag').files[0], 'flag'),
+            logo: await uploadFile(document.getElementById('newPlayerLogo').files[0], 'logo'),
+        };
+
+        if (position === 'GK') {
+            newPlayer.diving = parseInt(document.getElementById('newPlayerDiving').value);
+            newPlayer.handling = parseInt(document.getElementById('newPlayerHandling').value);
+            newPlayer.kicking = parseInt(document.getElementById('newPlayerKicking').value);
+            newPlayer.reflexes = parseInt(document.getElementById('newPlayerReflexes').value);
+            newPlayer.speed = parseInt(document.getElementById('newPlayerSpeed').value);
+            newPlayer.positioning = parseInt(document.getElementById('newPlayerPositioning').value);
+        } else {
+            newPlayer.pace = parseInt(document.getElementById('newPlayerPace').value);
+            newPlayer.shooting = parseInt(document.getElementById('newPlayerShooting').value);
+            newPlayer.passing = parseInt(document.getElementById('newPlayerPassing').value);
+            newPlayer.dribbling = parseInt(document.getElementById('newPlayerDribbling').value);
+            newPlayer.defending = parseInt(document.getElementById('newPlayerDefending').value);
+            newPlayer.physical = parseInt(document.getElementById('newPlayerPhysical').value);
+        }
+
+        players.push(newPlayer);
+        savePlayersToLocalStorage();
+        document.getElementById('Formulaire_remplir').style.display = 'none';
+        newPlayerForm.reset();
+        populateNationalityFilter();
+        renderPlayers();
+        console.log('New player added:', newPlayer);
+        alert(`Player ${newPlayer.name} has been successfully created and saved!`);
+    }
+
+    function handlePositionChange() {
+        const selectedPosition = this.value;
+        document.getElementById('GKFields').style.display = selectedPosition === 'GK' ? 'block' : 'none';
+        document.getElementById('OtherFields').style.display = selectedPosition !== 'GK' ? 'block' : 'none';
+    }
+
+    function populateNationalityFilter() {
+        const nationalities = [...new Set(players.map(p => p.nationality))];
+        nationalityFilter.innerHTML = '<option value="">Nationality</option>';
+        nationalities.forEach(nationality => {
+            const option = document.createElement('option');
+            option.value = nationality;
+            option.textContent = nationality;
+            nationalityFilter.appendChild(option);
+        });
+    }
+
+    function savePlayersToLocalStorage() {
+        localStorage.setItem('players', JSON.stringify(players));
+        console.log('Players saved to localStorage. Total players:', players.length);
+    }
+
+    function loadPlayersFromLocalStorage() {
+        const storedPlayers = localStorage.getItem('players');
+        if (storedPlayers) {
+            players = JSON.parse(storedPlayers);
+            console.log('Players loaded from localStorage. Total players:', players.length);
+        } else {
+            console.log('No players in localStorage. Loading default data.');
+            fetch('../data/data.json')
+                .then(response => response.json())
+                .then(data => {
+                    players = data.players;
+                    savePlayersToLocalStorage();
+                    renderPlayers();
+                    console.log('Default data loaded. Total players:', players.length);
+                })
+                .catch(error => {
+                    console.error('Error loading default data:', error);
+                });
+        }
+    }
+
+    function isPositionCompatible(playerPosition, formationPosition) {
+        const compatibilityMap = {
+            'CF': ['CF', 'ST'],
+            'LWF': ['LWF', 'LW', 'LM'],
+            'RWF': ['RWF', 'RW', 'RM'],
+            'LMF': ['LMF', 'LM', 'LW'],
+            'RMF': ['RMF', 'RM', 'RW'],
+            'CMF': ['CMF', 'CM'],
+            'DMF': ['DMF', 'CDM'],
+            'LB': ['LB', 'LWB'],
+            'RB': ['RB', 'RWB'],
+            'CB': ['CB'],
+            'GK': ['GK']
+        };
+
+        return compatibilityMap[formationPosition].includes(playerPosition);
+    }
+
+    async function uploadFile(file, type) {
+        // Simulating file upload
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                resolve(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Initialize the application
+    initializeApp();
+    </script>
+</body>
+</html>
+

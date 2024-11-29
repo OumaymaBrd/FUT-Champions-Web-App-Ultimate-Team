@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PESMASTER Formation Builder</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter formation name">
+        </div>
+        <div>
+            <label for="lineup">Lineup:</label>
+            <select id="lineup">
+                <option value="4-4-2">4-4-2</option>
+                <option value="4-3-3">4-3-3</option>
+                <option value="3-5-2">3-5-2</option>
+            </select>
+        </div>
+        <button id="btn-primary">Create new</button>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="logo">
+                ROYAL STRIKERS
+                <img src="assets/images/logo.webp" alt="ROYAL STRIKERS" width="100">
+            </div>
+        </div>
+        
+        <div id="formation"></div>
+    </div>
+    
+    <div id="playerModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Select Player</h2>
+            <div class="modal-filters">
+                <input type="text" id="nameFilter" placeholder="Name">
+                <select id="positionFilter">
+                    <option value="">Position</option>
+                    <option value="CF">CF</option>
+                    <option value="LWF">LWF</option>
+                    <option value="RWF">RWF</option>
+                    <option value="GK">GK</option> 
+                    <option value="CB">CB</option>
+                    <option value="LB">LB</option> 
+                    <option value="CM">CM</option> 
+                    <option value="RB">RB</option> 
+                    <option value="LW">LW</option>
+                    <option value="RW">RW</option>
+                    <option value="ST">ST</option>
+                </select>
+                <select id="nationalityFilter">
+                    <option value="">Nationality</option>
+                </select>
+                <input type="range" id="ratingFilter" min="40" max="99" value="70">
+                <span id="ratingValue">70</span>
+            </div>
+            <div id="playersGrid"></div>
+        </div>
+    </div>
+ 
+    <div id="Formulaire_remplir">
+        <h2>Create New Player</h2>
+        <form id="newPlayerForm">
+            <label for="newPlayerName">Nom Player: </label>
+            <input type="text" id="newPlayerName" placeholder="Name" required>
+    
+            <label for="newPlayerPosition">Position: </label>
+            <select id="newPlayerPosition" required>
+                <option value="" hidden>Position</option>
+                <option value="CF">CF</option>
+                <option value="LWF">LWF</option>
+                <option value="RWF">RWF</option>
+                <option value="GK">GK</option>
+                <option value="CB">CB</option>
+                <option value="LB">LB</option>
+                <option value="CM">CM</option>
+                <option value="RB">RB</option>
+                <option value="LW">LW</option>
+                <option value="RW">RW</option>
+                <option value="ST">ST</option>
+            </select>
+    
+            <label for="newPlayerNationality">Nationalite: </label>
+            <select id="newPlayerNationality" required>
+                <option value="">Select Nationality</option>
+                <option value="France">France</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Germany">Germany</option>
+                <option value="Italy">Italy</option>
+                <option value="Spain">Spain</option>
+                <option value="England">England</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Belgium">Belgium</option>
+                <option value="Croatia">Croatia</option>
+                <option value="Uruguay">Uruguay</option>
+            </select>
+    
+            <label for="newPlayerRating">Rating: </label>
+            <input type="number" id="newPlayerRating" placeholder="Rating" min="40" max="99" required>
+    
+            <label for="newPlayerPhoto">Photo URL: </label>
+            <input type="text" id="newPlayerPhoto" placeholder="Photo URL" required>
+    
+            <label for="newPlayerFlag">Flag URL: </label>
+            <input type="text" id="newPlayerFlag" placeholder="Flag URL" required>
+    
+            <label for="newPlayerLogo">Logo URL: </label>
+            <input type="text" id="newPlayerLogo" placeholder="Logo URL" required>
+    
+            <div id="GKFields" class="position-specific">
+                <label for="newPlayerDiving">Diving: </label>
+                <input type="number" id="newPlayerDiving" min="1" max="99">
+                <label for="newPlayerHandling">Handling: </label>
+                <input type="number" id="newPlayerHandling" min="1" max="99">
+                <label for="newPlayerKicking">Kicking: </label>
+                <input type="number" id="newPlayerKicking" min="1" max="99">
+                <label for="newPlayerReflexes">Reflexes: </label>
+                <input type="number" id="newPlayerReflexes" min="1" max="99">
+                <label for="newPlayerSpeed">Speed: </label>
+                <input type="number" id="newPlayerSpeed" min="1" max="99">
+                <label for="newPlayerPositioning">Positioning: </label>
+                <input type="number" id="newPlayerPositioning" min="1" max="99">
+            </div>
+    
+            <div id="OtherFields" class="position-specific">
+                <label for="newPlayerPace">Pace: </label>
+                <input type="number" id="newPlayerPace" min="1" max="99">
+                <label for="newPlayerShooting">Shooting: </label>
+                <input type="number" id="newPlayerShooting" min="1" max="99">
+                <label for="newPlayerPassing">Passing: </label>
+                <input type="number" id="newPlayerPassing" min="1" max="99">
+                <label for="newPlayerDribbling">Dribbling: </label>
+                <input type="number" id="newPlayerDribbling" min="1" max="99">
+                <label for="newPlayerDefending">Defending: </label>
+                <input type="number" id="newPlayerDefending" min="1" max="99">
+                <label for="newPlayerPhysical">Physical: </label>
+                <input type="number" id="newPlayerPhysical" min="1" max="99">
+            </div>
+    
+            <button type="submit">Create Player</button>
+        </form>
+    </div>
+    
+    <script>
+       const formations = {
+    '4-4-2': [
+        [{name: 'ST', index: 0}, {name: 'ST', index: 1}],
+        [{name: 'LM', index: 2}, {name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'RM', index: 5}],
+        [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
+        [{name: 'GK', index: 10}]
+    ],
+    '4-3-3': [
+        [{name: 'LW', index: 0}, {name: 'ST', index: 1}, {name: 'RW', index: 2}],
+        [{name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'CM', index: 5}],
+        [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
+        [{name: 'GK', index: 10}]
+    ],
+    '3-5-2': [
+        [{name: 'CF', index: 0}, {name: 'CF', index: 1}],
+        [{name: 'LMF', index: 2}, {name: 'CMF', index: 3}, {name: 'DMF', index: 4}, {name: 'CMF', index: 5}, {name: 'RMF', index: 6}],
+        [{name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'CB', index: 9}],
+        [{name: 'GK', index: 10}]
+    ]
+};
+
+let selectedFormation = '4-4-2';
+let selectedPlayers = Array(11).fill(null);
+let currentPosition = null;
+let players = [];
+
+const formationElement = document.getElementById('formation');
+const lineupSelect = document.getElementById('lineup');
+const modal = document.getElementById('playerModal');
+const closeBtn = document.getElementsByClassName('close')[0];
+const playersGrid = document.getElementById('playersGrid');
+const nameFilter = document.getElementById('nameFilter');
+const positionFilter = document.getElementById('positionFilter');
+const nationalityFilter = document.getElementById('nationalityFilter');
+const ratingFilter = document.getElementById('ratingFilter');
+const ratingValue = document.getElementById('ratingValue');
+
+// Load players from localStorage or fetch from JSON if not available
+function loadPlayers() {
+    const storedPlayers = localStorage.getItem('players');
+    if (storedPlayers) {
+        players = JSON.parse(storedPlayers);
+        initializeApp();
+    } else {
+        fetch('../data/data.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();  
+            })
+            .then(data => {
+                players = data.players;
+                localStorage.setItem('players', JSON.stringify(players));
+                initializeApp();
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+}
+
+function initializeApp() {
+    renderFormation();
+    setupEventListeners();
+    populateNationalityFilter();
+}
+
+function renderFormation() {
+    formationElement.innerHTML = '';
+    formations[selectedFormation].forEach(row => {
+        const rowElement = document.createElement('div');
+        rowElement.className = 'row';
+        row.forEach(position => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => openModal(position.index, position.name);
+            if (selectedPlayers[position.index]) {
+                const player = selectedPlayers[position.index];
+                card.innerHTML = createPlayerCardHTML(player);
+            } else {
+                card.innerHTML = createEmptyCardHTML(position);
+            }
+            rowElement.appendChild(card);
+        });
+        formationElement.appendChild(rowElement);
+    });
+}
+
+function createPlayerCardHTML(player) {
+    if (player.position === 'GK') {
+        return `
+            <div class="card-inner">
+                <div class="header">
+                    <div class="rating">${player.rating}</div>
+                    <div class="position">${player.position}</div>
+                </div>
+                <div class="player-image">
+                    <img src="${player.photo}" alt="${player.name}" />
+                </div>
+                <div class="player-name">${player.name}</div>
+                <div class="stats">
+                    <div class="stat"><span>DIV</span><span>${player.diving}</span></div>
+                    <div class="stat"><span>HAN</span><span>${player.handling}</span></div>
+                    <div class="stat"><span>KIC</span><span>${player.kicking}</span></div>
+                    <div class="stat"><span>REF</span><span>${player.reflexes}</span></div>
+                    <div class="stat"><span>SPE</span><span>${player.speed}</span></div>
+                    <div class="stat"><span>POS</span><span>${player.positioning}</span></div>
+                </div>
+                <div class="flags">
+                    <img src="${player.flag}" class="flag" alt="Player flag" />
+                    <img src="${player.logo}" alt="Logo player" class="flag" />
+                </div>
+            </div>
+        `;
+    } else {
+        return `
+            <div class="card-inner">
+                <div class="header">
+                    <div class="rating">${player.rating}</div>
+                    <div class="position">${player.position}</div>
+                </div>
+                <div class="player-image">
+                    <img src="${player.photo}" alt="${player.name}" />
+                </div>
+                <div class="player-name">${player.name}</div>
+                <div class="stats">
+                    <div class="stat"><span>PAC</span><span>${player.pace}</span></div>
+                    <div class="stat"><span>SHO</span><span>${player.shooting}</span></div>
+                    <div class="stat"><span>PAS</span><span>${player.passing}</span></div>
+                    <div class="stat"><span>DRI</span><span>${player.dribbling}</span></div>
+                    <div class="stat"><span>DEF</span><span>${player.defending}</span></div>
+                    <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
+                </div>
+                <div class="flags">
+                    <img src="${player.flag}" class="flag" alt="Player flag" />
+                    <img src="${player.logo}" alt="Logo player" class="flag" />
+                </div>
+            </div>
+        `;
+    }
+}
+
+function createEmptyCardHTML(position) {
+    return `
+        <div>${position.name}</div>
+        <div class="card-inner">
+            <div class="header">
+                <div class="add-icon-container">
+                    <span class="add-icon">+</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function openModal(position, positionName) {
+    currentPosition = position;
+    modal.style.display = 'block';
+    positionFilter.value = positionName;
+    renderPlayers();
+}
+
+function renderPlayers() {
+    const filteredPlayers = players.filter(player => 
+        player.name.toLowerCase().includes(nameFilter.value.toLowerCase()) &&
+        (positionFilter.value === '' || player.position === positionFilter.value) &&
+        (nationalityFilter.value === '' || player.nationality === nationalityFilter.value) &&
+        player.rating >= parseInt(ratingFilter.value)
+    );
+
+    playersGrid.innerHTML = '';
+    filteredPlayers.forEach(player => {
+        const playerCard = document.createElement('div');
+        playerCard.className = 'card-inner';
+        playerCard.innerHTML = createPlayerCardHTML(player);
+        playerCard.onclick = () => selectPlayer(player);
+        playersGrid.appendChild(playerCard);
+    });
+}
+
+function selectPlayer(player) {
+    selectedPlayers[currentPosition] = player;
+    modal.style.display = 'none';
+    renderFormation();
+}
+
+function setupEventListeners() {
+    lineupSelect.onchange = (e) => {
+        selectedFormation = e.target.value;
+        selectedPlayers = Array(11).fill(null);
+        renderFormation();
+    };
+
+    closeBtn.onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+    nameFilter.oninput = renderPlayers;
+    positionFilter.onchange = renderPlayers;
+    nationalityFilter.onchange = renderPlayers;
+    ratingFilter.oninput = () => {
+        ratingValue.textContent = ratingFilter.value;
+        renderPlayers();
+    };
+
+    document.getElementById('btn-primary').addEventListener('click', function() {
+        document.getElementById('Formulaire_remplir').style.display = 'block';
+    });
+
+    document.getElementById('newPlayerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newPlayer = {
+            id: players.length + 1,
+            name: document.getElementById('newPlayerName').value,
+            position: document.getElementById('newPlayerPosition').value,
+            nationality: document.getElementById('newPlayerNationality').value,
+            rating: parseInt(document.getElementById('newPlayerRating').value),
+            photo: document.getElementById('newPlayerPhoto').value,
+            flag: document.getElementById('newPlayerFlag').value,
+            logo: document.getElementById('newPlayerLogo').value,
+        };
+
+        if (newPlayer.position === 'GK') {
+            newPlayer.diving = parseInt(document.getElementById('newPlayerDiving').value);
+            newPlayer.handling = parseInt(document.getElementById('newPlayerHandling').value);
+            newPlayer.kicking = parseInt(document.getElementById('newPlayerKicking').value);
+            newPlayer.reflexes = parseInt(document.getElementById('newPlayerReflexes').value);
+            newPlayer.speed = parseInt(document.getElementById('newPlayerSpeed').value);
+            newPlayer.positioning = parseInt(document.getElementById('newPlayerPositioning').value);
+        } else {
+            newPlayer.pace = parseInt(document.getElementById('newPlayerPace').value);
+            newPlayer.shooting = parseInt(document.getElementById('newPlayerShooting').value);
+            newPlayer.passing = parseInt(document.getElementById('newPlayerPassing').value);
+            newPlayer.dribbling = parseInt(document.getElementById('newPlayerDribbling').value);
+            newPlayer.defending = parseInt(document.getElementById('newPlayerDefending').value);
+            newPlayer.physical = parseInt(document.getElementById('newPlayerPhysical').value);
+        }
+
+        players.push(newPlayer);
+        localStorage.setItem('players', JSON.stringify(players));
+        document.getElementById('Formulaire_remplir').style.display = 'none';
+        document.getElementById('newPlayerForm').reset();
+        populateNationalityFilter();
+        renderPlayers();
+    });
+}
+
+function populateNationalityFilter() {
+    const nationalities = [...new Set(players.map(p => p.nationality))];
+    nationalityFilter.innerHTML = '<option value="">Nationality</option>';
+    nationalities.forEach(nationality => {
+        const option = document.createElement('option');
+        option.value = nationality;
+        option.textContent = nationality;
+        nationalityFilter.appendChild(option);
+    });
+}
+
+function isPositionCompatible(playerPosition, formationPosition) {
+    const compatibilityMap = {
+        'CF': ['CF', 'ST'],
+        'LWF': ['LWF', 'LW', 'LM'],
+        'RWF': ['RWF', 'RW', 'RM'],
+        'LMF': ['LMF', 'LM', 'LW'],
+        'RMF': ['RMF', 'RM', 'RW'],
+        'CMF': ['CMF', 'CM'],
+        'DMF': ['DMF', 'CDM'],
+        'LB': ['LB', 'LWB'],
+        'RB': ['RB', 'RWB'],
+        'CB': ['CB'],
+        'GK': ['GK']
+    };
+
+    return compatibilityMap[formationPosition].includes(playerPosition);
+}
+
+document.getElementById('newPlayerPosition').addEventListener('change', function() {
+    var selectedPosition = this.value;
+    
+    var positionFields = document.querySelectorAll('.position-specific');
+    positionFields.forEach(function(field) {
+        field.style.display = 'none';
+    });
+
+    if (selectedPosition === 'GK') {
+        document.getElementById('GKFields').style.display = 'block';
+    } else {
+        document.getElementById('OtherFields').style.display = 'block';
+    }
+});
+
+// Initialize the application
+loadPlayers();
+    </script>
+</body>
+</html>

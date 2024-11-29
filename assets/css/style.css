@@ -341,56 +341,64 @@ body {
     }
   }
   
-  
-/*  */
-/* card.innerHTML = `
-<div class="card-inner">
-<div class="header" style="position: relative; top:-11px;">
-<div class="rating">${player.rating}</div>
-<div class="position">${player.position}</div>
-</div>
-<div class="player-image" style="position: relative; bottom:-18px;">
-<img src="${player.photo}" alt="Mbappé" >
-</div>
-<div class="player-name" >${player.name}</div>
-<div class="stats">
-<div class="stat">
-<span>DIV</span>
-<span>${player.diving}</span>
-</div>
-<div class="stat">
-<span>HANd</span>
-<span>${player.handling}</span>
-</div>
-<div class="stat">
-<span>HIC</span>
-<span>${player.kicking}</span>
-</div>
-<div class="stat">
-<span>DRI</span>
-<span>${player.reflexes}</span>
-</div>
-<div class="stat">
-<span>SPE</span>
-<span>${player.speed}</span>
-</div>
-<div class="stat">
-<span>SPEE</span>
-<span>${player.speed}</span>
-</div>
-</div>
-<div class="shine"></div>
-<div class="flags" >
-<img src="${player.flag}" class="flag" id="flag" style="position:relative; bottom:-15px; width:40px;">
-<img src="${player.logo}" alt="Logo player du foot " id="logo" class="flag" style="position:relative; width:40px;">
-</div>
-</div>
-`;
- */
+ /* styy */
+ /* General styling for the form */
+#Formulaire_remplir {
+    width: 100%;
+    /* max-width: 500px; */
+    margin: 0 auto;
+    padding: 20px;
+    /* background-color: #f4f4f4; */
+    /* border-radius: 8px; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
 
+#newPlayerForm label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
 
+#newPlayerForm input, #newPlayerForm select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
 
+#newPlayerForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
 
+#newPlayerForm button:hover {
+    background-color: #0056b3;
+}
 
+/* Position-Specific Fields */
+.position-specific {
+    display: none;
+}
 
+/* Responsive Styles */
+@media (max-width: 768px) {
+    #Formulaire_remplir {
+        padding: 15px;
+    }
 
+    #newPlayerForm input, #newPlayerForm select {
+        font-size: 14px;
+    }
+
+    #newPlayerForm button {
+        font-size: 14px;
+    }
+}
