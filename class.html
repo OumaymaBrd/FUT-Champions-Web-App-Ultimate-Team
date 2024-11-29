@@ -5,6 +5,180 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PESMASTER Formation Builder</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .formation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .card {
+            width: 120px;
+            height: 180px;
+            margin: 0 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .player-image img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .header, .stats, .flags {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .player-name {
+            text-align: center;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .add-icon-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+        }
+        .stored-cards {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 10px;
+        }
+        .stored-cards h2 {
+            margin-bottom: 15px;
+        }
+        .card-actions {
+            display: none;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            padding: 2px;
+        }
+        .card:hover .card-actions {
+            display: flex;
+        }
+        .card-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 0 2px;
+            padding: 2px 5px;
+            font-size: 12px;
+        }
+        .card-actions button:hover {
+            background-color: #f0f0f0;
+        }
+        .change-player-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 2;
+        }
+        .replacement-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: none;
+            z-index: 1;
+        }
+        .card:hover .replacement-card {
+            display: flex;
+        }
+    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -20,21 +194,26 @@
                 <option value="3-5-2">3-5-2</option>
             </select>
         </div>
-        <button id="btn-primary">Create new</button>
+        <button class="btn-primary" id="btn-primary">Create new</button>
     </div>
 
     <div class="main-content">
-        <div class="header">
+        <div class="header hidden">
             <div class="logo">
                 ROYAL STRIKERS
-                <img src="assets/images/logo.webp" alt="ROYAL STRIKERS" width="100">
+                <img src="assets/images/logo.webp" alt="ROYAL STRIKERS" width="100px">
             </div>
         </div>
         
-        <div id="formation"></div>
+        <div class="formation" id="formation"></div>
+
+        <div class="stored-cards">
+            <h2>Stored Players</h2>
+            <div id="storedPlayersGrid" class="players-grid"></div>
+        </div>
     </div>
     
-    <div id="playerModal">
+    <div id="playerModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Select Player</h2>
@@ -60,396 +239,713 @@
                 <input type="range" id="ratingFilter" min="40" max="99" value="70">
                 <span id="ratingValue">70</span>
             </div>
-            <div id="playersGrid"></div>
+            <div class="players-grid" id="playersGrid"></div>
         </div>
     </div>
- 
-    <div id="Formulaire_remplir">
-        <h2>Create New Player</h2>
-        <form id="newPlayerForm">
-            <label for="newPlayerName">Nom Player: </label>
-            <input type="text" id="newPlayerName" placeholder="Name" required>
-    
-            <label for="newPlayerPosition">Position: </label>
-            <select id="newPlayerPosition" required>
-                <option value="" hidden>Position</option>
-                <option value="CF">CF</option>
-                <option value="LWF">LWF</option>
-                <option value="RWF">RWF</option>
-                <option value="GK">GK</option>
-                <option value="CB">CB</option>
-                <option value="LB">LB</option>
-                <option value="CM">CM</option>
-                <option value="RB">RB</option>
-                <option value="LW">LW</option>
-                <option value="RW">RW</option>
-                <option value="ST">ST</option>
-            </select>
-    
-            <label for="newPlayerNationality">Nationalite: </label>
-            <select id="newPlayerNationality" required>
-                <option value="">Select Nationality</option>
-                <option value="France">France</option>
-                <option value="Brazil">Brazil</option>
-                <option value="Germany">Germany</option>
-                <option value="Italy">Italy</option>
-                <option value="Spain">Spain</option>
-                <option value="England">England</option>
-                <option value="Argentina">Argentina</option>
-                <option value="Netherlands">Netherlands</option>
-                <option value="Portugal">Portugal</option>
-                <option value="Belgium">Belgium</option>
-                <option value="Croatia">Croatia</option>
-                <option value="Uruguay">Uruguay</option>
-            </select>
-    
-            <label for="newPlayerRating">Rating: </label>
-            <input type="number" id="newPlayerRating" placeholder="Rating" min="40" max="99" required>
-    
-            <label for="newPlayerPhoto">Photo URL: </label>
-            <input type="text" id="newPlayerPhoto" placeholder="Photo URL" required>
-    
-            <label for="newPlayerFlag">Flag URL: </label>
-            <input type="text" id="newPlayerFlag" placeholder="Flag URL" required>
-    
-            <label for="newPlayerLogo">Logo URL: </label>
-            <input type="text" id="newPlayerLogo" placeholder="Logo URL" required>
-    
-            <div id="GKFields" class="position-specific">
-                <label for="newPlayerDiving">Diving: </label>
-                <input type="number" id="newPlayerDiving" min="1" max="99">
-                <label for="newPlayerHandling">Handling: </label>
-                <input type="number" id="newPlayerHandling" min="1" max="99">
-                <label for="newPlayerKicking">Kicking: </label>
-                <input type="number" id="newPlayerKicking" min="1" max="99">
-                <label for="newPlayerReflexes">Reflexes: </label>
-                <input type="number" id="newPlayerReflexes" min="1" max="99">
-                <label for="newPlayerSpeed">Speed: </label>
-                <input type="number" id="newPlayerSpeed" min="1" max="99">
-                <label for="newPlayerPositioning">Positioning: </label>
-                <input type="number" id="newPlayerPositioning" min="1" max="99">
-            </div>
-    
-            <div id="OtherFields" class="position-specific">
-                <label for="newPlayerPace">Pace: </label>
-                <input type="number" id="newPlayerPace" min="1" max="99">
-                <label for="newPlayerShooting">Shooting: </label>
-                <input type="number" id="newPlayerShooting" min="1" max="99">
-                <label for="newPlayerPassing">Passing: </label>
-                <input type="number" id="newPlayerPassing" min="1" max="99">
-                <label for="newPlayerDribbling">Dribbling: </label>
-                <input type="number" id="newPlayerDribbling" min="1" max="99">
-                <label for="newPlayerDefending">Defending: </label>
-                <input type="number" id="newPlayerDefending" min="1" max="99">
-                <label for="newPlayerPhysical">Physical: </label>
-                <input type="number" id="newPlayerPhysical" min="1" max="99">
-            </div>
-    
-            <button type="submit">Create Player</button>
-        </form>
+
+    <div id="Formulaire_remplir" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Player</h2>
+            <form id="newPlayerForm">
+                <label for="newPlayerName">Nom Player: </label>
+                <input type="text" id="newPlayerName" placeholder="Name" required>
+        
+                <label for="newPlayerPosition">Position: </label>
+                <select id="newPlayerPosition" required>
+                    <option value="" hidden>Position</option>
+                    <option value="CF">CF</option>
+                    <option value="LWF">LWF</option>
+                    <option value="RWF">RWF</option>
+                    <option value="GK">GK</option>
+                    <option value="CB">CB</option>
+                    <option value="LB">LB</option>
+                    <option value="CM">CM</option>
+                    <option value="RB">RB</option>
+                    <option value="LW">LW</option>
+                    <option value="RW">RW</option>
+                    <option value="ST">ST</option>
+                </select>
+        
+                <label for="newPlayerNationality">Nationalite: </label>
+                <input type="text" id="newPlayerNationality" placeholder="Nationality" required>
+        
+                <label for="newPlayerRating">Rating: </label>
+                <input type="number" id="newPlayerRating" placeholder="Rating" min="40" max="99" required>
+        
+                <label for="newPlayerPhoto">Photo URL: </label>
+                <input type="url" id="newPlayerPhoto" placeholder="https://example.com/photo.jpg" required>
+        
+                <label for="newPlayerFlag">Flag URL: </label>
+                <input type="url" id="newPlayerFlag" placeholder="https://example.com/flag.jpg" required>
+        
+                <label for="newPlayerLogo">Logo URL: </label>
+                <input type="url" id="newPlayerLogo" placeholder="https://example.com/logo.jpg" required>
+        
+                <div id="GKFields" class="position-specific hidden">
+                    <label for="newPlayerDiving">Diving: </label>
+                    <input type="number" id="newPlayerDiving" min="1" max="99">
+                    <label for="newPlayerHandling">Handling: </label>
+                    <input type="number" id="newPlayerHandling" min="1" max="99">
+                    <label for="newPlayerKicking">Kicking: </label>
+                    <input type="number" id="newPlayerKicking" min="1" max="99">
+                    <label for="newPlayerReflexes">Reflexes: </label>
+                    <input type="number" id="newPlayerReflexes" min="1" max="99">
+                    <label for="newPlayerSpeed">Speed: </label>
+                    <input type="number" id="newPlayerSpeed" min="1" max="99">
+                    <label for="newPlayerPositioning">Positioning: </label>
+                    <input type="number" id="newPlayerPositioning" min="1" max="99">
+                </div>
+        
+                <div id="OtherFields" class="position-specific hidden">
+                    <label for="newPlayerPace">Pace: </label>
+                    <input type="number" id="newPlayerPace" min="1" max="99">
+                    <label for="newPlayerShooting">Shooting: </label>
+                    <input type="number" id="newPlayerShooting" min="1" max="99">
+                    <label for="newPlayerPassing">Passing: </label>
+                    <input type="number" id="newPlayerPassing" min="1" max="99">
+                    <label for="newPlayerDribbling">Dribbling: </label>
+                    <input type="number" id="newPlayerDribbling" min="1" max="99">
+                    <label for="newPlayerDefending">Defending: </label>
+                    <input type="number" id="newPlayerDefending" min="1" max="99">
+                    <label for="newPlayerPhysical">Physical: </label>
+                    <input type="number" id="newPlayerPhysical" min="1" max="99">
+                </div>
+        
+                <button type="submit">Create Player</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="editPlayerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Player</h2>
+            <form id="editPlayerForm">
+                <input type="hidden" id="editPlayerId">
+                <label for="editPlayerName">Nom Player: </label>
+                <input type="text" id="editPlayerName" placeholder="Name" required>
+        
+                <label for="editPlayerPosition">Position: </label>
+                <select id="editPlayerPosition" required>
+                    <option value="CF">CF</option>
+                    <option value="LWF">LWF</option>
+                    <option value="RWF">RWF</option>
+                    <option value="GK">GK</option>
+                    <option value="CB">CB</option>
+                    <option value="LB">LB</option>
+                    <option value="CM">CM</option>
+                    <option value="RB">RB</option>
+                    <option value="LW">LW</option>
+                    <option value="RW">RW</option>
+                    <option value="ST">ST</option>
+                </select>
+        
+                <label for="editPlayerNationality">Nationalite: </label>
+                <input type="text" id="editPlayerNationality" placeholder="Nationality" required>
+        
+                <label for="editPlayerRating">Rating: </label>
+                <input type="number" id="editPlayerRating" placeholder="Rating" min="40" max="99" required>
+        
+                <label for="editPlayerPhoto">Photo URL: </label>
+                <input type="url" id="editPlayerPhoto" placeholder="https://example.com/photo.jpg" required>
+        
+                <label for="editPlayerFlag">Flag URL: </label>
+                <input type="url" id="editPlayerFlag" placeholder="https://example.com/flag.jpg" required>
+        
+                <label for="editPlayerLogo">Logo URL: </label>
+                <input type="url" id="editPlayerLogo" placeholder="https://example.com/logo.jpg" required>
+        
+                <div id="editGKFields" class="position-specific hidden">
+                    <label for="editPlayerDiving">Diving: </label>
+                    <input type="number" id="editPlayerDiving" min="1" max="99">
+                    <label for="editPlayerHandling">Handling: </label>
+                    <input type="number" id="editPlayerHandling" min="1" max="99">
+                    <label for="editPlayerKicking">Kicking: </label>
+                    <input type="number" id="editPlayerKicking" min="1" max="99">
+                    <label for="editPlayerReflexes">Reflexes: </label>
+                    <input type="number" id="editPlayerReflexes" min="1" max="99">
+                    <label for="editPlayerSpeed">Speed: </label>
+                    <input type="number" id="editPlayerSpeed" min="1" max="99">
+                    <label for="editPlayerPositioning">Positioning: </label>
+                    <input type="number" id="editPlayerPositioning" min="1" max="99">
+                </div>
+        
+                <div id="editOtherFields" class="position-specific hidden">
+                    <label for="editPlayerPace">Pace: </label>
+                    <input type="number" id="editPlayerPace" min="1" max="99">
+                    <label for="editPlayerShooting">Shooting: </label>
+                    <input type="number" id="editPlayerShooting" min="1" max="99">
+                    <label for="editPlayerPassing">Passing: </label>
+                    <input type="number" id="editPlayerPassing" min="1" max="99">
+                    <label for="editPlayerDribbling">Dribbling: </label>
+                    <input type="number" id="editPlayerDribbling" min="1" max="99">
+                    <label for="editPlayerDefending">Defending: </label>
+                    <input type="number" id="editPlayerDefending" min="1" max="99">
+                    <label for="editPlayerPhysical">Physical: </label>
+                    <input type="number" id="editPlayerPhysical" min="1" max="99">
+                </div>
+        
+                <button type="submit">Update Player</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="changePlayerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Change Player</h2>
+            <div id="changePlayerGrid" class="players-grid"></div>
+        </div>
     </div>
     
     <script>
-       const formations = {
-    '4-4-2': [
-        [{name: 'ST', index: 0}, {name: 'ST', index: 1}],
-        [{name: 'LM', index: 2}, {name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'RM', index: 5}],
-        [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
-        [{name: 'GK', index: 10}]
-    ],
-    '4-3-3': [
-        [{name: 'LW', index: 0}, {name: 'ST', index: 1}, {name: 'RW', index: 2}],
-        [{name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'CM', index: 5}],
-        [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
-        [{name: 'GK', index: 10}]
-    ],
-    '3-5-2': [
-        [{name: 'CF', index: 0}, {name: 'CF', index: 1}],
-        [{name: 'LMF', index: 2}, {name: 'CMF', index: 3}, {name: 'DMF', index: 4}, {name: 'CMF', index: 5}, {name: 'RMF', index: 6}],
-        [{name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'CB', index: 9}],
-        [{name: 'GK', index: 10}]
-    ]
-};
+        const formations = {
+            '4-4-2': [
+                [{name: 'ST', index: 0}, {name: 'ST', index: 1}],
+                [{name: 'LM', index: 2}, {name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'RM', index: 5}],
+                [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
+                [{name: 'GK', index: 10}]
+            ],
+            '4-3-3': [
+                [{name: 'LW', index: 0}, {name: 'ST', index: 1}, {name: 'RW', index: 2}],
+                [{name: 'CM', index: 3}, {name: 'CM', index: 4}, {name: 'CM', index: 5}],
+                [{name: 'LB', index: 6}, {name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'RB', index: 9}],
+                [{name: 'GK', index: 10}]
+            ],
+            '3-5-2': [
+                [{name: 'CF', index: 0}, {name: 'CF', index: 1}],
+                [{name: 'LMF', index: 2}, {name: 'CMF', index: 3}, {name: 'DMF', index: 4}, {name: 'CMF', index: 5}, {name: 'RMF', index: 6}],
+                [{name: 'CB', index: 7}, {name: 'CB', index: 8}, {name: 'CB', index: 9}],
+                [{name: 'GK', index: 10}]
+            ]
+        };
 
-let selectedFormation = '4-4-2';
-let selectedPlayers = Array(11).fill(null);
-let currentPosition = null;
-let players = [];
+        let selectedFormation = '4-4-2';
+        let selectedPlayers = Array(11).fill(null);
+        let currentPosition = null;
+        let players = [];
 
-const formationElement = document.getElementById('formation');
-const lineupSelect = document.getElementById('lineup');
-const modal = document.getElementById('playerModal');
-const closeBtn = document.getElementsByClassName('close')[0];
-const playersGrid = document.getElementById('playersGrid');
-const nameFilter = document.getElementById('nameFilter');
-const positionFilter = document.getElementById('positionFilter');
-const nationalityFilter = document.getElementById('nationalityFilter');
-const ratingFilter = document.getElementById('ratingFilter');
-const ratingValue = document.getElementById('ratingValue');
+        const formationElement = document.getElementById('formation');
+        const lineupSelect = document.getElementById('lineup');
+        const modal = document.getElementById('playerModal');
+        const newPlayerModal = document.getElementById('Formulaire_remplir');
+        const editPlayerModal = document.getElementById('editPlayerModal');
+        const changePlayerModal = document.getElementById('changePlayerModal');
+        const closeBtns = document.getElementsByClassName('close');
+        const playersGrid = document.getElementById('playersGrid');
+        const changePlayerGrid = document.getElementById('changePlayerGrid');
+        const nameFilter = document.getElementById('nameFilter');
+        const positionFilter = document.getElementById('positionFilter');
+        const nationalityFilter = document.getElementById('nationalityFilter');
+        const ratingFilter = document.getElementById('ratingFilter');
+        const ratingValue = document.getElementById('ratingValue');
 
-// Load players from localStorage or fetch from JSON if not available
-function loadPlayers() {
-    const storedPlayers = localStorage.getItem('players');
-    if (storedPlayers) {
-        players = JSON.parse(storedPlayers);
-        initializeApp();
-    } else {
-        fetch('../data/data.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();  
-            })
-            .then(data => {
-                players = data.players;
-                localStorage.setItem('players', JSON.stringify(players));
-                initializeApp();
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
+        function initializeApp() {
+            loadFromLocalStorage();
+            renderFormation();
+            renderStoredPlayers();
+            setupEventListeners();
+            populateNationalityFilter();
+        }
+
+        function renderFormation() {
+            formationElement.innerHTML = '';
+            formations[selectedFormation].forEach(row => {
+                const rowElement = document.createElement('div');
+                rowElement.className = 'row';
+                row.forEach(position => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.onclick = () => openModal(position.index, position.name);
+                    if (selectedPlayers[position.index]) {
+                        const player = selectedPlayers[position.index];
+                        card.innerHTML = createPlayerCardHTML(player, position.index);
+                    } else {
+                        card.innerHTML = createEmptyCardHTML(position);
+                    }
+                    rowElement.appendChild(card);
+                });
+                formationElement.appendChild(rowElement);
             });
-    }
-}
+        }
 
-function initializeApp() {
-    renderFormation();
-    setupEventListeners();
-    populateNationalityFilter();
-}
-
-function renderFormation() {
-    formationElement.innerHTML = '';
-    formations[selectedFormation].forEach(row => {
-        const rowElement = document.createElement('div');
-        rowElement.className = 'row';
-        row.forEach(position => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.onclick = () => openModal(position.index, position.name);
-            if (selectedPlayers[position.index]) {
-                const player = selectedPlayers[position.index];
-                card.innerHTML = createPlayerCardHTML(player);
-            } else {
-                card.innerHTML = createEmptyCardHTML(position);
-            }
-            rowElement.appendChild(card);
-        });
-        formationElement.appendChild(rowElement);
-    });
-}
-
-function createPlayerCardHTML(player) {
-    if (player.position === 'GK') {
-        return `
-            <div class="card-inner">
-                <div class="header">
-                    <div class="rating">${player.rating}</div>
-                    <div class="position">${player.position}</div>
-                </div>
-                <div class="player-image">
-                    <img src="${player.photo}" alt="${player.name}" />
-                </div>
-                <div class="player-name">${player.name}</div>
-                <div class="stats">
+        function createPlayerCardHTML(player, positionIndex) {
+            let statsHTML = '';
+            if (player.position === 'GK') {
+                statsHTML = `
                     <div class="stat"><span>DIV</span><span>${player.diving}</span></div>
                     <div class="stat"><span>HAN</span><span>${player.handling}</span></div>
                     <div class="stat"><span>KIC</span><span>${player.kicking}</span></div>
                     <div class="stat"><span>REF</span><span>${player.reflexes}</span></div>
                     <div class="stat"><span>SPE</span><span>${player.speed}</span></div>
                     <div class="stat"><span>POS</span><span>${player.positioning}</span></div>
-                </div>
-                <div class="flags">
-                    <img src="${player.flag}" class="flag" alt="Player flag" />
-                    <img src="${player.logo}" alt="Logo player" class="flag" />
-                </div>
-            </div>
-        `;
-    } else {
-        return `
-            <div class="card-inner">
-                <div class="header">
-                    <div class="rating">${player.rating}</div>
-                    <div class="position">${player.position}</div>
-                </div>
-                <div class="player-image">
-                    <img src="${player.photo}" alt="${player.name}" />
-                </div>
-                <div class="player-name">${player.name}</div>
-                <div class="stats">
+                `;
+            } else {
+                statsHTML = `
                     <div class="stat"><span>PAC</span><span>${player.pace}</span></div>
                     <div class="stat"><span>SHO</span><span>${player.shooting}</span></div>
                     <div class="stat"><span>PAS</span><span>${player.passing}</span></div>
                     <div class="stat"><span>DRI</span><span>${player.dribbling}</span></div>
                     <div class="stat"><span>DEF</span><span>${player.defending}</span></div>
                     <div class="stat"><span>PHY</span><span>${player.physical}</span></div>
+                `;
+            }
+
+            return `
+                <div class="card-inner">
+                    <div class="header">
+                        <div class="rating">${player.rating}</div>
+                        <div class="position">${player.position}</div>
+                    </div>
+                    <div class="player-image">
+                        <img src="${player.photo}" alt="${player.name}" />
+                    </div>
+                    <div class="player-name">${player.name}</div>
+                    <div class="stats">
+                        ${statsHTML}
+                    </div>
+                    <div class="flags">
+                        <img src="${player.flag}" class="flag" style="width:40px;" />
+                        <img src="${player.logo}" alt="Logo player" class="flag" style="width:40px;" />
+                    </div>
                 </div>
-                <div class="flags">
-                    <img src="${player.flag}" class="flag" alt="Player flag" />
-                    <img src="${player.logo}" alt="Logo player" class="flag" />
+                <div class="card-actions">
+                    <button onclick="openEditModal(${player.id})">Edit</button>
+                    <button onclick="deletePlayer(${player.id})">Delete</button>
                 </div>
-            </div>
-        `;
-    }
-}
+                <div class="change-player-icon" onclick="openChangePlayerModal(event, ${positionIndex})">+</div>
+                <div class="replacement-card"></div>
+            `;
+        }
 
-function createEmptyCardHTML(position) {
-    return `
-        <div>${position.name}</div>
-        <div class="card-inner">
-            <div class="header">
-                <div class="add-icon-container">
-                    <span class="add-icon">+</span>
+        function createEmptyCardHTML(position) {
+            return `
+                <div>${position.name}</div>
+                <div class="card-inner" style="width:120px; height:120px;">
+                    <div class="add-icon-container">
+                        <span class="add-icon">+</span>
+                    </div>
                 </div>
-            </div>
-        </div>
-    `;
-}
+            `;
+        }
 
-function openModal(position, positionName) {
-    currentPosition = position;
-    modal.style.display = 'block';
-    positionFilter.value = positionName;
-    renderPlayers();
-}
+        function openModal(position, positionName) {
+            currentPosition = position;
+            modal.style.display = 'block';
+            positionFilter.value = positionName;
+            renderPlayers(positionName);
+        }
 
-function renderPlayers() {
-    const filteredPlayers = players.filter(player => 
-        player.name.toLowerCase().includes(nameFilter.value.toLowerCase()) &&
-        (positionFilter.value === '' || player.position === positionFilter.value) &&
-        (nationalityFilter.value === '' || player.nationality === nationalityFilter.value) &&
-        player.rating >= parseInt(ratingFilter.value)
-    );
+        function openChangePlayerModal(event, positionIndex) {
+            event.stopPropagation();
+            currentPosition = positionIndex;
+            const position = formations[selectedFormation].flat().find(pos => pos.index === positionIndex);
+            changePlayerModal.style.display = 'block';
+            renderChangePlayers(position.name);
+        }
 
-    playersGrid.innerHTML = '';
-    filteredPlayers.forEach(player => {
-        const playerCard = document.createElement('div');
-        playerCard.className = 'card-inner';
-        playerCard.innerHTML = createPlayerCardHTML(player);
-        playerCard.onclick = () => selectPlayer(player);
-        playersGrid.appendChild(playerCard);
-    });
-}
+        function renderChangePlayers(positionName) {
+            const availablePlayers = players.filter(player => 
+                player.position === positionName && !selectedPlayers.includes(player)
+            );
 
-function selectPlayer(player) {
-    selectedPlayers[currentPosition] = player;
-    modal.style.display = 'none';
-    renderFormation();
-}
+            changePlayerGrid.innerHTML = '';
+            
+            availablePlayers.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'card';
+                playerCard.innerHTML = createPlayerCardHTML(player);
+                playerCard.onclick = () => changePlayer(player);
+                changePlayerGrid.appendChild(playerCard);
+            });
+        }
 
-function setupEventListeners() {
-    lineupSelect.onchange = (e) => {
-        selectedFormation = e.target.value;
-        selectedPlayers = Array(11).fill(null);
-        renderFormation();
-    };
+        function changePlayer(player) {
+            selectedPlayers[currentPosition] = player;
+            changePlayerModal.style.display = 'none';
+            renderFormation();
+            saveToLocalStorage();
+        }
 
-    closeBtn.onclick = () => {
-        modal.style.display = 'none';
-    };
+        function renderPlayers(positionName) {
+            const filteredPlayers = players.filter(player => 
+                player.name.toLowerCase().includes(nameFilter.value.toLowerCase()) &&
+                (positionFilter.value === '' || player.position === positionFilter.value) &&
+                (nationalityFilter.value === '' || player.nationality === nationalityFilter.value) &&
+                player.rating >= parseInt(ratingFilter.value)
+            );
 
-    window.onclick = (e) => {
-        if (e.target === modal) {
+            const storedPlayers = JSON.parse(localStorage.getItem('players')) || [];
+            const storedFilteredPlayers = storedPlayers.filter(player => 
+                player.position === positionName &&
+                !filteredPlayers.some(p => p.id === player.id)
+            );
+
+            playersGrid.innerHTML = '';
+            
+            filteredPlayers.concat(storedFilteredPlayers).forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'card';
+                playerCard.innerHTML = createPlayerCardHTML(player);
+                playerCard.onclick = () => selectPlayer(player);
+                playersGrid.appendChild(playerCard);
+            });
+        }
+
+        function renderStoredPlayers() {
+            const storedPlayersGrid = document.getElementById('storedPlayersGrid');
+            storedPlayersGrid.innerHTML = '';
+            
+            if (players.length === 0) {
+                storedPlayersGrid.innerHTML = '<p>No players stored</p>';
+                return;
+            }
+
+            players.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'card';
+                playerCard.innerHTML = createPlayerCardHTML(player);
+                storedPlayersGrid.appendChild(playerCard);
+            });
+        }
+
+        function selectPlayer(player) {
+            selectedPlayers[currentPosition] = player;
             modal.style.display = 'none';
-        }
-    };
-
-    nameFilter.oninput = renderPlayers;
-    positionFilter.onchange = renderPlayers;
-    nationalityFilter.onchange = renderPlayers;
-    ratingFilter.oninput = () => {
-        ratingValue.textContent = ratingFilter.value;
-        renderPlayers();
-    };
-
-    document.getElementById('btn-primary').addEventListener('click', function() {
-        document.getElementById('Formulaire_remplir').style.display = 'block';
-    });
-
-    document.getElementById('newPlayerForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const newPlayer = {
-            id: players.length + 1,
-            name: document.getElementById('newPlayerName').value,
-            position: document.getElementById('newPlayerPosition').value,
-            nationality: document.getElementById('newPlayerNationality').value,
-            rating: parseInt(document.getElementById('newPlayerRating').value),
-            photo: document.getElementById('newPlayerPhoto').value,
-            flag: document.getElementById('newPlayerFlag').value,
-            logo: document.getElementById('newPlayerLogo').value,
-        };
-
-        if (newPlayer.position === 'GK') {
-            newPlayer.diving = parseInt(document.getElementById('newPlayerDiving').value);
-            newPlayer.handling = parseInt(document.getElementById('newPlayerHandling').value);
-            newPlayer.kicking = parseInt(document.getElementById('newPlayerKicking').value);
-            newPlayer.reflexes = parseInt(document.getElementById('newPlayerReflexes').value);
-            newPlayer.speed = parseInt(document.getElementById('newPlayerSpeed').value);
-            newPlayer.positioning = parseInt(document.getElementById('newPlayerPositioning').value);
-        } else {
-            newPlayer.pace = parseInt(document.getElementById('newPlayerPace').value);
-            newPlayer.shooting = parseInt(document.getElementById('newPlayerShooting').value);
-            newPlayer.passing = parseInt(document.getElementById('newPlayerPassing').value);
-            newPlayer.dribbling = parseInt(document.getElementById('newPlayerDribbling').value);
-            newPlayer.defending = parseInt(document.getElementById('newPlayerDefending').value);
-            newPlayer.physical = parseInt(document.getElementById('newPlayerPhysical').value);
+            renderFormation();
+            saveToLocalStorage();
         }
 
-        players.push(newPlayer);
-        localStorage.setItem('players', JSON.stringify(players));
-        document.getElementById('Formulaire_remplir').style.display = 'none';
-        document.getElementById('newPlayerForm').reset();
-        populateNationalityFilter();
-        renderPlayers();
-    });
-}
+        function setupEventListeners() {
+            lineupSelect.onchange = (e) => {
+                selectedFormation = e.target.value;
+                renderFormation();
+                saveToLocalStorage();
+            };
 
-function populateNationalityFilter() {
-    const nationalities = [...new Set(players.map(p => p.nationality))];
-    nationalityFilter.innerHTML = '<option value="">Nationality</option>';
-    nationalities.forEach(nationality => {
-        const option = document.createElement('option');
-        option.value = nationality;
-        option.textContent = nationality;
-        nationalityFilter.appendChild(option);
-    });
-}
+            Array.from(closeBtns).forEach(btn => {
+                btn.onclick = () => {
+                    modal.style.display = 'none';
+                    newPlayerModal.style.display = 'none';
+                    editPlayerModal.style.display = 'none';
+                    changePlayerModal.style.display = 'none';
+                };
+            });
 
-function isPositionCompatible(playerPosition, formationPosition) {
-    const compatibilityMap = {
-        'CF': ['CF', 'ST'],
-        'LWF': ['LWF', 'LW', 'LM'],
-        'RWF': ['RWF', 'RW', 'RM'],
-        'LMF': ['LMF', 'LM', 'LW'],
-        'RMF': ['RMF', 'RM', 'RW'],
-        'CMF': ['CMF', 'CM'],
-        'DMF': ['DMF', 'CDM'],
-        'LB': ['LB', 'LWB'],
-        'RB': ['RB', 'RWB'],
-        'CB': ['CB'],
-        'GK': ['GK']
-    };
+            window.onclick = (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+                if (e.target === newPlayerModal) {
+                    newPlayerModal.style.display = 'none';
+                }
+                if (e.target === editPlayerModal) {
+                    editPlayerModal.style.display = 'none';
+                }
+                if (e.target === changePlayerModal) {
+                    changePlayerModal.style.display = 'none';
+                }
+            };
 
-    return compatibilityMap[formationPosition].includes(playerPosition);
-}
+            nameFilter.oninput = () => renderPlayers(positionFilter.value);
+            positionFilter.onchange = () => renderPlayers(positionFilter.value);
+            nationalityFilter.onchange = () => renderPlayers(positionFilter.value);
+            ratingFilter.oninput = () => {
+                ratingValue.textContent = ratingFilter.value;
+                renderPlayers(positionFilter.value);
+            };
 
-document.getElementById('newPlayerPosition').addEventListener('change', function() {
-    var selectedPosition = this.value;
-    
-    var positionFields = document.querySelectorAll('.position-specific');
-    positionFields.forEach(function(field) {
-        field.style.display = 'none';
-    });
+            document.getElementById('btn-primary').addEventListener('click', function() {
+                newPlayerModal.style.display = 'block';
+            });
 
-    if (selectedPosition === 'GK') {
-        document.getElementById('GKFields').style.display = 'block';
-    } else {
-        document.getElementById('OtherFields').style.display = 'block';
-    }
-});
+            document.getElementById('newPlayerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const maxId = players.length > 0 
+                    ? Math.max(...players.filter(p => p.id !== null).map(p => p.id)) 
+                    : 26;
+                const newId = maxId + 1;
 
-// Initialize the application
-loadPlayers();
+                const newPlayer = {
+                    id: newId,
+                    name: document.getElementById('newPlayerName').value,
+                    position: document.getElementById('newPlayerPosition').value,
+                    nationality: document.getElementById('newPlayerNationality').value,
+                    rating: parseInt(document.getElementById('newPlayerRating').value),
+                    photo: document.getElementById('newPlayerPhoto').value,
+                    flag: document.getElementById('newPlayerFlag').value,
+                    logo: document.getElementById('newPlayerLogo').value,
+                };
+
+                if (newPlayer.position === 'GK') {
+                    newPlayer.diving = parseInt(document.getElementById('newPlayerDiving').value) || 0;
+                    newPlayer.handling = parseInt(document.getElementById('newPlayerHandling').value) || 0;
+                    newPlayer.kicking = parseInt(document.getElementById('newPlayerKicking').value) || 0;
+                    newPlayer.reflexes = parseInt(document.getElementById('newPlayerReflexes').value) || 0;
+                    newPlayer.speed = parseInt(document.getElementById('newPlayerSpeed').value) || 0;
+                    newPlayer.positioning = parseInt(document.getElementById('newPlayerPositioning').value) || 0;
+                } else {
+                    newPlayer.pace = parseInt(document.getElementById('newPlayerPace').value) || 0;
+                    newPlayer.shooting = parseInt(document.getElementById('newPlayerShooting').value) || 0;
+                    newPlayer.passing = parseInt(document.getElementById('newPlayerPassing').value) || 0;
+                    newPlayer.dribbling = parseInt(document.getElementById('newPlayerDribbling').value) || 0;
+                    newPlayer.defending = parseInt(document.getElementById('newPlayerDefending').value) || 0;
+                    newPlayer.physical = parseInt(document.getElementById('newPlayerPhysical').value) || 0;
+                }
+
+                players.push(newPlayer);
+                newPlayerModal.style.display = 'none';
+                document.getElementById('newPlayerForm').reset();
+                
+                populateNationalityFilter();
+                renderPlayers(positionFilter.value);
+                renderStoredPlayers();
+                saveToLocalStorage();
+            });
+
+            document.getElementById('newPlayerPosition').addEventListener('change', function() {
+                var selectedPosition = this.value;
+                document.getElementById('GKFields').style.display = selectedPosition === 'GK' ? 'block' : 'none';
+                document.getElementById('OtherFields').style.display = selectedPosition === 'GK' ? 'none' : 'block';
+            });
+
+            document.getElementById('editPlayerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const editedPlayer = {
+                    id: parseInt(document.getElementById('editPlayerId').value),
+                    name: document.getElementById('editPlayerName').value,
+                    position: document.getElementById('editPlayerPosition').value,
+                    nationality: document.getElementById('editPlayerNationality').value,
+                    rating: parseInt(document.getElementById('editPlayerRating').value),
+                    photo: document.getElementById('editPlayerPhoto').value,
+                    flag: document.getElementById('editPlayerFlag').value,
+                    logo: document.getElementById('editPlayerLogo').value,
+                };
+
+                if (editedPlayer.position === 'GK') {
+                    editedPlayer.diving = parseInt(document.getElementById('editPlayerDiving').value) || 0;
+                    editedPlayer.handling = parseInt(document.getElementById('editPlayerHandling').value) || 0;
+                    editedPlayer.kicking = parseInt(document.getElementById('editPlayerKicking').value) || 0;
+                    editedPlayer.reflexes = parseInt(document.getElementById('editPlayerReflexes').value) || 0;
+                    editedPlayer.speed = parseInt(document.getElementById('editPlayerSpeed').value) || 0;
+                    editedPlayer.positioning = parseInt(document.getElementById('editPlayerPositioning').value) || 0;
+                } else {
+                    editedPlayer.pace = parseInt(document.getElementById('editPlayerPace').value) || 0;
+                    editedPlayer.shooting = parseInt(document.getElementById('editPlayerShooting').value) || 0;
+                    editedPlayer.passing = parseInt(document.getElementById('editPlayerPassing').value) || 0;
+                    editedPlayer.dribbling = parseInt(document.getElementById('editPlayerDribbling').value) || 0;
+                    editedPlayer.defending = parseInt(document.getElementById('editPlayerDefending').value) || 0;
+                    editedPlayer.physical = parseInt(document.getElementById('editPlayerPhysical').value) || 0;
+                }
+
+                updatePlayer(editedPlayer);
+                editPlayerModal.style.display = 'none';
+                document.getElementById('editPlayerForm').reset();
+                
+                renderPlayers(positionFilter.value);
+                renderStoredPlayers();
+                saveToLocalStorage();
+            });
+
+            document.getElementById('editPlayerPosition').addEventListener('change', function() {
+                var selectedPosition = this.value;
+                document.getElementById('editGKFields').style.display = selectedPosition === 'GK' ? 'block' : 'none';
+                document.getElementById('editOtherFields').style.display = selectedPosition === 'GK' ? 'none' : 'block';
+            });
+
+            document.addEventListener('mouseover', function(e) {
+                const card = e.target.closest('.card');
+                if (card && card.querySelector('.replacement-card')) {
+                    const replacementCard = card.querySelector('.replacement-card');
+                    const positionIndex = Array.from(card.parentNode.children).indexOf(card);
+                    const position = formations[selectedFormation].flat().find(pos => pos.index === positionIndex);
+                    if (position) {
+                        const replacementPlayer = getReplacementPlayer(position.name);
+                        if (replacementPlayer) {
+                            replacementCard.innerHTML = createPlayerCardHTML(replacementPlayer);
+                        }
+                    }
+                }
+            });
+        }
+
+        function getReplacementPlayer(position) {
+            const availablePlayers = players.filter(p => p.position === position && !selectedPlayers.includes(p));
+            return availablePlayers.length > 0 ? availablePlayers[0] : null;
+        }
+
+        function populateNationalityFilter() {
+            const nationalities = [...new Set(players.map(p => p.nationality))];
+            nationalityFilter.innerHTML = '<option value="">Nationality</option>';
+            nationalities.forEach(nationality => {
+                const option = document.createElement('option');
+                option.value = nationality;
+                option.textContent = nationality;
+                nationalityFilter.appendChild(option);
+            });
+        }
+
+        function saveToLocalStorage() {
+            players = players.map((player, index) => {
+                if (player.id === null) {
+                    player.id = index + 27;
+                }
+                return player;
+            });
+
+            selectedPlayers = selectedPlayers.map((player, index) => {
+                if (player && player.id === null) {
+                    player.id = players.length + index + 27;
+                }
+                return player;
+            });
+
+            localStorage.setItem('selectedFormation', selectedFormation);
+            localStorage.setItem('selectedPlayers', JSON.stringify(selectedPlayers));
+            localStorage.setItem('players', JSON.stringify(players));
+        }
+
+        function loadFromLocalStorage() {
+            const savedFormation = localStorage.getItem('selectedFormation');
+            const savedPlayers = localStorage.getItem('selectedPlayers');
+            const savedPlayersList = localStorage.getItem('players');
+
+            if (savedFormation) {
+                selectedFormation = savedFormation;
+                lineupSelect.value = savedFormation;
+            }
+
+            if (savedPlayers) {
+                const parsedPlayers = JSON.parse(savedPlayers);
+                selectedPlayers = parsedPlayers.map(player => {
+                    if (player && player.id === null) {
+                        const maxId = players.length > 0 
+                            ? Math.max(...players.filter(p => p.id !== null).map(p => p.id)) 
+                            : 26;
+                        player.id = maxId + 1;
+                    }
+                    return player;
+                });
+            }
+
+            if (savedPlayersList) {
+                const parsedList = JSON.parse(savedPlayersList);
+                players = parsedList.map((player, index) => {
+                    if (player.id === null) {
+                        player.id = index + 27;
+                    }
+                    return player;
+                });
+            } else {
+                players = [
+                    {
+                        id: 1,
+                        name: "Lionel Messi",
+                        position: "RW",
+                        nationality: "Argentina",
+                        rating: 93,
+                        photo: "https://example.com/messi.jpg",
+                        flag: "https://example.com/argentina.png",
+                        logo: "https://example.com/barcelona.png",
+                        pace: 85,
+                        shooting: 92,
+                        passing: 91,
+                        dribbling: 95,
+                        defending: 38,
+                        physical: 65
+                    },
+                    {
+                        id: 2,
+                        name: "Cristiano Ronaldo",
+                        position: "ST",
+                        nationality: "Portugal",
+                        rating: 92,
+                        photo: "https://example.com/ronaldo.jpg",
+                        flag: "https://example.com/portugal.png",
+                        logo: "https://example.com/juventus.png",
+                        pace: 89,
+                        shooting: 93,
+                        passing: 81,
+                        dribbling: 89,
+                        defending: 35,
+                        physical: 77
+                    }
+                ];
+            }
+        }
+
+        function openEditModal(playerId) {
+            const player = players.find(p => p.id === playerId);
+            if (!player) return;
+
+            document.getElementById('editPlayerId').value = player.id;
+            document.getElementById('editPlayerName').value = player.name;
+            document.getElementById('editPlayerPosition').value = player.position;
+            document.getElementById('editPlayerNationality').value = player.nationality;
+            document.getElementById('editPlayerRating').value = player.rating;
+            document.getElementById('editPlayerPhoto').value = player.photo;
+            document.getElementById('editPlayerFlag').value = player.flag;
+            document.getElementById('editPlayerLogo').value = player.logo;
+
+            if (player.position === 'GK') {
+                document.getElementById('editGKFields').style.display = 'block';
+                document.getElementById('editOtherFields').style.display = 'none';
+                document.getElementById('editPlayerDiving').value = player.diving;
+                document.getElementById('editPlayerHandling').value = player.handling;
+                document.getElementById('editPlayerKicking').value = player.kicking;
+                document.getElementById('editPlayerReflexes').value = player.reflexes;
+                document.getElementById('editPlayerSpeed').value = player.speed;
+                document.getElementById('editPlayerPositioning').value = player.positioning;
+            } else {
+                document.getElementById('editGKFields').style.display = 'none';
+                document.getElementById('editOtherFields').style.display = 'block';
+                document.getElementById('editPlayerPace').value = player.pace;
+                document.getElementById('editPlayerShooting').value = player.shooting;
+                document.getElementById('editPlayerPassing').value = player.passing;
+                document.getElementById('editPlayerDribbling').value = player.dribbling;
+                document.getElementById('editPlayerDefending').value = player.defending;
+                document.getElementById('editPlayerPhysical').value = player.physical;
+            }
+
+            editPlayerModal.style.display = 'block';
+        }
+
+        function updatePlayer(editedPlayer) {
+            const index = players.findIndex(p => p.id === editedPlayer.id);
+            if (index !== -1) {
+                players[index] = editedPlayer;
+            }
+
+            selectedPlayers = selectedPlayers.map(player => {
+                if (player && player.id === editedPlayer.id) {
+                    return editedPlayer;
+                }
+                return player;
+            });
+
+            saveToLocalStorage();
+            renderFormation();
+            renderStoredPlayers();
+        }
+
+        function deletePlayer(playerId) {
+            players = players.filter(p => p.id !== playerId);
+            selectedPlayers = selectedPlayers.map(player => {
+                if (player && player.id === playerId) {
+                    return null;
+                }
+                return player;
+            });
+
+            saveToLocalStorage();
+            renderFormation();
+            renderStoredPlayers();
+        }
+
+        initializeApp();
     </script>
 </body>
 </html>
