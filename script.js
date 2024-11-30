@@ -1,19 +1,4 @@
-
-async function uploadImage(file) {
-    return new Promise((resolve, reject) => {
-        cloudinary.uploader.upload(file, {
-            folder: 'player_images',  // Optional: specify a folder for your images
-            resource_type: 'auto'     // Automatically handle different formats
-        }, (error, result) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(result.secure_url);  // Return the URL of the uploaded image
-            }
-        });
-    });
-}
-
+    
         const formations = {
             '4-4-2': [
                 [{name: 'ST', index: 0}, {name: 'ST', index: 1}],
@@ -227,100 +212,56 @@ async function uploadImage(file) {
                 document.getElementById('Formulaire_remplir').style.display = 'block';
             });
 
+            document.getElementById('newPlayerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const newPlayer = {
+                    id: players.length + 1,
+                    name: formData.get('newPlayerName'),
+                    position: formData.get('newPlayerPosition'),
+                    nationality: formData.get('newPlayerNationality'),
+                    rating: parseInt(formData.get('newPlayerRating')),
+                    photo: URL.createObjectURL(formData.get('newPlayerPhoto')),
+                    flag: URL.createObjectURL(formData.get('newPlayerFlag')),
+                    logo: URL.createObjectURL(formData.get('newPlayerLogo')),
+                    pace: 70,
+                    shooting: 70,
+                    passing: 70,
+                    dribbling: 70,
+                    defending: 70,
+                    physical: 70,
+                    diving: 70,
+                    handling: 70,
+                    kicking: 70,
+                    reflexes: 70,
+                    speed: 70,
+                    positioning: 70
+                };
 
+                if (newPlayer.position === 'GK') {
+                    newPlayer.diving = parseInt(formData.get('newPlayerDiving'));
+                    newPlayer.handling = parseInt(formData.get('newPlayerHandling'));
+                    newPlayer.kicking = parseInt(formData.get('newPlayerKicking'));
+                    newPlayer.reflexes = parseInt(formData.get('newPlayerReflexes'));
+                    newPlayer.speed = parseInt(formData.get('newPlayerSpeed'));
+                    newPlayer.positioning = parseInt(formData.get('newPlayerPositioning'));
+                } else {
+                    newPlayer.pace = parseInt(formData.get('newPlayerPace'));
+                    newPlayer.shooting = parseInt(formData.get('newPlayerShooting'));
+                    newPlayer.passing = parseInt(formData.get('newPlayerPassing'));
+                    newPlayer.dribbling = parseInt(formData.get('newPlayerDribbling'));
+                    newPlayer.defending = parseInt(formData.get('newPlayerDefending'));
+                    newPlayer.physical = parseInt(formData.get('newPlayerPhysical'));
+                }
 
-            async function uploadImage(file) {
-    return new Promise((resolve, reject) => {
-        cloudinary.uploader.upload(file, {
-            folder: 'player_images',  // Optionnel: spécifiez un dossier pour vos images
-            resource_type: 'auto'     // Gestion automatique des formats d'image
-        }, (error, result) => {
-            if (error) {
-                reject(error);  // Rejeter la promesse en cas d'erreur
-            } else {
-                resolve(result.secure_url);  // Retourner l'URL de l'image téléchargée
-            }
-        });
-    });
-}
-
-        // Logique de gestion du formulaire
-document.getElementById('newPlayerForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-    const newPlayer = {
-        id: players.length + 1,
-        name: formData.get('newPlayerName'),
-        position: formData.get('newPlayerPosition'),
-        nationality: formData.get('newPlayerNationality'),
-        rating: parseInt(formData.get('newPlayerRating')),
-        pace: 70,
-        shooting: 70,
-        passing: 70,
-        dribbling: 70,
-        defending: 70,
-        physical: 70,
-        diving: 70,
-        handling: 70,
-        kicking: 70,
-        reflexes: 70,
-        speed: 70,
-        positioning: 70
-    };
-
-    try {
-        // Récupérer les fichiers image
-        const playerPhoto = formData.get('newPlayerPhoto');
-        const playerFlag = formData.get('newPlayerFlag');
-        const playerLogo = formData.get('newPlayerLogo');
-
-        // Télécharger les images sur Cloudinary
-        const photoUrl = await uploadImage(playerPhoto);
-        const flagUrl = await uploadImage(playerFlag);
-        const logoUrl = await uploadImage(playerLogo);
-
-        // Ajouter les URLs des images au joueur
-        newPlayer.photo = photoUrl;
-        newPlayer.flag = flagUrl;
-        newPlayer.logo = logoUrl;
-
-        // Vérifiez si le joueur est un gardien et ajoutez les stats
-        if (newPlayer.position === 'GK') {
-            newPlayer.diving = parseInt(formData.get('newPlayerDiving'));
-            newPlayer.handling = parseInt(formData.get('newPlayerHandling'));
-            newPlayer.kicking = parseInt(formData.get('newPlayerKicking'));
-            newPlayer.reflexes = parseInt(formData.get('newPlayerReflexes'));
-            newPlayer.speed = parseInt(formData.get('newPlayerSpeed'));
-            newPlayer.positioning = parseInt(formData.get('newPlayerPositioning'));
-        } else {
-            newPlayer.pace = parseInt(formData.get('newPlayerPace'));
-            newPlayer.shooting = parseInt(formData.get('newPlayerShooting'));
-            newPlayer.passing = parseInt(formData.get('newPlayerPassing'));
-            newPlayer.dribbling = parseInt(formData.get('newPlayerDribbling'));
-            newPlayer.defending = parseInt(formData.get('newPlayerDefending'));
-            newPlayer.physical = parseInt(formData.get('newPlayerPhysical'));
-        }
-
-        // Ajouter le joueur à la liste des joueurs
-        players.push(newPlayer);
-
-        // Réinitialiser le formulaire et masquer le formulaire
-        document.getElementById('Formulaire_remplir').style.display = 'none';
-        this.reset();
-
-        // Rafraîchir l'affichage
-        populateNationalityFilter();
-        renderPlayers();
-        renderCreatedPlayers();
-
-        // Afficher un message de succès
-        showSuccessMessage();
-    } catch (error) {
-        console.error('Erreur lors du téléchargement des images: ', error);
-        alert('Une erreur est survenue lors du téléchargement des images.');
-    }
-});
+                players.push(newPlayer);
+                document.getElementById('Formulaire_remplir').style.display = 'none';
+                this.reset();
+                populateNationalityFilter();
+                renderPlayers();
+                renderCreatedPlayers();
+                showSuccessMessage();
+            });
 
             document.getElementById('newPlayerPosition').addEventListener('change', function() {
                 var selectedPosition = this.value;
@@ -552,7 +493,7 @@ function displayPlayerCards() {
                     <img src="${player.logo}" alt="Logo player" class="flag" />
                 </div>
                 <div class="options">
-                    <button class="modify-btn">Modify</button>
+                    <button class="modify-btn" >Modify</button>
                     <button class="delete-btn">Delete</button>
                 </div>
             </div>
@@ -562,10 +503,42 @@ function displayPlayerCards() {
         playersGrid.appendChild(card);
 
         // Add event listeners for modify and delete
-        card.querySelector('.modify-btn').addEventListener('click', function() {
-          alert
-            
+    // Fonction pour gérer le clic sur le bouton "Modify"
+card.querySelector('.modify-btn').addEventListener('click', function() {
+    let players = JSON.parse(localStorage.getItem('players')) || [];
+    
+    if (index >= 0 && index < players.length) {
+        // Récupère le joueur à l'index spécifié
+        let player = players[index];
+
+        // Affiche les informations du joueur dans les champs input
+        document.getElementById('player-name').value = player.name;
+        document.getElementById('player-position').value = player.position;
+        document.getElementById('player-nationality').value = player.nationality;
+        document.getElementById('player-rating').value = player.rating;
+        document.getElementById('player-speed').value = player.speed;
+
+        // Quand le formulaire est soumis, met à jour les informations du joueur
+        document.getElementById('modify-player-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+
+            // Récupère les nouvelles valeurs des champs input
+            player.name = document.getElementById('player-name').value;
+            player.position = document.getElementById('player-position').value;
+            player.nationality = document.getElementById('player-nationality').value;
+            player.rating = document.getElementById('player-rating').value;
+            player.speed = document.getElementById('player-speed').value;
+
+            // Met à jour le tableau de joueurs dans le localStorage
+            players[index] = player;
+            localStorage.setItem('players', JSON.stringify(players));
+
+            alert('Le joueur a été mis à jour avec succès !');
         });
+    } else {
+        alert('Index invalide');
+    }
+});
 
         card.querySelector('.delete-btn').addEventListener('click', function() {
             deletePlayer(index);
@@ -682,5 +655,3 @@ document.getElementById('newPlayerForm').addEventListener('submit', function(e) 
 });
 // 
 
-
-  
