@@ -1,177 +1,19 @@
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PESMASTER Formation Builder</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        /* Add this to your existing styles or in the head if you don't have an external CSS file */
-        #createdPlayers {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            background-color: #f0f0f0;
-            margin-top: 20px;
-        }
-        #createdPlayers .card {
-            width: 100%;
-            height: auto;
-            margin: 0;
-        }
-    </style>
-</head>
-<body>
-    <div class="sidebar">
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" placeholder="Enter formation name">
-        </div>
-        <div>
-            <label for="lineup">Lineup:</label>
-            <select id="lineup">
-                <option value="4-4-2">4-4-2</option>
-                <option value="4-3-3">4-3-3</option>
-                <option value="3-5-2">3-5-2</option>
-            </select>
-        </div>
-        <button class="btn-primary" id="btn-primary">Create new</button>
-    </div>
+async function uploadImage(file) {
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(file, {
+            folder: 'player_images',  // Optional: specify a folder for your images
+            resource_type: 'auto'     // Automatically handle different formats
+        }, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result.secure_url);  // Return the URL of the uploaded image
+            }
+        });
+    });
+}
 
-    <div class="main-content">
-        <div class="header hidden fixed bottom-0 left-0 w-full px-4 py-2 bg-black text-white">
-            <div class="logo flex items-center justify-between">
-                ROYAL STRIKERS
-                <img src="assets/images/logo.webp" alt="ROYAL STRIKERS" width="100px">
-            </div>
-        </div>
-        
-        <div class="formation" id="formation"></div>
-        
-        <!-- New section to display created players -->
-        <h2>Created Players</h2>
-        <div id="createdPlayers"></div>
-    </div>
-    
-    <div id="playerModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Select Player</h2>
-            <div class="modal-filters">
-                <input type="text" id="nameFilter" placeholder="Name">
-                <select id="positionFilter">
-                    <option value="">Position</option>
-                    <option value="CF">CF</option>
-                    <option value="LWF">LWF</option>
-                    <option value="RWF">RWF</option>
-                    <option value="GK">GK</option> 
-                    <option value="CB">CB</option>
-                    <option value="LB">LB</option> 
-                    <option value="CM">CM</option> 
-                    <option value="RB">RB</option> 
-                    <option value="LW">LW</option>
-                    <option value="RW">RW</option>
-                    <option value="ST">ST</option>
-                </select>
-                <select id="nationalityFilter">
-                    <option value="">Nationality</option>
-                </select>
-                <input type="range" id="ratingFilter" min="40" max="99" value="70">
-                <span id="ratingValue">70</span>
-            </div>
-            <div class="players-grid" id="playersGrid"></div>
-        </div>
-    </div>
-    <div id="playersGrid"></div>
-
-    <!-- Conteneur pour afficher les cartes des joueurs -->
-<div id="playerCardsContainer"></div>
-
- 
-    <div class="modal-content" id="Formulaire_remplir">
-        <h2>Create New Player</h2>
-        <form id="newPlayerForm" enctype="multipart/form-data">
-            <label for="newPlayerName">Nom Player: </label>
-            <input type="text" id="newPlayerName" placeholder="Name" required>
-    
-            <label for="newPlayerPosition">Position: </label>
-            <select id="newPlayerPosition" required>
-                <option value="" hidden>Position</option>
-                <option value="CF">CF</option>
-                <option value="LWF">LWF</option>
-                <option value="RWF">RWF</option>
-                <option value="GK">GK</option>
-                <option value="CB">CB</option>
-                <option value="LB">LB</option>
-                <option value="CM">CM</option>
-                <option value="RB">RB</option>
-                <option value="LW">LW</option>
-                <option value="RW">RW</option>
-                <option value="ST">ST</option>
-            </select>
-    
-            <label for="newPlayerNationality">Nationalite: </label>
-            <input type="text" id="newPlayerNationality" placeholder="Nationality" required>
-    
-            <label for="newPlayerRating">Rating: </label>
-            <input type="number" id="newPlayerRating" placeholder="Rating" min="40" max="99" required>
-    
-            <label for="newPlayerPhoto">Photo: </label>
-            <input type="file" id="newPlayerPhoto" accept="image/*" required>
-    
-            <label for="newPlayerFlag">Flag: </label>
-            <input type="file" id="newPlayerFlag" accept="image/*" required>
-    
-            <label for="newPlayerLogo">Logo: </label>
-            <input type="file" id="newPlayerLogo" accept="image/*" required>
-    
-            <div id="GKFields" class="position-specific">
-                <label for="newPlayerDiving">Diving: </label>
-                <input type="number" id="newPlayerDiving" min="1" max="99">
-                <label for="newPlayerHandling">Handling: </label>
-                <input type="number" id="newPlayerHandling" min="1" max="99">
-                <label for="newPlayerKicking">Kicking: </label>
-                <input type="number" id="newPlayerKicking" min="1" max="99">
-                <label for="newPlayerReflexes">Reflexes: </label>
-                <input type="number" id="newPlayerReflexes" min="1" max="99">
-                <label for="newPlayerSpeed">Speed: </label>
-                <input type="number" id="newPlayerSpeed" min="1" max="99">
-                <label for="newPlayerPositioning">Positioning: </label>
-                <input type="number" id="newPlayerPositioning" min="1" max="99">
-            </div>
-    
-            <div id="OtherFields" class="position-specific">
-                <label for="newPlayerPace">Pace: </label>
-                <input type="number" id="newPlayerPace" min="1" max="99">
-                <label for="newPlayerShooting">Shooting: </label>
-                <input type="number" id="newPlayerShooting" min="1" max="99">
-                <label for="newPlayerPassing">Passing: </label>
-                <input type="number" id="newPlayerPassing" min="1" max="99">
-                <label for="newPlayerDribbling">Dribbling: </label>
-                <input type="number" id="newPlayerDribbling" min="1" max="99">
-                <label for="newPlayerDefending">Defending: </label>
-                <input type="number" id="newPlayerDefending" min="1" max="99">
-                <label for="newPlayerPhysical">Physical: </label>
-                <input type="number" id="newPlayerPhysical" min="1" max="99">
-            </div>
-    
-            <button type="submit">Create Player</button>
-        </form>
-    </div>
-    
-    <div id="playerCards"></div>
-
-    
-    
-    <div id="successMessage" style="display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #4CAF50; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
-        Player created successfully!
-    </div>
-    
-    <script>
-
-        
         const formations = {
             '4-4-2': [
                 [{name: 'ST', index: 0}, {name: 'ST', index: 1}],
@@ -385,56 +227,100 @@
                 document.getElementById('Formulaire_remplir').style.display = 'block';
             });
 
-            document.getElementById('newPlayerForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData(this);
-                const newPlayer = {
-                    id: players.length + 1,
-                    name: formData.get('newPlayerName'),
-                    position: formData.get('newPlayerPosition'),
-                    nationality: formData.get('newPlayerNationality'),
-                    rating: parseInt(formData.get('newPlayerRating')),
-                    photo: URL.createObjectURL(formData.get('newPlayerPhoto')),
-                    flag: URL.createObjectURL(formData.get('newPlayerFlag')),
-                    logo: URL.createObjectURL(formData.get('newPlayerLogo')),
-                    pace: 70,
-                    shooting: 70,
-                    passing: 70,
-                    dribbling: 70,
-                    defending: 70,
-                    physical: 70,
-                    diving: 70,
-                    handling: 70,
-                    kicking: 70,
-                    reflexes: 70,
-                    speed: 70,
-                    positioning: 70
-                };
 
-                if (newPlayer.position === 'GK') {
-                    newPlayer.diving = parseInt(formData.get('newPlayerDiving'));
-                    newPlayer.handling = parseInt(formData.get('newPlayerHandling'));
-                    newPlayer.kicking = parseInt(formData.get('newPlayerKicking'));
-                    newPlayer.reflexes = parseInt(formData.get('newPlayerReflexes'));
-                    newPlayer.speed = parseInt(formData.get('newPlayerSpeed'));
-                    newPlayer.positioning = parseInt(formData.get('newPlayerPositioning'));
-                } else {
-                    newPlayer.pace = parseInt(formData.get('newPlayerPace'));
-                    newPlayer.shooting = parseInt(formData.get('newPlayerShooting'));
-                    newPlayer.passing = parseInt(formData.get('newPlayerPassing'));
-                    newPlayer.dribbling = parseInt(formData.get('newPlayerDribbling'));
-                    newPlayer.defending = parseInt(formData.get('newPlayerDefending'));
-                    newPlayer.physical = parseInt(formData.get('newPlayerPhysical'));
-                }
 
-                players.push(newPlayer);
-                document.getElementById('Formulaire_remplir').style.display = 'none';
-                this.reset();
-                populateNationalityFilter();
-                renderPlayers();
-                renderCreatedPlayers();
-                showSuccessMessage();
-            });
+            async function uploadImage(file) {
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(file, {
+            folder: 'player_images',  // Optionnel: spécifiez un dossier pour vos images
+            resource_type: 'auto'     // Gestion automatique des formats d'image
+        }, (error, result) => {
+            if (error) {
+                reject(error);  // Rejeter la promesse en cas d'erreur
+            } else {
+                resolve(result.secure_url);  // Retourner l'URL de l'image téléchargée
+            }
+        });
+    });
+}
+
+        // Logique de gestion du formulaire
+document.getElementById('newPlayerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const newPlayer = {
+        id: players.length + 1,
+        name: formData.get('newPlayerName'),
+        position: formData.get('newPlayerPosition'),
+        nationality: formData.get('newPlayerNationality'),
+        rating: parseInt(formData.get('newPlayerRating')),
+        pace: 70,
+        shooting: 70,
+        passing: 70,
+        dribbling: 70,
+        defending: 70,
+        physical: 70,
+        diving: 70,
+        handling: 70,
+        kicking: 70,
+        reflexes: 70,
+        speed: 70,
+        positioning: 70
+    };
+
+    try {
+        // Récupérer les fichiers image
+        const playerPhoto = formData.get('newPlayerPhoto');
+        const playerFlag = formData.get('newPlayerFlag');
+        const playerLogo = formData.get('newPlayerLogo');
+
+        // Télécharger les images sur Cloudinary
+        const photoUrl = await uploadImage(playerPhoto);
+        const flagUrl = await uploadImage(playerFlag);
+        const logoUrl = await uploadImage(playerLogo);
+
+        // Ajouter les URLs des images au joueur
+        newPlayer.photo = photoUrl;
+        newPlayer.flag = flagUrl;
+        newPlayer.logo = logoUrl;
+
+        // Vérifiez si le joueur est un gardien et ajoutez les stats
+        if (newPlayer.position === 'GK') {
+            newPlayer.diving = parseInt(formData.get('newPlayerDiving'));
+            newPlayer.handling = parseInt(formData.get('newPlayerHandling'));
+            newPlayer.kicking = parseInt(formData.get('newPlayerKicking'));
+            newPlayer.reflexes = parseInt(formData.get('newPlayerReflexes'));
+            newPlayer.speed = parseInt(formData.get('newPlayerSpeed'));
+            newPlayer.positioning = parseInt(formData.get('newPlayerPositioning'));
+        } else {
+            newPlayer.pace = parseInt(formData.get('newPlayerPace'));
+            newPlayer.shooting = parseInt(formData.get('newPlayerShooting'));
+            newPlayer.passing = parseInt(formData.get('newPlayerPassing'));
+            newPlayer.dribbling = parseInt(formData.get('newPlayerDribbling'));
+            newPlayer.defending = parseInt(formData.get('newPlayerDefending'));
+            newPlayer.physical = parseInt(formData.get('newPlayerPhysical'));
+        }
+
+        // Ajouter le joueur à la liste des joueurs
+        players.push(newPlayer);
+
+        // Réinitialiser le formulaire et masquer le formulaire
+        document.getElementById('Formulaire_remplir').style.display = 'none';
+        this.reset();
+
+        // Rafraîchir l'affichage
+        populateNationalityFilter();
+        renderPlayers();
+        renderCreatedPlayers();
+
+        // Afficher un message de succès
+        showSuccessMessage();
+    } catch (error) {
+        console.error('Erreur lors du téléchargement des images: ', error);
+        alert('Une erreur est survenue lors du téléchargement des images.');
+    }
+});
 
             document.getElementById('newPlayerPosition').addEventListener('change', function() {
                 var selectedPosition = this.value;
@@ -666,7 +552,7 @@ function displayPlayerCards() {
                     <img src="${player.logo}" alt="Logo player" class="flag" />
                 </div>
                 <div class="options">
-                    <button class="modify-btn" >Modify</button>
+                    <button class="modify-btn">Modify</button>
                     <button class="delete-btn">Delete</button>
                 </div>
             </div>
@@ -677,32 +563,9 @@ function displayPlayerCards() {
 
         // Add event listeners for modify and delete
         card.querySelector('.modify-btn').addEventListener('click', function() {
-   
-    let players = JSON.parse(localStorage.getItem('players')) || [];
-    
-    if (index >= 0 && index < players.length) {
-        // Récupère le joueur à l'index spécifié
-        let player = players[index];
-        alert(
-            'Nom du joueur: ' + player.name + '\n' +
-            'diving: ' + player.diving + '\n' +
-            'Position: ' + player.position + '\n' +
-            'handling: ' + player.handling + '\n' +
-            'kicking: ' + player.kicking + '\n' +
-            'logo: ' + player.logo + '\n' +
-            'nationality: ' + player.nationality + '\n' +
-            'photo: ' + player.photo + '\n' +
-            'positioning: ' + player.positioning + '\n' +
-            'rating: ' + player.rating + '\n' +
-            'reflexes: ' + player.reflexes            + '\n' +
-            'speed: ' + player.speed
+          alert
             
-        );
-    } else {
-        alert('Index invalide');
-    }
-});
-
+        });
 
         card.querySelector('.delete-btn').addEventListener('click', function() {
             deletePlayer(index);
@@ -820,6 +683,4 @@ document.getElementById('newPlayerForm').addEventListener('submit', function(e) 
 // 
 
 
-    </script>
-</body>
-</html>
+  
