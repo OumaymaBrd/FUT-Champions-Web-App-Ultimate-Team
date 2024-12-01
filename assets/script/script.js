@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Render GK sub
         gkSubContainer.innerHTML = gkSub
             ? createPlayerCardHTML(gkSub, true)
-            : '<button class="add-player-btn" data-index="sub">+ GK Sub</button>';
+            : '<button class="add-player-btn" data-index="sub">+ GK Changement</button>';
 
         document.querySelectorAll('.add-player-btn').forEach(btn => {
             btn.addEventListener('click', () => openPlayerModal(btn.dataset.index === 'sub' ? 'sub' : parseInt(btn.dataset.index)));
