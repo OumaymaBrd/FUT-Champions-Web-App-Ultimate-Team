@@ -1,94 +1,230 @@
 :root {
-    --field-color: #2d5a27;
-    --card-bg: linear-gradient(135deg, #1a2b4b 0%, #0a1428 100%);
-    --modal-bg: #2b2d42;
+    --bg-color: #1a1b26;
+    --sidebar-bg: #13141f;
+    --text-color: #ffffff;
+    --accent-color: #2d2e3b;
+    --hover-color: #34354a;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --field-color: #1e4d2b;
+    --card-gradient: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    min-height: 100vh;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
 }
-        .card-inner {
-    background: linear-gradient(145deg, #2a2a2a, #3e3e3e);
-    border-radius: 15px;
-    padding: 15px;
+
+.container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    align-items: center;
+  width: 100vw;
+    padding: 20px;
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select, button {
     width: 100%;
-    max-width: 180px;
-    margin: 10px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 4px;
+}
+
+button {
+    background-color: var(--accent-color);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+button:hover {
+    background-color: var(--hover-color);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.formation-display {
+    background-color: var(--field-color);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+.team-info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.team-logo {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.formation-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.formation-row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.player-position {
+    position: relative;
+    width: 60px;
+    height: 80px;
+}
+
+.position-label {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.player-card, .add-player-btn {
+    width: 200px;
+    height: 300px;
+    background: var(--card-gradient);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
     position: relative;
     overflow: hidden;
 }
-.sidebar {
-    width: 250px;
-    background: #f0f0f4;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
 
-.sidebar label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.sidebar input,
-.sidebar select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.sidebar button {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-primary {
-    background: var(--modal-bg);
-    color: white;
-}
-
-
-
-.main-content {
-    flex: 1;
-    background: repeating-linear-gradient(
-        0deg,
-        var(--field-color),
-        var(--field-color) 40px,
-        #2b5525 40px,
-        #2b5525 80px
-    );
-    display: flex;
-    flex-direction: column;
-}
-.formation {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    padding: 2rem;
-}
-
-.row {
-    display: flex;
+.add-player-btn {
+    font-size: 24px;
+    color: var(--text-color);
     justify-content: center;
-    gap: 1rem;
+    background: rgba(0, 0, 0, 0.5);
 }
-/*  */
+
+.player-card:hover, .add-player-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.player-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f4d03f;
+}
+
+.player-name {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    color: #f4d03f;
+}
+
+.player-rating {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #f4d03f;
+}
+
+.player-position-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #f4d03f;
+}
+
+.player-flag, .player-logo {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.player-flag {
+    top: 45px;
+    left: 10px;
+    border-radius: 50%;
+}
+
+.player-logo {
+    top: 45px;
+    right: 10px;
+    border-radius: 50%;
+}
+
+.player-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #f4d03f;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -97,21 +233,18 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 }
+
 .modal-content {
-    background-color: var(--modal-bg);
-    margin: 5% auto;
+    background-color: var(--bg-color);
+    margin: 15% auto;
     padding: 20px;
-    border-radius: 8px;
+    border: 1px solid var(--border-color);
     width: 80%;
-    position: relative;
-    top:-70px;
-    
-    max-width: 70%;
-    color: white;
-    max-height: 80vh; 
-    overflow-y: auto; 
+    max-width: 500px;
+    border-radius: 8px;
 }
 
 .close {
@@ -126,279 +259,95 @@ body {
 .close:focus {
     color: #fff;
     text-decoration: none;
-    cursor: pointer;
 }
 
-.modal-filters {
+.players-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
 }
 
-.header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    font-size: 1rem;
+.created-players {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
 }
 
-.rating {
-    color: #ffd700;
-    font-weight: bold;
-}
-
-#Formulaire_remplir{
-    display: none;
-}
-.position {
-    color: #fff;
-    font-size: 0.9rem;
-}
-.modal-filters input,
-.modal-filters select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.player-image img {
-    width: 80%;
-    height: auto;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-}
-
-.player-name {
+.success-message {
+    background-color: #4CAF50;
+    color: white;
     text-align: center;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #ffd700;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
-    width: 100%;
-    font-size: 0.9rem;
-    color: #ffd700;
-}
-
-.stat {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.flags {
-    position: absolute;
-    width: 180px;
-    right:30px;
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-    width: 100%;
-}
-
-.flag, .logo {
-    width: 180px;
-    height: 30px;  
-    top:20px; 
-}
-
-.flag{
-    position: relative;
-    right:22px;
-   
-}
-
-/* Style d'animation du shine */
-.shine {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        45deg,
-        transparent 0%,
-        rgba(255,255,255,0.1) 45%,
-        rgba(255,255,255,0.2) 50%,
-        rgba(255,255,255,0.1) 55%,
-        transparent 100%
-    );
-    animation: shine 3s infinite ease-in-out;
-}
-.players-grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-}
-
-/* Animation du shine */
-@keyframes shine {
-    0% {
-        transform: translateX(-100%) translateY(-100%);
-    }
-    100% {
-        transform: translateX(100%) translateY(100%);
-    }
-}
-
-@media (max-width: 768px) {
-    .card-inner {
-        width: 100%;
-        max-width: 320px;
-    }
-    
-    .stats {
-        font-size: 0.8rem;
-    }
-}
-
-/*  */
-#add-icon{
-    width:135px; 
-    position:relative;
-     right: 10px;
-     vertical-align: middle; 
-      
-}
-
-  .add-icon-container {
-    display: inline-block;
-    width: 10px; 
-    height: 8px; 
-    border-radius: 50%;
-    background-color: #f0f0f0; 
-    display: flex;
-    position: relative;
-    bottom: 120px;
-    left: -10px; 
-    top:-120px; 
-   
-}
-  
-  .add-icon-container:hover {
-    background-color: #d4d4d4; 
-  }
-  
-  .add-icon {
-    width: 40%;
-    height: auto; 
-  }
-  
-  /* Responsiveness */
-  @media (max-width: 600px) {
-    .add-icon-container {
-      width: 40px; 
-      height: 40px;
-    }
-  
-    .add-icon {
-      width: 50%;
-    }
-  }
-
-  /*  */
-  .add-icon-container {
-    display: inline-block;
-    width: 30px; 
-    height: 30px; 
-    border-radius: 50%; 
-    background-color: #0b600e; 
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    color: white;
-    font-size: 24px; 
-    font-weight: bold; 
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
-    transition: background-color 0.3s;
-     position: relative;
-     bottom:18px;
-     
-  }
-  
-  .add-icon-container:hover {
-    background-color: #ffd700 ;
-    width: 38px;
-    height: 38px;
-  
-  }
-  
-  /* Responsivité pour petits écrans */
-  @media (max-width: 600px) {
-    .add-icon-container {
-      width: 40px;
-      height: 40px;
-    }
-  
-    .add-icon {
-      font-size: 20px; 
-    }
-  }
-  
- /* styy */
- /* General styling for the form */
-#Formulaire_remplir {
-    width: 100%;
-    /* max-width: 500px; */
-    margin: 0 auto;
-    padding: 20px;
-    /* background-color: #f4f4f4; */
-    /* border-radius: 8px; */
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-}
-
-#newPlayerForm label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-#newPlayerForm input, #newPlayerForm select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-}
-
-#newPlayerForm button {
-    width: 100%;
     padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
     border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-#newPlayerForm button:hover {
-    background-color: #0056b3;
-}
-
-/* Position-Specific Fields */
-.position-specific {
+    margin-top: 10px;
     display: none;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-    #Formulaire_remplir {
-        padding: 15px;
+.player-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.player-actions button {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.gk-sub {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
     }
 
-    #newPlayerForm input, #newPlayerForm select {
+    .sidebar {
+        width: 250px;
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+
+    .main-content {
+        flex-grow: 1;
+    }
+}
+
+@media (max-width: 767px) {
+    .player-card, .add-player-btn {
+        width: 150px;
+        height: 225px;
+    }
+
+    .player-photo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .player-rating {
+        font-size: 18px;
+    }
+
+    .player-position-label {
         font-size: 14px;
     }
 
-    #newPlayerForm button {
+    .player-name {
         font-size: 14px;
+    }
+
+    .player-stats {
+        font-size: 10px;
+    }
+
+    .player-flag, .player-logo {
+        width: 20px;
+        height: 20px;
+        top: 35px;
     }
 }
