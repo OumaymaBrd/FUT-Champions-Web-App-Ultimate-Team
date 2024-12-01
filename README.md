@@ -1,4 +1,4 @@
-# FUT Champions Web App Ultimate Team ![Football Player](images/player_football.gif)
+# FUT Champions Web App Ultimate Team ![Football Player](assets/images/player_football.gif)
 
 
 Bienvenue dans l'**application web de gestion d'équipe Ultimate Team** pour **EA FC 25** !  
