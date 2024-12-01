@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
         ]
     };
 
-    let currentFormation = '4-4-2';
-    let players = [];
-    let selectedPlayers = Array(11).fill(null);
-    let gkSub = null;
+    let currentFormation = localStorage.getItem('currentFormation') || '4-4-2';
+    let players = JSON.parse(localStorage.getItem('players')) || [];
+    let selectedPlayers = JSON.parse(localStorage.getItem('selectedPlayers')) || Array(11).fill(null);
+    let gkSub = JSON.parse(localStorage.getItem('gkSub')) || null;
     let currentPosition = null;
 
     const formationSelect = document.getElementById('formation');
@@ -40,6 +40,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const editPlayerForm = document.getElementById('edit-player-form');
     const createdPlayersContainer = document.getElementById('created-players');
     const successMessage = document.getElementById('success-message');
+
+    // Load saved team name
+    teamNameInput.value = localStorage.getItem('teamName') || 'ROYAL STRIKERS';
+    displayTeamName.textContent = teamNameInput.value;
+
+    function saveToLocalStorage() {
+        localStorage.setItem('currentFormation', currentFormation);
+        localStorage.setItem('players', JSON.stringify(players));
+        localStorage.setItem('selectedPlayers', JSON.stringify(selectedPlayers));
+        localStorage.setItem('gkSub', JSON.stringify(gkSub));
+        localStorage.setItem('teamName', teamNameInput.value);
+    }
 
     function renderFormation() {
         formationGrid.innerHTML = '';
@@ -79,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+
+        saveToLocalStorage();
     }
 
     function createPlayerCardHTML(player, isSub = false) {
@@ -200,6 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     teamNameInput.addEventListener('input', (e) => {
         displayTeamName.textContent = e.target.value;
+        saveToLocalStorage();
     });
 
     playerSearch.addEventListener('input', renderPlayersGrid);
@@ -229,9 +244,9 @@ document.addEventListener('DOMContentLoaded', function() {
             name: document.getElementById('player-name').value,
             position: document.getElementById('player-position').value,
             rating: parseInt(document.getElementById('player-rating').value),
-            photo: URL.createObjectURL(document.getElementById('player-photo').files[0]),
-            flag: URL.createObjectURL(document.getElementById('player-flag').files[0]),
-            logo: URL.createObjectURL(document.getElementById('player-logo').files[0])
+            photo: document.getElementById('player-photo').files[0] ? URL.createObjectURL(document.getElementById('player-photo').files[0]) : null,
+            flag: document.getElementById('player-flag').files[0] ? URL.createObjectURL(document.getElementById('player-flag').files[0]) : null,
+            logo: document.getElementById('player-logo').files[0] ? URL.createObjectURL(document.getElementById('player-logo').files[0]) : null
         };
 
         if (newPlayer.position === 'GK') {
@@ -254,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
         createPlayerModal.style.display = 'none';
         renderCreatedPlayers();
         showSuccessMessage();
+        saveToLocalStorage();
         e.target.reset();
     });
 
@@ -451,6 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderCreatedPlayers();
         renderFormation();
         showSuccessMessage('Joueur modifié avec succès!');
+        saveToLocalStorage();
     }
 
     function deletePlayer(playerId) {
@@ -462,6 +479,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderCreatedPlayers();
         renderFormation();
         showSuccessMessage('Joueur supprimé avec succès!');
+        saveToLocalStorage();
     }
 
     function showSuccessMessage(message = 'Joueur créé avec succès!') {
@@ -473,4 +491,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     renderFormation();
+    renderCreatedPlayers();
 });

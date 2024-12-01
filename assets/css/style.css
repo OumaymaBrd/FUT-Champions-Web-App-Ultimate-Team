@@ -20,6 +20,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 .container {
@@ -27,6 +28,7 @@ body {
     flex-direction: column;
   width: 100vw;
     padding: 20px;
+    
 }
 
 .sidebar {
@@ -81,8 +83,9 @@ button:active {
     border-radius: 8px;
     padding: 20px;
     position: relative;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
+    aspect-ratio: 30 / 30;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 .team-info {
