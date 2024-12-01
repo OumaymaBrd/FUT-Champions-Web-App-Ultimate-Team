@@ -333,13 +333,13 @@ button:active {
 
 @media (max-width: 767px) {
     .player-card, .add-player-btn {
-        width: 150px;
-        height: 225px;
+        width: 90px;
+        height: 120px;
     }
 
     .player-photo {
-        width: 80px;
-        height: 80px;
+        width: 30px;
+        height: 40px;
     }
 
     .player-rating {

@@ -48,8 +48,8 @@ Créez, personnalisez et gérez vos équipes avec une interface interactive, en 
 ## 🛠️ Technologies Requises
 
 - **HTML5** pour la structure de base.
-- **CSS** (frameworks comme [Tailwind CSS](https://tailwindcss.com) ou [Bootstrap](https://getbootstrap.com) pour le design).
-- **JavaScript Vanilla** (DOM natif) pour une gestion fluide des interactions.
+- **CSS** (frameworks comme [Tailwind CSS](https://tailwindcss.com) ).
+- **JavaScript** (DOM natif) pour une gestion fluide des interactions.
 
 ---
 
@@ -67,7 +67,7 @@ Créez, personnalisez et gérez vos équipes avec une interface interactive, en 
 **En tant qu'utilisateur,** je souhaite pouvoir changer la formation de mon équipe et voir les positions des joueurs ajustées en conséquence.
 
 **Critères d'acceptation :**
-- Je peux choisir parmi différentes formations (4-4-2, 4-3-3, 3-5-2, etc.).
+- Je peux choisir parmi différentes formations (4-4-2, 4-3-3, 3-5-2).
 - Le positionnement des joueurs est automatiquement mis à jour selon la formation choisie.
 - Seuls les postes valides pour chaque formation sont affichés.
 
@@ -126,5 +126,7 @@ La formation **3-5-2** est idéale pour une stratégie défensive renforcée ave
 Clonez ce dépôt pour exécuter le projet localement :
 
 ```bash
+![Bash Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Bash_Logo_Colored.svg/100px-Bash_Logo_Colored.svg.png)
+
 git clone https://github.com/OumaymaBrd/FUT-Champions-Web-App-Ultimate-Team.git
 
