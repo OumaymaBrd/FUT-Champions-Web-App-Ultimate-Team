@@ -552,7 +552,7 @@ function displayPlayerCards() {
                     <img src="${player.logo}" alt="Logo player" class="flag" />
                 </div>
                 <div class="options">
-                    <button class="modify-btn">Modify</button>
+                    <button class="modify-btn" >Modify</button>
                     <button class="delete-btn">Delete</button>
                 </div>
             </div>
@@ -565,39 +565,116 @@ function displayPlayerCards() {
 
        
         card.querySelector('.modify-btn').addEventListener('click', function() {
-
-            let fol=document.getElementById('fol');
-           
-   
+            let fol = document.getElementById('fol');
             let players = JSON.parse(localStorage.getItem('players')) || [];
-            
+        
             if (index >= 0 && index < players.length) {
                 // Récupère le joueur à l'index spécifié
                 let player = players[index];
-                //vv
+        
+                // Affiche les informations du joueur dans les champs input
                 fol.innerHTML = `
-                <label>Name: </label> <input type="text" value="${player.name}"> </br>
-                  <label>Diving: </label> <input type="text" value="${player.diving}"> </br>
-                    <label>Position: </label> <input type="text" value="${player.position}"> </br>
-                    <label>handling: </label> <input type="text" value="${player.handling}"> </br>
-                    <label>kicking: </label> <input type="text" value="${player.kicking}"> </br>
-                    <label>nationality : </label> <input type="text" value="${player.nationality }"> </br>
-                    <label>logo: </label> <img src="${player.logo}"  class="flag"></img> </br>
-                    <label>photo : </label> <img src="${player.photo}"  class="flag"></img> </br>
-                    <label>positioning : </label> <input type="text" value="${player.positioning }"> </br>
-                     <label>rating : </label> <input type="text" value="${player.rating }"> </br>
-                     <label>reflexes : </label> <input type="text" value="${player.reflexes }"> </br>
-                      <label>speed : </label> <input type="text" value="${player.speed }"> </br>
-                      <input type="submit" value "enregistre" >
-            `;
-            
-            
+                    <label>Name: </label> <input type="text" id="player-name" value="${player.name}"> </br>
+                    <label>Diving: </label> <input type="text" id="player-diving" value="${player.diving}"> </br>
+                    <label>Position: </label> <input type="text" id="player-position" value="${player.position}"> </br>
+                    <label>Handling: </label> <input type="text" id="player-handling" value="${player.handling}"> </br>
+                    <label>Kicking: </label> <input type="text" id="player-kicking" value="${player.kicking}"> </br>
+                    <label>Nationality: </label> <input type="text" id="player-nationality" value="${player.nationality}"> </br>
+                    
+                    <label>Logo: </label> <img src="${player.logo}" class="flag" id="logo-preview"> </br>
+                    <label>Logo (Upload): </label> <input type="file" id="player-logo-file"> </br>
+        
+                    <label>Photo: </label> <img src="${player.photo}" class="flag" id="photo-preview"> </br>
+                    <label>Photo (Upload): </label> <input type="file" id="player-photo-file"> </br>
+        
+                    <label>Positioning: </label> <input type="text" id="player-positioning" value="${player.positioning}"> </br>
+                    <label>Rating: </label> <input type="text" id="player-rating" value="${player.rating}"> </br>
+                    <label>Reflexes: </label> <input type="text" id="player-reflexes" value="${player.reflexes}"> </br>
+                    <label>Speed: </label> <input type="text" id="player-speed" value="${player.speed}"> </br>
+        
+                    <input type="submit" id="save-btn" value="Enregistrer">
+                `;
+        
+                // Affichage de l'image prévisualisée pour le logo lorsque l'utilisateur sélectionne une image
+                document.getElementById('player-logo-file').addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            document.getElementById('logo-preview').src = event.target.result;
+                        };
+                        reader.readAsDataURL(file); // Lire l'image en base64
+                    }
+                });
+        
+                // Affichage de l'image prévisualisée pour la photo lorsque l'utilisateur sélectionne une image
+                document.getElementById('player-photo-file').addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            document.getElementById('photo-preview').src = event.target.result;
+                        };
+                        reader.readAsDataURL(file); // Lire l'image en base64
+                    }
+                });
+        
+                // Ajouter un événement de clic sur le bouton "Enregistrer"
+                document.getElementById('save-btn').addEventListener('click', function(event) {
+                    event.preventDefault(); // Empêche la soumission du formulaire
+        
+                    // Récupère les nouvelles valeurs des champs input
+                    player.name = document.getElementById('player-name').value;
+                    player.diving = document.getElementById('player-diving').value;
+                    player.position = document.getElementById('player-position').value;
+                    player.handling = document.getElementById('player-handling').value;
+                    player.kicking = document.getElementById('player-kicking').value;
+                    player.nationality = document.getElementById('player-nationality').value;
+                    player.positioning = document.getElementById('player-positioning').value;
+                    player.rating = document.getElementById('player-rating').value;
+                    player.reflexes = document.getElementById('player-reflexes').value;
+                    player.speed = document.getElementById('player-speed').value;
+                    
+                    // Récupère les nouvelles images uploadées (en base64)
+                    const logoFile = document.getElementById('player-logo-file').files[0];
+                    const photoFile = document.getElementById('player-photo-file').files[0];
+        
+                    if (logoFile) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            player.logo = event.target.result; // Image en base64
+                            savePlayerData();
+                        };
+                        reader.readAsDataURL(logoFile);
+                    } else {
+                        savePlayerData();
+                    }
+        
+                    if (photoFile) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            player.photo = event.target.result; // Image en base64
+                            savePlayerData();
+                        };
+                        reader.readAsDataURL(photoFile);
+                    } else {
+                        savePlayerData();
+                    }
+        
+                    // Fonction pour enregistrer les données dans localStorage
+                    function savePlayerData() {
+                        players[index] = player;
+                        localStorage.setItem('players', JSON.stringify(players));
+        
+                        // Affiche un message de succès
+                        alert('Le joueur a été mis à jour avec succès !');
+                    }
+                });
             } else {
                 alert('Index invalide');
             }
         });
-        
-        
+                
 
         card.querySelector('.delete-btn').addEventListener('click', function() {
             deletePlayer(index);
