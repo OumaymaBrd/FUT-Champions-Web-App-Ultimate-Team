@@ -69,12 +69,14 @@ input, select, button {
     background-color: var(--bg-color);
     color: var(--text-color);
     border-radius: 4px;
+    
 }
 
 button {
     background-color: var(--accent-color);
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
+    margin-left: 3px;
 }
 
 button:hover {
@@ -285,6 +287,7 @@ button:active {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
+   
 }
 
 .success-message {
@@ -810,12 +813,15 @@ button:active {
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Supprimer';
                 deleteButton.addEventListener('click', () => deletePlayer(player.id));
-                
+        
                 actionsDiv.appendChild(editButton);
                 actionsDiv.appendChild(deleteButton);
+         
                 playerCard.appendChild(actionsDiv);
-                
+      
                 createdPlayersContainer.appendChild(playerCard);
+                          
+    
             });
         }
     
