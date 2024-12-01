@@ -290,12 +290,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Supprimer';
             deleteButton.addEventListener('click', () => deletePlayer(player.id));
-            
+    
             actionsDiv.appendChild(editButton);
             actionsDiv.appendChild(deleteButton);
+     
             playerCard.appendChild(actionsDiv);
-            
+  
             createdPlayersContainer.appendChild(playerCard);
+                      
+
         });
     }
 
