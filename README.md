@@ -1,6 +1,5 @@
-# FUT Champions Web App Ultimate Team 
+# FUT Champions Web App Ultimate Team ⚽
 ![Football Player](assets/images/player_footbal.gif)
-
 
 Bienvenue dans l'**application web de gestion d'équipe Ultimate Team** pour **EA FC 25** !  
 Créez, personnalisez et gérez vos équipes avec une interface interactive, en choisissant parmi différentes formations tactiques et en ajoutant vos joueurs préférés.
