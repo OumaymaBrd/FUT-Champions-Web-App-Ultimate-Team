@@ -126,7 +126,7 @@ La formation **3-5-2** est idéale pour une stratégie défensive renforcée ave
 Clonez ce dépôt pour exécuter le projet localement :
 
 ```bash
-![Bash Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Bash_Logo_Colored.svg/100px-Bash_Logo_Colored.svg.png)
+
 
 git clone https://github.com/OumaymaBrd/FUT-Champions-Web-App-Ultimate-Team.git
 
