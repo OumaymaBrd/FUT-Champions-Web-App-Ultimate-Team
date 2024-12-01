@@ -122,6 +122,7 @@ async function uploadImage(file) {
                         </div>
                     </div>
                 `;
+                
             } else {
                 return `
                     <div class="card-inner">
@@ -320,6 +321,7 @@ document.getElementById('newPlayerForm').addEventListener('submit', async functi
         console.error('Erreur lors du téléchargement des images: ', error);
         alert('Une erreur est survenue lors du téléchargement des images.');
     }
+    // 
 });
 
             document.getElementById('newPlayerPosition').addEventListener('change', function() {
@@ -504,6 +506,8 @@ document.addEventListener('DOMContentLoaded', function() {
 function displayPlayerCards() {
     const playersGrid = document.getElementById('playerCardsContainer');
     playersGrid.innerHTML = ''; // Clear any existing cards
+
+   
 
     const players = JSON.parse(localStorage.getItem('players')) || [];
 
