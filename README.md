@@ -50,7 +50,7 @@ Créez, personnalisez et gérez vos équipes avec une interface interactive, en 
 ## 🛠️ Technologies Requises
 
 - **HTML5** pour la structure de base.
-- **CSS** ( [CSS natif] ).
+- CSS (🎨 [CSS natif]).
 - **JavaScript** (DOM natif) pour une gestion fluide des interactions.
 
 ---
