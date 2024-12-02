@@ -167,7 +167,7 @@ button:active {
 }
 
 .player-photo {
-    width: 120px;
+    width: 70px;
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
@@ -255,10 +255,10 @@ button:active {
     padding: 20px;
     border: 1px solid var(--border-color);
     width: 80%;
-    max-width: 500px;
+    /* max-width: 500px; */
     border-radius: 8px;
 }
-/*  */
+
 .close {
     color: #aaa;
     float: right;
@@ -275,8 +275,8 @@ button:active {
 
 .players-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
     margin-top: 20px;
 }
 
@@ -334,7 +334,7 @@ button:active {
 @media (max-width: 767px) {
     .player-card, .add-player-btn {
         width: 90px;
-        height: 120px;
+        height: 100px;
     }
 
     .player-photo {

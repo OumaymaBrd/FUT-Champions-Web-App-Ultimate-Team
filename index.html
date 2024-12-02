@@ -38,12 +38,12 @@
         </main>
     </div>
 
-    <div id="player-modal" class="modal">
+    <div id="player-modal" class="modal"  >
         <div class="modal-content" >
             <span class="close">&times;</span>
             <h2>Sélectionner un joueur pour <span id="modal-position"></span></h2>
             <input type="text" id="player-search" placeholder="Rechercher un joueur...">
-            <div class="players-grid" id="players-grid"></div>
+            <div class="players-grid" id="players-grid" ></div>
         </div>
     </div>
 
@@ -59,6 +59,7 @@
                 <div class="form-group">
                     <label for="player-position">Position:</label>
                     <select id="player-position" required>
+                        <option value="Choisir une option">Choisir une option</option>
                         <option value="GK">GK - Gardien de but</option>
                         <option value="CB">CB - Défenseur central</option>
                         <option value="LB">LB - Latéral gauche</option>
@@ -92,53 +93,53 @@
                 </div>
                 <div id="gk-fields" style="display: none;">
                     <div class="form-group">
-                        <label for="player-diving">Plongeon:</label>
+                        <label for="player-diving">Diving:</label>
                         <input type="number" id="player-diving" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-handling">Maniement:</label>
+                        <label for="player-handling">Handling:</label>
                         <input type="number" id="player-handling" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-kicking">Dégagement:</label>
+                        <label for="player-kicking">Kicking:</label>
                         <input type="number" id="player-kicking" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-reflexes">Réflexes:</label>
+                        <label for="player-reflexes">Reflexes:</label>
                         <input type="number" id="player-reflexes" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-speed">Vitesse:</label>
+                        <label for="player-speed">Speed:</label>
                         <input type="number" id="player-speed" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-positioning">Placement:</label>
+                        <label for="player-positioning">Positioning:</label>
                         <input type="number" id="player-positioning" min="1" max="99">
                     </div>
                 </div>
                 <div id="outfield-fields">
                     <div class="form-group">
-                        <label for="player-pace">Vitesse:</label>
+                        <label for="player-pace">Pace:</label>
                         <input type="number" id="player-pace" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-shooting">Tir:</label>
+                        <label for="player-shooting">Shooting:</label>
                         <input type="number" id="player-shooting" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-passing">Passe:</label>
+                        <label for="player-passing">Passing:</label>
                         <input type="number" id="player-passing" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-dribbling">Dribble:</label>
+                        <label for="player-dribbling">Dribbling:</label>
                         <input type="number" id="player-dribbling" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-defending">Défense:</label>
+                        <label for="player-defending">Defending:</label>
                         <input type="number" id="player-defending" min="1" max="99">
                     </div>
                     <div class="form-group">
-                        <label for="player-physical">Physique:</label>
+                        <label for="player-physical">Physical:</label>
                         <input type="number" id="player-physical" min="1" max="99">
                     </div>
                 </div>
@@ -146,14 +147,12 @@
             </form>
         </div>
     </div>
-
+    
     <div id="edit-player-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Modifier le joueur</h2>
-            <form id="edit-player-form">
-               
-            </form>
+            <form id="edit-player-form"></form>
         </div>
     </div>
 

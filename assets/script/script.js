@@ -496,3 +496,24 @@ document.addEventListener('DOMContentLoaded', function() {
     renderFormation();
     renderCreatedPlayers();
 });
+
+// 
+    // Formulaire Dynamique : pour l'adaptation Est ce que choisir GK ou un autre Position 
+    const positionSelect = document.getElementById('player-position');
+    const gkFields = document.getElementById('gk-fields');
+    const outfieldFields = document.getElementById('outfield-fields');
+
+    // Cacher les deux divs au depart
+    gkFields.style.display = 'none';
+    outfieldFields.style.display = 'none';
+
+    // le changement  ca depend  la position choisie
+    positionSelect.addEventListener('change', function() {
+        if (positionSelect.value === 'GK') { 
+            gkFields.style.display = 'block';
+            outfieldFields.style.display = 'none';
+        } else if (positionSelect.value !== '') {
+            gkFields.style.display = 'none';
+            outfieldFields.style.display = 'block';
+        }
+    });
