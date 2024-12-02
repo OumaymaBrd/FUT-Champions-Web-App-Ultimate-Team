@@ -12,7 +12,7 @@ Créez, personnalisez et gérez vos équipes avec une interface interactive, en 
 - Site de déploiement sur GitHub  : [FUT Champions Web App sur GitHub Pages](https://oumaymabrd.github.io/FUT-Champions-Web-App-Ultimate-Team/)
 - **Code source sur GitHub** : [Voir le projet sur GitHub](https://github.com/OumaymaBrd/FUT-Champions-Web-App-Ultimate-Team)
 - **Suivi du projet avec Trello** : [Tableau Trello - FUT Champions Web App Ultimate Team](https://trello.com/b/28II8Lkp/fut-champions-web-app-ultimate-team)
-- **Lien vers la présentation du projet sur Canva: ** : [Canva](https://www.canva.com/design/DAGX34Vy7ac/uEA9sEi3M1QcXetf4esEhA/edit)
+- Lien vers la présentation du projet sur Canva:  : [Canva](https://www.canva.com/design/DAGX34Vy7ac/uEA9sEi3M1QcXetf4esEhA/edit)
 
 ---
 
