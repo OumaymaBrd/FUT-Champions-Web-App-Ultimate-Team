@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const formations = {
+        
         '4-4-2': [
             [{name: 'ST', index: 0}, {name: 'ST', index: 1}],
             [{name: 'LM', index: 2}, {name: 'CM', index: 3}, {name: 'CM', index: 4}, {name:'RM', index: 5}],
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ]
     };
 
-    let currentFormation = localStorage.getItem('currentFormation') || '4-4-2';
+    // let currentFormation = localStorage.getItem('currentFormation') || '4-4-2';
     let players = JSON.parse(localStorage.getItem('players')) || [];
     let selectedPlayers = JSON.parse(localStorage.getItem('selectedPlayers')) || Array(11).fill(null);
     let gkSub = JSON.parse(localStorage.getItem('gkSub')) || null;
@@ -239,6 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     createPlayerForm.addEventListener('submit', (e) => {
         e.preventDefault();
+     
         const newPlayer = {
             id: Date.now(),
             name: document.getElementById('player-name').value,
