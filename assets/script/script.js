@@ -519,3 +519,29 @@ document.addEventListener('DOMContentLoaded', function() {
             outfieldFields.style.display = 'block';
         }
     });
+
+    // 
+ 
+async function loadAndStoreData() {
+    try {
+      
+        const response = await fetch('data/data.json');
+        const data = await response.json();
+
+      
+        localStorage.setItem('teamData', JSON.stringify(data));
+
+        console.log('Données chargées et stockées avec succès dans localStorage');
+    } catch (error) {
+        console.error('Erreur lors du chargement ou du stockage des données:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadAndStoreData);
+
+
+function getStoredData() {
+    const storedData = localStorage.getItem('teamData');
+    return storedData ? JSON.parse(storedData) : null;
+}
+
