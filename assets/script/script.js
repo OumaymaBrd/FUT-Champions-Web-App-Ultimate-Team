@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ]
     };
 
-    // let currentFormation = localStorage.getItem('currentFormation') || '4-4-2';
+    let currentFormation = localStorage.getItem('currentFormation') || '4-4-2';
     let players = JSON.parse(localStorage.getItem('players')) || [];
     let selectedPlayers = JSON.parse(localStorage.getItem('selectedPlayers')) || Array(11).fill(null);
     let gkSub = JSON.parse(localStorage.getItem('gkSub')) || null;
