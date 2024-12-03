@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const createdPlayersContainer = document.getElementById('created-players');
     const successMessage = document.getElementById('success-message');
 
-    // Load saved team name
+    // Enregistrement du nom Team 
     teamNameInput.value = localStorage.getItem('teamName') || 'ROYAL STRIKERS';
     displayTeamName.textContent = teamNameInput.value;
 
@@ -73,11 +73,12 @@ document.addEventListener('DOMContentLoaded', function() {
             formationGrid.appendChild(rowElement);
         });
 
-        // Render GK sub
+        // Gardient changement  :  GK sub
         gkSubContainer.innerHTML = gkSub
             ? createPlayerCardHTML(gkSub, true)
             : '<button class="add-player-btn" data-index="sub">+ GK</button>';
 
+            // add a partir de catalogue : cliquer '+'
         document.querySelectorAll('.add-player-btn').forEach(btn => {
             btn.addEventListener('click', () => openPlayerModal(btn.dataset.index === 'sub' ? 'sub' : parseInt(btn.dataset.index)));
         });
@@ -131,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
     }
-
+  
     function openPlayerModal(index) {
         currentPosition = index;
         const positionName = index === 'sub' ? 'GK Sub' : formations[currentFormation].flat().find(p => p.index === index).name;
@@ -176,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderFormation();
     }
 
+    // swap entre gK et GK+
     function swapGKs() {
         if (gkSub && selectedPlayers[10]) {
             const temp = selectedPlayers[10];
@@ -462,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         players[playerIndex] = updatedPlayer;
 
-        // Update selected players and GK sub if necessary
+        // Modification 
         if (gkSub && gkSub.id === playerId) {
             gkSub = { ...updatedPlayer, index: 'sub' };
         }
@@ -520,28 +522,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 
- 
-async function loadAndStoreData() {
-    try {
-      
-        const response = await fetch('data/data.json');
-        const data = await response.json();
-
-      
-        localStorage.setItem('teamData', JSON.stringify(data));
-
-        console.log('Données chargées et stockées avec succès dans localStorage');
-    } catch (error) {
-        console.error('Erreur lors du chargement ou du stockage des données:', error);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', loadAndStoreData);
-
-
-function getStoredData() {
-    const storedData = localStorage.getItem('teamData');
-    return storedData ? JSON.parse(storedData) : null;
-}
-
+    
